@@ -25,3 +25,9 @@ scripts/optimised/
 
 next-env.d.ts
 .tsbuildinfo
+
+# Playwright MCP output
+.playwright-mcp/
+
+# Test screenshots (ad-hoc, not committed)
+phase*.png

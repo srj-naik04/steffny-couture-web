@@ -32,10 +32,10 @@ export function Header() {
         )}
       >
         <Container>
-          <div className="flex h-16 items-center justify-between md:h-20">
+          <div className="flex h-16 items-center justify-between lg:h-20">
             <Logo />
 
-            <nav aria-label="Primary" className="hidden md:block">
+            <nav aria-label="Primary" className="hidden lg:block">
               <ul className="flex items-center gap-8">
                 {PRIMARY_NAV.map((link) => {
                   const active = pathname === link.href;
@@ -56,7 +56,7 @@ export function Header() {
               </ul>
             </nav>
 
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <Button href="/book" variant="primary" size="sm">
                 Book a fitting
               </Button>
@@ -67,7 +67,7 @@ export function Header() {
               onClick={() => setOpen(true)}
               aria-label="Open menu"
               aria-expanded={open}
-              className="hover:bg-surface-alt -mr-2 rounded-full p-2.5 transition-colors md:hidden"
+              className="hover:bg-surface-alt -mr-2 rounded-full p-2.5 transition-colors lg:hidden"
             >
               <Menu className="size-6" aria-hidden="true" />
             </button>

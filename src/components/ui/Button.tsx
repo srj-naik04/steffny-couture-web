@@ -50,7 +50,8 @@ export function Button(props: ButtonProps) {
   const classes = cn(base, variants[variant], sizes[size], fullWidth && 'w-full', className);
 
   if ('href' in props && props.href) {
-    const { href, ...rest } = props as ButtonAsLink;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { href, variant: _v, size: _s, fullWidth: _fw, className: _c, ...rest } = props as ButtonAsLink;
     return (
       <Link href={href} className={classes} {...rest}>
         {children}
@@ -58,7 +59,8 @@ export function Button(props: ButtonProps) {
     );
   }
 
-  const { ...rest } = props as ButtonAsButton;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { variant: _v, size: _s, fullWidth: _fw, className: _c, children: _ch, ...rest } = props as ButtonAsButton;
   return (
     <button className={classes} {...rest}>
       {children}

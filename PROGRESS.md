@@ -4,13 +4,13 @@ Live state of the build. Update after every phase or significant change.
 
 ## Current phase
 
-**Phase 0 — Foundation** (in progress — scaffold complete, awaiting Lighthouse verification)
+**Phase 1 — Asset Extraction** (not started)
 
 ## Phase status
 
 | Phase | Status | Notes |
 |---|---|---|
-| 0 — Foundation | 🔨 In progress | Scaffold + brand tokens + UI primitives + header/footer + home placeholder shipped; visual + Lighthouse pass outstanding |
+| 0 — Foundation | ✅ Done | Playwright MCP visual pass: 375px, 768px, 1024px, 1440px all clean; mobile drawer open/Escape/close verified; 404 page styled; 0 console errors; build clean |
 | 1 — Asset Extraction | ⏳ Not started | Scrape Webador, optimise, blur placeholders |
 | 2 — Database & Backend | ⏳ Not started | Web-only tables, RLS, Supabase clients |
 | 3 — Marketing Pages | ⏳ Not started | Home, about, services, contact |
@@ -60,6 +60,8 @@ None currently. Setup pending.
 - `(marketing)` route group with placeholder home + global `not-found.tsx`
 - `npm run typecheck`, `lint`, `build` all clean; dev smoke test returns 200 + correct `<title>`
 - Lucide v1 dropped brand icons; Instagram glyph inlined as SVG in footer
+- Playwright MCP visual acceptance: header breakpoint moved md→lg (768px was too cramped for desktop nav); `fullWidth` prop stripped before DOM spread in Button; `favicon.ico` + `icon.svg` added; 0 console errors confirmed
+- **Phase 0 complete**
 
 ---
 

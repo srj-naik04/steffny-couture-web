@@ -2,115 +2,137 @@
 /**
  * optimise-images.mjs
  *
- * Takes downloaded images from /public/assets/raw/ and produces:
+ * Walks the curated asset folders and produces:
  *   - Resized WebP variants at 400, 800, 1600, 2400 px wide
- *   - AVIF variants for the largest size
+ *   - One AVIF variant at the largest applicable size
  *   - blurDataURL strings for next/image placeholders
  *
- * Usage:
- *   node scripts/optimise-images.mjs
+ * Inputs:
+ *   /public/assets/products/<slug>/*.jpg
+ *   /public/assets/hero/*.jpg
+ *   /public/assets/about/*.jpg
  *
- * Requires: sharp, plaiceholder (install if missing)
+ * Outputs:
+ *   /public/assets/optimised/<section>/<name>-<width>.<format>
+ *   /data/optimised-images.json   — metadata + blurDataURLs, keyed by section/source
+ *
+ * The `/public/assets/optimised/` tree is gitignored — variants are regenerated
+ * on demand. Originals stay committed.
+ *
+ * Usage:
+ *   npm run optimise
  */
 
-import { mkdir, readdir, writeFile } from 'node:fs/promises';
-import { resolve, join, basename, extname } from 'node:path';
+import { mkdir, readdir, writeFile, stat } from 'node:fs/promises';
+import { resolve, join, basename, extname, relative, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { getPlaiceholder } from 'plaiceholder';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const PROJECT_ROOT = resolve(__dirname, '..');
+const ROOT = resolve(__dirname, '..');
+const ASSETS = resolve(ROOT, 'public/assets');
+const OUT_ROOT = resolve(ASSETS, 'optimised');
+const META_PATH = resolve(ROOT, 'data/optimised-images.json');
 
-const RAW_DIR = resolve(PROJECT_ROOT, 'public/assets/raw');
-const OUT_DIR = resolve(PROJECT_ROOT, 'public/assets/optimised');
-const META_PATH = resolve(PROJECT_ROOT, 'data/optimised-images.json');
-
+const SECTIONS = ['products', 'hero', 'about'];
 const SIZES = [400, 800, 1600, 2400];
-const FORMATS = ['webp', 'avif'];
 
-async function processImage(filename) {
-  const inPath = join(RAW_DIR, filename);
-  const baseName = basename(filename, extname(filename));
-
-  console.log(`📷 ${filename}`);
-
-  const baseImage = sharp(inPath);
-  const metadata = await baseImage.metadata();
-  const aspectRatio = metadata.width / metadata.height;
-
-  const variants = [];
-
-  for (const width of SIZES) {
-    if (width > metadata.width) continue; // don't upscale
-
-    for (const format of FORMATS) {
-      // Only generate AVIF at the largest size (saves time)
-      if (format === 'avif' && width !== Math.max(...SIZES.filter((s) => s <= metadata.width))) continue;
-
-      const outName = `${baseName}-${width}.${format}`;
-      const outPath = join(OUT_DIR, outName);
-
-      let pipe = sharp(inPath).resize({ width, withoutEnlargement: true });
-
-      if (format === 'webp') pipe = pipe.webp({ quality: 82, effort: 4 });
-      else if (format === 'avif') pipe = pipe.avif({ quality: 60, effort: 5 });
-
-      await pipe.toFile(outPath);
-      variants.push({ filename: outName, format, width });
-      process.stdout.write('.');
+async function walk(dir) {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...(await walk(full)));
+    } else if (/\.(jpe?g|png)$/i.test(entry.name)) {
+      files.push(full);
     }
   }
-  console.log('');
+  return files;
+}
 
-  // Generate blur placeholder
-  const { base64: blurDataURL } = await getPlaiceholder(await sharp(inPath).resize(20).toBuffer(), {
-    size: 10,
-  });
+async function processImage(srcPath) {
+  const relFromAssets = relative(ASSETS, srcPath);
+  const ext = extname(srcPath);
+  const stem = basename(srcPath, ext);
+  const outDir = join(OUT_ROOT, dirname(relFromAssets).replace(/^[^/\\]+[/\\]?/, ''));
+  // dirname(relFromAssets) is e.g. "products/pink-mauve-mermaid" or "hero".
+  // We want optimised/products/pink-mauve-mermaid/ — strip nothing, keep section path.
+  const properOutDir = join(OUT_ROOT, dirname(relFromAssets));
+
+  await mkdir(properOutDir, { recursive: true });
+
+  const base = sharp(srcPath);
+  const meta = await base.metadata();
+  const aspectRatio = meta.width / meta.height;
+
+  const variants = [];
+  const applicableSizes = SIZES.filter((s) => s <= meta.width);
+  const largest = applicableSizes.at(-1) ?? meta.width;
+
+  for (const width of applicableSizes) {
+    const webpName = `${stem}-${width}.webp`;
+    await sharp(srcPath).resize({ width, withoutEnlargement: true }).webp({ quality: 82, effort: 4 }).toFile(join(properOutDir, webpName));
+    variants.push({ filename: webpName, format: 'webp', width });
+    process.stdout.write('.');
+  }
+  // One AVIF at the largest size — small bandwidth win, big encoder cost.
+  const avifName = `${stem}-${largest}.avif`;
+  await sharp(srcPath).resize({ width: largest, withoutEnlargement: true }).avif({ quality: 60, effort: 5 }).toFile(join(properOutDir, avifName));
+  variants.push({ filename: avifName, format: 'avif', width: largest });
+  process.stdout.write('.');
+
+  const blurBuf = await sharp(srcPath).resize(20).toBuffer();
+  const { base64: blurDataURL } = await getPlaiceholder(blurBuf, { size: 10 });
 
   return {
-    originalFilename: filename,
-    originalWidth: metadata.width,
-    originalHeight: metadata.height,
-    aspectRatio,
+    source: relFromAssets.replace(/\\/g, '/'),
+    originalWidth: meta.width,
+    originalHeight: meta.height,
+    aspectRatio: Number(aspectRatio.toFixed(4)),
     variants,
     blurDataURL,
   };
 }
 
 async function main() {
-  console.log('🎨 Optimising images...\n');
-  await mkdir(OUT_DIR, { recursive: true });
-
-  const files = (await readdir(RAW_DIR)).filter((f) =>
-    /\.(jpg|jpeg|png)$/i.test(f)
-  );
-
-  if (files.length === 0) {
-    console.log('No images found in /public/assets/raw/');
-    console.log('Run `node scripts/scrape-images.mjs` first.');
-    process.exit(0);
-  }
-
-  console.log(`Found ${files.length} source images.\n`);
+  console.log('Optimising curated assets...\n');
+  await mkdir(OUT_ROOT, { recursive: true });
 
   const results = [];
-  for (const file of files) {
+  for (const section of SECTIONS) {
+    const dir = join(ASSETS, section);
     try {
-      const result = await processImage(file);
-      results.push(result);
-    } catch (err) {
-      console.error(`  ⚠ Failed on ${file}: ${err.message}`);
+      await stat(dir);
+    } catch {
+      console.log(`  Skipping ${section}/ — folder not found`);
+      continue;
     }
+
+    const files = await walk(dir);
+    console.log(`${section}/  (${files.length} file${files.length === 1 ? '' : 's'})`);
+
+    for (const file of files) {
+      const rel = relative(ASSETS, file).replace(/\\/g, '/');
+      process.stdout.write(`  ${rel} `);
+      try {
+        results.push(await processImage(file));
+        process.stdout.write(' ok\n');
+      } catch (err) {
+        process.stdout.write(` FAILED: ${err.message}\n`);
+      }
+    }
+    console.log('');
   }
 
+  await mkdir(dirname(META_PATH), { recursive: true });
   await writeFile(META_PATH, JSON.stringify(results, null, 2));
-  console.log(`\n✅ Optimised ${results.length} images.`);
-  console.log(`📋 Metadata written to ${META_PATH}`);
-  console.log(`📦 Variants in ${OUT_DIR}`);
+  console.log(`\nWrote ${results.length} image records to ${relative(ROOT, META_PATH).replace(/\\/g, '/')}`);
+  console.log(`Variants in ${relative(ROOT, OUT_ROOT).replace(/\\/g, '/')}/`);
 }
 
 main().catch((err) => {
-  console.error('❌ Failed:', err);
+  console.error('Optimise failed:', err);
   process.exit(1);
 });

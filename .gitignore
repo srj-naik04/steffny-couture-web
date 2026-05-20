@@ -19,9 +19,14 @@ npm-debug.log*
 pnpm-lock.yaml
 yarn.lock
 
-# Image pipeline working trees
+# Image pipeline working trees (raw scrapes and generated variants — regenerable)
 scripts/scraped/
 scripts/optimised/
+public/assets/raw/
+public/assets/optimised/
+data/scraped-images.json
+data/scraped-products.json
+data/optimised-images.json
 
 next-env.d.ts
 .tsbuildinfo

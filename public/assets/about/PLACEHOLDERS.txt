@@ -1,0 +1,10 @@
+These are Pexels stock photos pulled from the existing Webador About page.
+They are committed only so the About route renders during the build phase.
+
+Before launch (Phase 8 — Demo prep), replace with real Steffny studio photos
+and delete this file.
+
+Replacement brief:
+  - One wide atelier / interior shot (the Hounslow studio).
+  - One Steffi-at-work portrait (pinning, fitting, sketching — hands visible).
+  - One detail / craft shot (sewing, beading, fabric close-up).

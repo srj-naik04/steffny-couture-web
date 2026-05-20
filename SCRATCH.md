@@ -4,6 +4,32 @@ Working notes and ideas. Not part of the formal documentation. Edit freely.
 
 ---
 
+## Phase 1 — Starting 2026-05-20
+
+### Tasks (from CLAUDE.md)
+- Run `scripts/scrape-images.mjs` to pull all images from current site
+- Download, organise into `/public/assets/`
+- Generate WebP and AVIF variants via Sharp
+- Extract product copy + prices into `data/products.json`
+- Manually curate: pick best 30 images, archive rest
+- Generate blur placeholders
+
+### Acceptance
+- All product photos in `/public/assets/products/` at original resolution
+- About-page photos in `/public/assets/about/`
+- Hero candidates in `/public/assets/hero/`
+- `data/products.json` populated with 10 products
+
+### Preflight notes
+- typecheck clean, lint clean, no diffs (only `tsconfig.tsbuildinfo` untracked → already in `.gitignore` via `.tsbuildinfo`).
+- Scripts already scaffolded: `scrape-images.mjs`, `optimise-images.mjs`, `seed-products.ts`.
+- Missing devDeps for the pipeline: `cheerio`, `plaiceholder`, `tsx`, `dotenv`. (`sharp` ships with Next.)
+- `/public/assets/raw/` and `/public/assets/optimised/` are NOT in `.gitignore` — the scrape script writes there but the gitignore lists `scripts/scraped/` and `scripts/optimised/`. Need to align.
+- `data/` does not exist yet.
+- `seed-products.ts` already encodes the 10-product manual catalogue — that's our source of truth for `data/products.json`.
+
+---
+
 ## Phase 0 — Starting 2026-05-20
 
 ### Tasks (from CLAUDE.md)

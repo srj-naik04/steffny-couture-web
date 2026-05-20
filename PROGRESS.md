@@ -4,14 +4,14 @@ Live state of the build. Update after every phase or significant change.
 
 ## Current phase
 
-**Phase 1 — Asset Extraction** (not started)
+**Phase 1 — Asset Extraction** (complete; ready for Phase 2)
 
 ## Phase status
 
 | Phase | Status | Notes |
 |---|---|---|
 | 0 — Foundation | ✅ Done | Playwright MCP visual pass: 375px, 768px, 1024px, 1440px all clean; mobile drawer open/Escape/close verified; 404 page styled; 0 console errors; build clean |
-| 1 — Asset Extraction | ⏳ Not started | Scrape Webador, optimise, blur placeholders |
+| 1 — Asset Extraction | ✅ Done | 36 raw images scraped, curated to 10 products + 13 hero + 3 about placeholders; WebP/AVIF + blurDataURLs generated; data/products.json populated |
 | 2 — Database & Backend | ⏳ Not started | Web-only tables, RLS, Supabase clients |
 | 3 — Marketing Pages | ⏳ Not started | Home, about, services, contact |
 | 4 — Dress Catalogue | ⏳ Not started | Grid, product detail, carousel |
@@ -62,6 +62,16 @@ None currently. Setup pending.
 - Lucide v1 dropped brand icons; Instagram glyph inlined as SVG in footer
 - Playwright MCP visual acceptance: header breakpoint moved md→lg (768px was too cramped for desktop nav); `fullWidth` prop stripped before DOM spread in Button; `favicon.ico` + `icon.svg` added; 0 console errors confirmed
 - **Phase 0 complete**
+
+### 2026-05-21
+- Phase 1: scraped 36 images from steffnycouture.co.uk (Webador CDN + Pexels stock on About). Wrote `scripts/curate-assets.mjs` to remap raw filenames into clean, slug-named originals under `/public/assets/{products,hero,about}/`
+- 10-product catalogue derived from visual inspection (Steffi's real inventory; named by colour + silhouette). Written to `data/products.json` with brand-voice copy (no exclamation marks, sentence case, descriptive)
+- `optimise-images.mjs` rewritten to walk curated folders, producing WebP at 400/800/1600/2400 + AVIF at largest + blurDataURL per image → `data/optimised-images.json` (26 records). Variants land in `/public/assets/optimised/` (gitignored)
+- `seed-products.ts` refactored to read both JSON files; will run in Phase 2 once the `products` / `product_images` tables exist
+- About-page photos are Pexels stock — committed as placeholders with `PLACEHOLDERS.txt` marking them for replacement before launch
+- `npm run scrape | curate | optimise | seed` wired up in package.json
+- Acceptance: ✓ 10 product photos at original res, ✓ 3 about photos, ✓ 13 hero candidates, ✓ data/products.json with 10 products
+- **Phase 1 complete**
 
 ---
 

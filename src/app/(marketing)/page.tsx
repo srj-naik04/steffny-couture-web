@@ -20,9 +20,11 @@ import { ReviewsStrip } from '@/components/marketing/ReviewsStrip';
 import { JournalTeaser } from '@/components/marketing/JournalTeaser';
 import { FinalCta } from '@/components/marketing/FinalCta';
 import { RevealOnScroll } from '@/components/marketing/RevealOnScroll';
+import { InstagramGallery } from '@/components/marketing/InstagramGallery';
 import { organizationJsonLd, websiteJsonLd } from '@/lib/seo/jsonld';
 import { buildMetadata } from '@/lib/seo/metadata';
 import { getFeaturedProductsFromSource } from '@/features/products/source';
+import { getAllPosts } from '@/features/journal/loader';
 import {
   heroHome,
   aboutTeaser,
@@ -47,6 +49,9 @@ export default async function HomePage() {
   } catch {
     // Unexpected error — render without
   }
+
+  // Journal posts — server-side only, no network call needed
+  const journalPosts = getAllPosts().slice(0, 3);
 
   return (
     <>
@@ -127,11 +132,20 @@ export default async function HomePage() {
         </Container>
       </Section>
 
+      {/* Instagram gallery */}
+      <Section tone="surface-alt" spacing="md">
+        <Container>
+          <RevealOnScroll>
+            <InstagramGallery />
+          </RevealOnScroll>
+        </Container>
+      </Section>
+
       {/* Journal teaser */}
       <Section tone="ivory" spacing="md">
         <Container>
           <RevealOnScroll>
-            <JournalTeaser data={journalTeaser} />
+            <JournalTeaser data={journalTeaser} posts={journalPosts} />
           </RevealOnScroll>
         </Container>
       </Section>

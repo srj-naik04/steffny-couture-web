@@ -83,6 +83,43 @@ export function websiteJsonLd() {
 }
 
 // ---------------------------------------------------------------------------
+// Person — for about page (founder Steffi)
+// ---------------------------------------------------------------------------
+
+/**
+ * @param imagePath - Relative path from /public to the founder image.
+ *   Defaults to the bouquet-detail portrait per IMAGE_BRIEF.md spotlight rule.
+ *   Callers may override with another Steffi photo if needed.
+ */
+export function personJsonLd(
+  imagePath = '/assets/hero/bride-bouquet-detail.jpg',
+) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${siteUrl}/#founder`,
+    name: 'Steffi',
+    jobTitle: 'Founder and head couturier',
+    description:
+      'Founder of Steffny Couture, with over twenty years of experience in bridal couture and garment alteration in Hounslow, West London.',
+    image: `${siteUrl}${imagePath}`,
+    worksFor: {
+      '@type': 'Organization',
+      '@id': `${siteUrl}/#organization`,
+      name: BRAND.name,
+    },
+    url: `${siteUrl}/about`,
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }}
+    />
+  );
+}
+
+// ---------------------------------------------------------------------------
 // LocalBusiness — for contact page
 // ---------------------------------------------------------------------------
 

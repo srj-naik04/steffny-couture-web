@@ -15,6 +15,7 @@ import { FinalCta } from '@/components/marketing/FinalCta';
 import { Prose } from '@/components/marketing/Prose';
 import { RevealOnScroll } from '@/components/marketing/RevealOnScroll';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { personJsonLd } from '@/lib/seo/jsonld';
 import { aboutHero, aboutSections, aboutQuote } from '@/content/marketing/about';
 
 // blurDataURL for bride-bouquet-detail — from data/optimised-images.json
@@ -45,6 +46,9 @@ const PLACEHOLDER_IMAGES = [
 export default function AboutPage() {
   return (
     <>
+      {/* Structured data */}
+      {personJsonLd()}
+
       {/* Hero — Steffi photo (bride-bouquet-detail.jpg) per IMAGE_BRIEF.md */}
       <Hero
         kicker={aboutHero.kicker}

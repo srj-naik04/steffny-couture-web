@@ -15,6 +15,8 @@ import { Section } from '@/components/ui/Section';
 import { Container } from '@/components/ui/Container';
 import { RevealOnScroll } from '@/components/marketing/RevealOnScroll';
 import { buildMetadata } from '@/lib/seo/metadata';
+import { safeJsonLd } from '@/lib/seo/jsonld';
+import { siteUrl } from '@/lib/env';
 import { ReviewForm } from '@/features/reviews/components/ReviewForm';
 import { homeReviews } from '@/content/marketing/reviews-seed';
 import { extraReviews } from '@/content/marketing/reviews-extra';
@@ -23,6 +25,34 @@ import { reviewsIntroCopy } from '@/content/marketing/reviews-intro';
 export const metadata: Metadata = buildMetadata('/reviews');
 
 const allReviews = [...homeReviews, ...extraReviews];
+
+const ratingValue = allReviews.reduce((s, r) => s + r.rating, 0) / allReviews.length;
+const reviewCount = allReviews.length;
+
+const reviewsJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${siteUrl}/#business`,
+  name: 'Steffny Couture',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: ratingValue.toFixed(1),
+    reviewCount,
+    bestRating: 5,
+    worstRating: 1,
+  },
+  review: allReviews.slice(0, 10).map((r) => ({
+    '@type': 'Review',
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: r.rating,
+      bestRating: 5,
+    },
+    author: { '@type': 'Person', name: r.name },
+    datePublished: r.published_at ?? '2026-04-01',
+    reviewBody: r.body,
+  })),
+};
 
 // ---------------------------------------------------------------------------
 // Star rating display
@@ -55,6 +85,10 @@ function StarRating({ rating }: { rating: number }) {
 export default function ReviewsPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(reviewsJsonLd) }}
+      />
       <Hero
         kicker={reviewsIntroCopy.hero.kicker}
         headline={reviewsIntroCopy.hero.headline}

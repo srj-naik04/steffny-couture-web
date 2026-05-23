@@ -186,4 +186,26 @@ export const marketingSeo: Record<string, PageSeo> = {
     description:
       'Your order has been received by Steffny Couture. Steffi will be in touch within one working day to confirm sizing, finishing, and final pricing.',
   },
+
+  // Book a fitting: full title = "Book a fitting — Steffny Couture" = 32 chars ✓
+  '/book': {
+    title: 'Book a fitting',
+    description:
+      'Book a fitting, alteration, or bridal consultation at Steffny Couture in Hounslow. Steffi confirms every appointment personally. Available 7 days a week.',
+    keywords: [
+      'book bridal fitting Hounslow',
+      'book alteration appointment London',
+      'book consultation couture Hounslow',
+      'bridal fitting appointment West London',
+    ],
+    ogImage: '/assets/hero/bride-white-umbrella-interior.jpg',
+  },
+
+  // Book confirmation: full title = "Booking received — Steffny Couture" = 34 chars ✓
+  // noindex — confirmation pages should not be crawled
+  '/book/confirmation': {
+    title: 'Booking received',
+    description:
+      'Your booking request has been received by Steffny Couture. Steffi will be in touch within one working day to confirm your appointment.',
+  },
 };

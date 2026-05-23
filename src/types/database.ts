@@ -1,11 +1,15 @@
 /**
- * Hand-written Database type for Steffny Couture Web — Phase 2.
+ * Hand-written Database type for Steffny Couture Web — Phase 2 (updated Phase 6).
  *
  * This file mirrors the schema defined in supabase/migrations/:
  *   20260521_0001_web_products.sql
  *   20260521_0002_web_inquiries.sql
  *   20260521_0003_web_reviews.sql
  *   20260521_0004_web_journal_views.sql
+ *   20260523_0006_web_bookings_rls.sql  (Phase 6 — allows anon inserts to bookings)
+ *
+ * The `bookings` table is owned by the mobile app. The web project only inserts
+ * rows (source='web'). Its full schema is reproduced here for type safety.
  *
  * Replace this file with `npx supabase gen types typescript --linked` output
  * once the Supabase project is linked and the migrations are applied.
@@ -282,6 +286,70 @@ export interface Database {
           occasion?: string | null;
           published?: boolean;
           featured?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+
+      // -----------------------------------------------------------------------
+      // bookings (shared table — owned by mobile app; web inserts only)
+      // -----------------------------------------------------------------------
+      bookings: {
+        Row: {
+          id: string;
+          reference: string;
+          type: 'alteration' | 'custom' | 'consultation';
+          alteration_type_id: string | null;
+          garment_type: string;
+          description: string;
+          appointment_date: string;
+          appointment_time: string;
+          photo_paths: string[];
+          status: string;
+          guest_name: string;
+          guest_phone: string;
+          guest_email: string;
+          user_id: string | null;
+          source: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          reference: string;
+          type: 'alteration' | 'custom' | 'consultation';
+          alteration_type_id?: string | null;
+          garment_type: string;
+          description: string;
+          appointment_date: string;
+          appointment_time: string;
+          photo_paths?: string[];
+          status?: string;
+          guest_name: string;
+          guest_phone: string;
+          guest_email: string;
+          user_id?: string | null;
+          source?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          reference?: string;
+          type?: 'alteration' | 'custom' | 'consultation';
+          alteration_type_id?: string | null;
+          garment_type?: string;
+          description?: string;
+          appointment_date?: string;
+          appointment_time?: string;
+          photo_paths?: string[];
+          status?: string;
+          guest_name?: string;
+          guest_phone?: string;
+          guest_email?: string;
+          user_id?: string | null;
+          source?: string;
           created_at?: string;
           updated_at?: string;
         };

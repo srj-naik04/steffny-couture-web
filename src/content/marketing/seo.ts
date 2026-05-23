@@ -162,4 +162,28 @@ export const marketingSeo: Record<string, PageSeo> = {
       'South Asian occasion dresses London',
     ],
   },
+
+  // Cart: full title = "Your cart — Steffny Couture" = 27 chars ✓
+  // noindex — cart pages should not be crawled
+  '/cart': {
+    title: 'Your cart',
+    description:
+      'Review your selected pieces from Steffny Couture and proceed to checkout. Hand-finished couture from Hounslow, London.',
+  },
+
+  // Checkout: full title = "Checkout — Steffny Couture" = 26 chars ✓
+  // noindex — checkout pages should not be crawled
+  '/checkout': {
+    title: 'Checkout',
+    description:
+      'Complete your order from Steffny Couture. Enter your contact, delivery, and payment details. No payment is taken until Steffi confirms your order.',
+  },
+
+  // Confirmation: full title = "Order received — Steffny Couture" = 32 chars ✓
+  // noindex — confirmation pages should not be crawled
+  '/checkout/confirmation': {
+    title: 'Order received',
+    description:
+      'Your order has been received by Steffny Couture. Steffi will be in touch within one working day to confirm sizing, finishing, and final pricing.',
+  },
 };

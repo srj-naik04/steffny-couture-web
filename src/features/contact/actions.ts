@@ -11,7 +11,7 @@
  */
 
 import { contactFormSchema, type ContactFormValues } from './schema';
-import { hasSupabase } from '@/lib/env';
+import { hasSupabase, isDemoMode } from '@/lib/env';
 
 // ---------------------------------------------------------------------------
 // Result type
@@ -42,8 +42,8 @@ export async function submitContactForm(
   // Generate a short reference
   const reference = `WEB-${Date.now().toString(36).toUpperCase()}`;
 
-  if (!hasSupabase) {
-    // Demo mode — log reference only (no PII in function logs)
+  if (!hasSupabase || isDemoMode) {
+    // Demo mode (env missing or NEXT_PUBLIC_DEMO_MODE=true) — log reference only (no PII in function logs)
     console.info('[Contact] Demo mode — inquiry not persisted', {
       reference,
       timestamp: new Date().toISOString(),

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Fraunces, Inter } from 'next/font/google';
 import { MotionConfigProvider } from '@/components/shared/MotionConfigProvider';
 import { CartDrawer } from '@/features/cart/components/CartDrawer';
-import { BRAND } from '@/constants/brand';
+import { BRAND, COLORS } from '@/constants/brand';
 import { siteUrl } from '@/lib/env';
 import './globals.css';
 
@@ -42,17 +42,27 @@ export const metadata: Metadata = {
     title: `${BRAND.name} — ${BRAND.tagline}`,
     description: BRAND.description,
   },
-  robots:
-    process.env.VERCEL_ENV === 'production'
+  // Allow indexing only when VERCEL_ENV is 'production' (or undefined for local
+  // builds) AND NEXT_PUBLIC_SITE_URL matches the canonical production domain.
+  // This blocks staging hosts, tunnels, and local dev that lack the correct
+  // env configuration from accidentally allowing indexing.
+  robots: (() => {
+    const CANONICAL = 'https://www.steffnycouture.co.uk';
+    const isProductionContext =
+      (process.env.VERCEL_ENV === 'production' ||
+        process.env.VERCEL_ENV === undefined) &&
+      process.env.NEXT_PUBLIC_SITE_URL === CANONICAL;
+    return isProductionContext
       ? { index: true, follow: true }
-      : { index: false, follow: false },
+      : { index: false, follow: false };
+  })(),
   icons: {
     icon: '/favicon.ico',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#FAF7F2',
+  themeColor: COLORS.ivory,
   colorScheme: 'light',
   width: 'device-width',
   initialScale: 1,

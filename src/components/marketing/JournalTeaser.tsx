@@ -1,10 +1,9 @@
 /**
- * JournalTeaser — Phase 3
+ * JournalTeaser — Phase 3 (updated Phase 7)
  *
- * Server component. Three placeholder journal post cards with images.
- * Phase 7 replaces with live MDX post data.
- * Images: beaded-bodice-detail, bride-white-tulle-moody, bride-maroon-interior
- * — unique to this section, no same-page duplication.
+ * Server component. Renders up to 3 journal post cards.
+ * Phase 7: accepts real post data from the journal loader; falls back to
+ * placeholder posts if none are supplied (consistent with Phase 3 behaviour).
  */
 
 import Image from 'next/image';
@@ -13,28 +12,31 @@ import { Button } from '@/components/ui/Button';
 import { SectionHeader } from './SectionHeader';
 import type { JournalTeaser as JournalTeaserData } from '@/content/marketing/home';
 
-// Placeholder posts — Phase 7 will replace with real MDX content
+// ---------------------------------------------------------------------------
+// Placeholder posts — retained as fallback if loader is unavailable
+// ---------------------------------------------------------------------------
+
 const PLACEHOLDER_POSTS = [
   {
-    slug: 'wedding-dress-alteration-timeline',
-    title: 'How far in advance should you book your wedding dress alterations?',
+    slug: 'bridal-alterations-timeline',
+    title: 'Bridal alterations timeline: what to expect from first fitting to wedding day',
     excerpt:
-      'The answer depends on the dress, the alterations needed, and your ceremony date. Here is a practical guide from our studio in Hounslow.',
-    date: '15 January 2026',
-    readingTime: '5 min read',
+      'A clear, honest guide to bridal dress alterations in the UK — how many fittings you need, when to start, and how to look after your dress once it is finished.',
+    date: '18 April 2026',
+    readingTime: '7 min read',
     category: 'Alterations',
-    imageSrc: '/assets/hero/beaded-bodice-detail.jpg',
-    imageAlt: 'Beaded bodice detail close-up — a bridal gown at Steffny Couture',
+    imageSrc: '/assets/hero/bride-maroon-interior.jpg',
+    imageAlt: 'A bride in a deep maroon gown photographed in a warm interior setting',
     imageBlur:
-      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AB8RHhgYDhsbDiEPGiMWIB4bGiEbGwATEBULEiAPFRw3MysgHyIPERsWFBYAFBIEDxAqBwQXoZdyXE8/AgAOEBQYABEQAw8PGgkABZt9W8qkgBwQCgoQFwAKGidUZGOcmZPQrKf/9c6ol38DBxIADB4xU3J1fYyOYEtXVkZHkoRtPSwjABAYISE+RBQqNV5RYVhJVYBuW0AtHgAPFRYbLjgQJzlNSVexk5FxVksRCwsADxkaDBYhDRosNz5KqpGSQigsDw8XAAwpMhgcKRYTIDA6QmFcazwrQRkVH4wyL1w9zAG3AAAAAElFTkSuQmCC',
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVR4nAE2Acn+AFZPT2NYV3xpaZN6ep+Kiqubm6ykpq2qraimrJuZngBbVFRtYGBtW1p6ZGKGcXGLfHyspae4tLizr7aloqcAW1NTZlhYIhEOKhkXWEVFSDs6o5udx8PHvr3CsK60ADwxMWVaVw0AAD8xLnNkYldLS7WusMS+xMC+xLSyuQBOREZiVlUOAQAhFQ64qqlPRkSYkJPIwse6uL6xr7UAUkdITkJBRTk2WlFL0cjE08zKpp+gubK5r62zpqOqAD0yMisjIUg+O42Gf87Hwv/8+L+7vaKcoqmnrZ+dowAcDxEgFxN3bmqXkYvCvrns5+Pl4OGblJqFgod4dn0AQDk3d3Ftn5uXm5WTtrOw4N/f7Ors1NHSs7GyamhpAIiCf6CalpiUj6qmpaqmpc7MzNXS1NnX2NTQ0aajppTVn5566m1zAAAAAElFTkSuQmCC',
   },
   {
-    slug: 'lehenga-vs-anarkali-what-to-choose',
-    title: 'Lehenga versus anarkali: which works for your ceremony?',
+    slug: 'how-to-choose-a-wedding-dress-in-hounslow',
+    title: 'How to choose a wedding dress in Hounslow',
     excerpt:
-      'Two of the most popular South Asian bridal silhouettes, each with distinct advantages. We break down the practical differences from a fitting perspective.',
-    date: '28 February 2026',
-    readingTime: '7 min read',
+      'A practical guide for brides in West London — from setting a realistic budget and lead time to what actually happens at a first fitting with a couturier.',
+    date: '5 April 2026',
+    readingTime: '8 min read',
     category: 'Bridal',
     imageSrc: '/assets/hero/bride-white-tulle-moody.jpg',
     imageAlt: 'Bride in a white tulle gown in a moody, atmospheric setting',
@@ -42,25 +44,65 @@ const PLACEHOLDER_POSTS = [
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAKCAIAAAAYbLhkAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAxklEQVR4nGNQ0bezdAnzCs6wcw01MLbR1TFiEAQBYVFBUWE+XmFBXiFBCQYReUVpOQVRYTFRCVFBcTFxcQkGXmkFXj5BV0cHeXlFQXEJMTExBglxcRkhoQAHa1VpMWZGRnFxEQZxEUkJGTU/N7e1ixeEhsXx8wsy8IopF9f1LZw7/9LRI7///M8pbmRQ1Heesmjn+nU7c1Mz9xy8uOXAVQY7j3jPiNL2rpm1tZ2Z5X35Fd0Mpg7+tp7RfiFpQVG5th5xGnrWAMG4MgIswhhkAAAAAElFTkSuQmCC',
   },
   {
-    slug: 'first-alteration-appointment-what-to-bring',
-    title: 'What to bring to your first alteration appointment',
+    slug: 'south-asian-bridal-and-bridesmaid-wear',
+    title: 'South Asian bridal and bridesmaid wear: a guide from the studio',
     excerpt:
-      'The most important things to have with you — shoes, undergarments, and a clear sense of the occasion — and why each one matters to getting the fit right.',
-    date: '10 March 2026',
-    readingTime: '4 min read',
-    category: 'Guide',
-    imageSrc: '/assets/hero/bride-maroon-interior.jpg',
-    imageAlt: 'Bride in a maroon dress inside an elegant interior setting',
+      'From lehenga to anarkali, sharara to gharara — a practical guide to South Asian bridal silhouettes, colour coordination, and dressing a mixed bridal party in West London.',
+    date: '22 March 2026',
+    readingTime: '9 min read',
+    category: 'Bridal',
+    imageSrc: '/assets/hero/bride-maroon-arch.jpg',
+    imageAlt: 'A bride in a rich maroon lehenga standing beneath a decorative arch',
     imageBlur:
-      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVR4nAE2Acn+AFZEPUA5F5BdNferY//GeN6gZs2RT3xlLiYbBjYsGAArFxUrIguVZz/tqmdpPB1nNBvrr21iRh9EMhpBLRoAOx4aGAcAm3ZP+MJ6hV83fk8z+sF+WzkaSi4bTCwXMSULPzERRzMUTDkWAKuHiJVyd5diXcilnuqxqfTBuM+smqqilJ6bkomaAFdMMFtEJmVWN3pkRqCRiMqqlrSVeI2Bc4FuXVNGNQBNPS9NNhxiUDRwYkGShXGfgm2hiGueaFBLPSwUCA8FAAAAAAElFTkSuQmCC',
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVR4nAE2Acn+AFZPT2NYV3xpaZN6ep+Kiqubm6ykpq2qraimrJuZngBbVFRtYGBtW1p6ZGKGcXGLfHyspae4tLizr7aloqcAW1NTZlhYIhEOKhkXWEVFSDs6o5udx8PHvr3CsK60ADwxMWVaVw0AAD8xLnNkYldLS7WusMS+xMC+xLSyuQBOREZiVlUOAQAhFQ64qqlPRkSYkJPIwse6uL6xr7UAUkdITkJBRTk2WlFL0cjE08zKpp+gubK5r62zpqOqAD0yMisjIUg+O42Gf87Hwv/8+L+7vaKcoqmnrZ+dowAcDxEgFxN3bmqXkYvCvrns5+Pl4OGblJqFgod4dn0AQDk3d3Ftn5uXm5WTtrOw4N/f7Ors1NHSs7GyamhpAIiCf6CalpiUj6qmpaqmpc7MzNXS1NnX2NTQ0aajppTVn5566m1zAAAAAElFTkSuQmCC',
   },
 ];
 
-interface JournalTeaserProps {
-  data: JournalTeaserData;
+// ---------------------------------------------------------------------------
+// Shape for real post data passed from the page
+// ---------------------------------------------------------------------------
+
+export interface JournalPostPreview {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string; // ISO e.g. '2026-04-18'
+  readingMinutes: number;
+  tags: string[];
+  heroImage: string;
+  heroImageAlt: string;
 }
 
-export function JournalTeaser({ data }: JournalTeaserProps) {
+interface JournalTeaserProps {
+  data: JournalTeaserData;
+  posts?: JournalPostPreview[];
+}
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+export function JournalTeaser({ data, posts }: JournalTeaserProps) {
+  // Use real posts if provided; fall back to placeholders
+  const items =
+    posts && posts.length > 0
+      ? posts.slice(0, 3).map((p) => ({
+          slug: p.slug,
+          title: p.title,
+          excerpt: p.excerpt,
+          date: formatDate(p.date),
+          readingTime: `${p.readingMinutes} min read`,
+          category: p.tags[0] ?? 'Journal',
+          imageSrc: p.heroImage,
+          imageAlt: p.heroImageAlt,
+          imageBlur: undefined as string | undefined,
+        }))
+      : PLACEHOLDER_POSTS;
+
   return (
     <div className="space-y-12">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -75,11 +117,11 @@ export function JournalTeaser({ data }: JournalTeaserProps) {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-3">
-        {PLACEHOLDER_POSTS.map((post) => (
+        {items.map((post) => (
           <Link
             key={post.slug}
             href={`/journal/${post.slug}`}
-            className="group block overflow-hidden rounded-xl border border-border bg-surface transition-shadow hover:shadow-md"
+            className="group block overflow-hidden rounded-xl border border-border bg-surface transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose"
             aria-label={`Read: ${post.title}`}
           >
             <div className="relative aspect-video w-full overflow-hidden">
@@ -89,8 +131,9 @@ export function JournalTeaser({ data }: JournalTeaserProps) {
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, 33vw"
-                blurDataURL={post.imageBlur}
-                placeholder="blur"
+                {...(post.imageBlur
+                  ? { blurDataURL: post.imageBlur, placeholder: 'blur' as const }
+                  : {})}
               />
             </div>
             <div className="p-6">

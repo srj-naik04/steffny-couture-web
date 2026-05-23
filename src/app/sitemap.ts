@@ -1,23 +1,31 @@
 import type { MetadataRoute } from 'next';
 import { siteUrl } from '@/lib/env';
 import { getAllProductSlugsFromSource } from '@/features/products/source';
+import { getAllPostSlugs } from '@/features/journal/loader';
 
 /**
- * Next.js sitemap generation — Phase 4
+ * Next.js sitemap generation — Phase 7 (updated from Phase 4)
  *
- * Includes all marketing routes and individual dress detail pages.
- * Phase 7 will extend to include individual journal post slugs.
+ * Includes all marketing routes, dress detail pages, and journal post pages.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date().toISOString();
 
   const slugs = await getAllProductSlugsFromSource();
+  const journalSlugs = getAllPostSlugs();
 
   const productEntries: MetadataRoute.Sitemap = slugs.map((slug) => ({
     url: `${siteUrl}/dresses/${slug}`,
     lastModified: now,
     changeFrequency: 'monthly' as const,
     priority: 0.8,
+  }));
+
+  const journalEntries: MetadataRoute.Sitemap = journalSlugs.map((slug) => ({
+    url: `${siteUrl}/journal/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
   }));
 
   return [
@@ -64,6 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     ...productEntries,
+    ...journalEntries,
     {
       url: `${siteUrl}/reviews`,
       lastModified: now,

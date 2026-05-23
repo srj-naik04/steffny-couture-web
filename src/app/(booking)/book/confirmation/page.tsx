@@ -60,7 +60,7 @@ export default async function BookConfirmationPage({ searchParams }: Props) {
               Steffi will WhatsApp you within one working day to confirm your
               appointment, walk through what to bring, and answer any questions.
             </p>
-            <p className="text-small text-ink-subtle">
+            <p className="text-small text-ink-muted">
               Keep your reference number handy —{' '}
               {ref ? (
                 <strong className="text-ink">{ref}</strong>

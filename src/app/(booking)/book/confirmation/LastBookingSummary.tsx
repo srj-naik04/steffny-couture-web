@@ -83,7 +83,7 @@ export function LastBookingSummary() {
   return (
     <div className="rounded-2xl border border-border bg-surface">
       <div className="px-5 py-3 border-b border-border">
-        <h2 className="text-label uppercase tracking-widest text-ink-subtle">
+        <h2 className="text-label uppercase tracking-widest text-ink-muted">
           Your booking summary
         </h2>
       </div>

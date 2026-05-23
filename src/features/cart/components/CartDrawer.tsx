@@ -108,7 +108,7 @@ function CartLineItem({
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            <ShoppingBag className="size-6 text-ink-subtle" aria-hidden="true" />
+            <ShoppingBag className="size-6 text-ink-muted" aria-hidden="true" />
           </div>
         )}
       </div>
@@ -147,7 +147,7 @@ function CartLineItem({
               onClick={() => removeItem(item.id)}
               aria-label={`Remove ${item.name} from cart`}
               className={cn(
-                'flex h-7 w-7 items-center justify-center rounded-full text-ink-subtle',
+                'flex h-7 w-7 items-center justify-center rounded-full text-ink-muted',
                 'transition-colors hover:bg-rose-soft hover:text-rose',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose',
               )}
@@ -165,7 +165,7 @@ function EmptyCartState({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
       <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface-alt">
-        <ShoppingBag className="size-8 text-ink-subtle" aria-hidden="true" />
+        <ShoppingBag className="size-8 text-ink-muted" aria-hidden="true" />
       </div>
       <div className="space-y-1.5">
         <p className="text-headline font-display text-ink">Your cart is empty</p>
@@ -361,7 +361,7 @@ export function CartDrawer() {
                     </span>
                   </div>
 
-                  <p className="text-small text-ink-subtle">
+                  <p className="text-small text-ink-muted">
                     Delivery and final pricing confirmed with Steffi after placing your order.
                   </p>
 

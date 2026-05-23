@@ -64,7 +64,7 @@ export function LastOrderSummary() {
   return (
     <div className="rounded-2xl border border-border bg-surface overflow-hidden text-left">
       <div className="px-5 py-3 border-b border-border bg-surface-alt">
-        <h3 className="text-label uppercase tracking-widest text-ink-subtle">
+        <h3 className="text-label uppercase tracking-widest text-ink-muted">
           Items ordered
         </h3>
       </div>
@@ -85,14 +85,14 @@ export function LastOrderSummary() {
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
-                  <ShoppingBag className="size-5 text-ink-subtle" aria-hidden="true" />
+                  <ShoppingBag className="size-5 text-ink-muted" aria-hidden="true" />
                 </div>
               )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-small font-medium text-ink">{item.name}</p>
               {(item.size || item.colour) && (
-                <p className="text-small text-ink-subtle">
+                <p className="text-small text-ink-muted">
                   {[item.size, item.colour].filter(Boolean).join(' · ')}
                 </p>
               )}
@@ -100,7 +100,7 @@ export function LastOrderSummary() {
             <p className="text-small text-ink shrink-0">
               {formatGBP(item.price * item.quantity)}
               {item.quantity > 1 && (
-                <span className="ml-1 text-ink-subtle">×{item.quantity}</span>
+                <span className="ml-1 text-ink-muted">×{item.quantity}</span>
               )}
             </p>
           </li>

@@ -212,7 +212,7 @@ export default async function JournalPostPage({
             <header className="space-y-4">
               {/* Breadcrumb */}
               <nav aria-label="Breadcrumb">
-                <ol className="flex items-center gap-2 text-label text-ink-subtle">
+                <ol className="flex items-center gap-2 text-label text-ink-muted">
                   <li>
                     <Link href="/journal" className="hover:text-rose transition-colors">
                       Journal
@@ -306,7 +306,7 @@ export default async function JournalPostPage({
                         <h3 className="font-display text-headline text-ink text-balance group-hover:text-rose transition-colors">
                           {rel.title}
                         </h3>
-                        <p className="text-small text-ink-subtle">
+                        <p className="text-small text-ink-muted">
                           {rel.readingMinutes} min read
                         </p>
                       </div>

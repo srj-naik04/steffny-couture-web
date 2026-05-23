@@ -58,14 +58,14 @@ export function CheckoutSummary() {
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
-                      <ShoppingBag className="size-4 text-ink-subtle" aria-hidden="true" />
+                      <ShoppingBag className="size-4 text-ink-muted" aria-hidden="true" />
                     </div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-small font-medium text-ink truncate">{item.name}</p>
                   {(item.size || item.colour) && (
-                    <p className="text-small text-ink-subtle">
+                    <p className="text-small text-ink-muted">
                       {[item.size, item.colour].filter(Boolean).join(' · ')}
                     </p>
                   )}
@@ -84,7 +84,7 @@ export function CheckoutSummary() {
             </div>
             <div className="flex justify-between">
               <span className="text-ink-muted">Delivery</span>
-              <span className="text-ink-subtle">To be confirmed</span>
+              <span className="text-ink-muted">To be confirmed</span>
             </div>
             <div className="flex justify-between font-medium pt-1 border-t border-border">
               <span className="text-ink">Total</span>
@@ -94,7 +94,7 @@ export function CheckoutSummary() {
         </>
       )}
 
-      <p className="text-small text-ink-subtle leading-relaxed pt-1 border-t border-border">
+      <p className="text-small text-ink-muted leading-relaxed pt-1 border-t border-border">
         No payment is taken today. Steffi will contact you to confirm your order
         before any charges apply.
       </p>

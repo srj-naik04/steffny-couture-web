@@ -15,7 +15,7 @@ interface ReviewsStripProps {
 
 function StarRating({ rating }: { rating: number }) {
   return (
-    <div className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
+    <div role="img" className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
@@ -61,7 +61,7 @@ export function ReviewsStrip({ reviews }: ReviewsStripProps) {
             </blockquote>
             <footer className="mt-auto border-t border-border pt-4">
               <p className="text-small font-semibold text-ink">{review.name}</p>
-              <p className="text-label text-ink-subtle mt-0.5">{review.role}</p>
+              <p className="text-label text-ink-muted mt-0.5">{review.role}</p>
             </footer>
           </article>
         ))}

@@ -170,7 +170,7 @@ export function PhotoUploader({ onChange, draftId }: PhotoUploaderProps) {
         )}
       >
         <Upload
-          className={cn('size-8', isDisabled ? 'text-ink-subtle' : 'text-ink-muted')}
+          className={cn('size-8', isDisabled ? 'text-ink-muted' : 'text-ink-muted')}
           aria-hidden="true"
         />
         <span className="text-body font-medium text-ink">
@@ -178,7 +178,7 @@ export function PhotoUploader({ onChange, draftId }: PhotoUploaderProps) {
             ? 'Maximum photos added'
             : 'Tap to add photos, or drop them here'}
         </span>
-        <span className="text-small text-ink-subtle">
+        <span className="text-small text-ink-muted">
           Up to {MAX_PHOTOS} photos · JPEG, PNG, WebP, HEIC · max 8 MB each
         </span>
         <input

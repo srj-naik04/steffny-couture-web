@@ -64,7 +64,7 @@ export default function ContactPage() {
                       </p>
                     ))}
                   </address>
-                  <p className="text-small text-ink-subtle italic">
+                  <p className="text-small text-ink-muted italic">
                     {contactDetails.appointmentNote}
                   </p>
                 </div>
@@ -231,7 +231,7 @@ export default function ContactPage() {
                   aria-label="Map showing Steffny Couture at 255 High Street, Hounslow TW3 1EA"
                 />
               </div>
-              <p className="text-small text-ink-subtle">
+              <p className="text-small text-ink-muted">
                 255 High Street, Hounslow, London TW3 1EA ·{' '}
                 <a
                   href="https://www.openstreetmap.org/?mlat=51.4677&mlon=-0.3602#map=16/51.4677/-0.3602"

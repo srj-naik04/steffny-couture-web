@@ -101,7 +101,7 @@ function Field({
 // Base input classes
 const inputClass = cn(
   'block h-12 w-full rounded-lg px-4',
-  'bg-surface-alt text-ink placeholder:text-ink-subtle text-body',
+  'bg-surface-alt text-ink placeholder:text-ink-muted text-body',
   'border border-border focus:border-rose',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
   'transition-colors duration-200',
@@ -110,7 +110,7 @@ const inputErrorClass = 'border-danger focus:border-danger focus-visible:ring-da
 
 const textareaClass = cn(
   'block w-full rounded-lg px-4 py-3',
-  'bg-surface-alt text-ink placeholder:text-ink-subtle text-body',
+  'bg-surface-alt text-ink placeholder:text-ink-muted text-body',
   'border border-border focus:border-rose',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
   'transition-colors duration-200 resize-none',
@@ -143,7 +143,7 @@ function ProgressIndicator({
                     ? 'bg-success text-ivory'
                     : currentStep === step.id
                       ? 'bg-rose text-ivory'
-                      : 'bg-surface-alt text-ink-subtle',
+                      : 'bg-surface-alt text-ink-muted',
                 )}
               >
                 {currentStep > step.id ? (
@@ -166,7 +166,7 @@ function ProgressIndicator({
               <span
                 className={cn(
                   'text-small hidden sm:block',
-                  currentStep === step.id ? 'text-ink font-medium' : 'text-ink-subtle',
+                  currentStep === step.id ? 'text-ink font-medium' : 'text-ink-muted',
                 )}
                 aria-hidden="true"
               >
@@ -412,7 +412,7 @@ function PaymentStep({
       </div>
 
       {/* Trust signal */}
-      <div className="flex items-center gap-2 text-small text-ink-subtle">
+      <div className="flex items-center gap-2 text-small text-ink-muted">
         <ShieldCheck className="size-4 shrink-0 text-success" aria-hidden="true" />
         <span>Your card details are encrypted. No payment is taken until Steffi confirms your order.</span>
       </div>
@@ -445,7 +445,7 @@ function ReviewStep({
       {/* Items */}
       <div className="rounded-xl border border-border bg-surface">
         <div className="px-5 py-3 border-b border-border">
-          <h3 className="text-label uppercase tracking-widest text-ink-subtle">Items</h3>
+          <h3 className="text-label uppercase tracking-widest text-ink-muted">Items</h3>
         </div>
         <ul className="divide-y divide-border">
           {items.map((item) => (
@@ -461,14 +461,14 @@ function ReviewStep({
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
-                    <ShoppingBag className="size-4 text-ink-subtle" aria-hidden="true" />
+                    <ShoppingBag className="size-4 text-ink-muted" aria-hidden="true" />
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-small font-medium text-ink truncate">{item.name}</p>
                 {(item.size || item.colour) && (
-                  <p className="text-small text-ink-subtle">
+                  <p className="text-small text-ink-muted">
                     {[item.size, item.colour].filter(Boolean).join(' · ')}
                   </p>
                 )}
@@ -476,7 +476,7 @@ function ReviewStep({
               <p className="text-small font-medium text-ink shrink-0">
                 {formatGBP(item.price * item.quantity)}
                 {item.quantity > 1 && (
-                  <span className="ml-1 text-ink-subtle font-normal">×{item.quantity}</span>
+                  <span className="ml-1 text-ink-muted font-normal">×{item.quantity}</span>
                 )}
               </p>
             </li>
@@ -490,7 +490,7 @@ function ReviewStep({
 
       {/* Contact */}
       <div className="rounded-xl border border-border bg-surface p-5 space-y-1.5">
-        <h3 className="text-label uppercase tracking-widest text-ink-subtle mb-3">Contact</h3>
+        <h3 className="text-label uppercase tracking-widest text-ink-muted mb-3">Contact</h3>
         <p className="text-body text-ink">{values.fullName}</p>
         <p className="text-small text-ink-muted">{values.email}</p>
         <p className="text-small text-ink-muted">{values.phone}</p>
@@ -498,7 +498,7 @@ function ReviewStep({
 
       {/* Delivery */}
       <div className="rounded-xl border border-border bg-surface p-5 space-y-1">
-        <h3 className="text-label uppercase tracking-widest text-ink-subtle mb-3">Delivery</h3>
+        <h3 className="text-label uppercase tracking-widest text-ink-muted mb-3">Delivery</h3>
         <p className="text-small text-ink">{values.addressLine1}</p>
         {values.addressLine2 && <p className="text-small text-ink">{values.addressLine2}</p>}
         <p className="text-small text-ink">
@@ -514,9 +514,9 @@ function ReviewStep({
 
       {/* Card (masked) */}
       <div className="rounded-xl border border-border bg-surface p-5">
-        <h3 className="text-label uppercase tracking-widest text-ink-subtle mb-3">Payment</h3>
+        <h3 className="text-label uppercase tracking-widest text-ink-muted mb-3">Payment</h3>
         <div className="flex items-center gap-2">
-          <Lock className="size-4 text-ink-subtle" aria-hidden="true" />
+          <Lock className="size-4 text-ink-muted" aria-hidden="true" />
           <p className="text-small text-ink">{maskedCard || 'Card details confirmed'}</p>
         </div>
       </div>

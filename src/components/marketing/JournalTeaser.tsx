@@ -146,7 +146,7 @@ export function JournalTeaser({ data, posts }: JournalTeaserProps) {
               <p className="text-body text-ink-muted mt-3 text-pretty line-clamp-3">
                 {post.excerpt}
               </p>
-              <div className="text-label text-ink-subtle mt-4 flex items-center gap-3">
+              <div className="text-label text-ink-muted mt-4 flex items-center gap-3">
                 <time>{post.date}</time>
                 <span aria-hidden="true">·</span>
                 <span>{post.readingTime}</span>

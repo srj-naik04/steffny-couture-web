@@ -138,7 +138,7 @@ function getMaxDateIso(): string {
 
 const inputClass = cn(
   'block h-12 w-full rounded-lg px-4',
-  'bg-surface-alt text-ink placeholder:text-ink-subtle text-body',
+  'bg-surface-alt text-ink placeholder:text-ink-muted text-body',
   'border border-border focus:border-rose',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
   'transition-colors duration-200',
@@ -147,7 +147,7 @@ const inputErrorClass = 'border-danger focus:border-danger focus-visible:ring-da
 
 const textareaClass = cn(
   'block w-full rounded-lg px-4 py-3',
-  'bg-surface-alt text-ink placeholder:text-ink-subtle text-body',
+  'bg-surface-alt text-ink placeholder:text-ink-muted text-body',
   'border border-border focus:border-rose',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
   'transition-colors duration-200 resize-none',
@@ -201,7 +201,7 @@ function Field({
         )}
       </label>
       {hint && (
-        <p id={hintId} className="text-small text-ink-subtle">
+        <p id={hintId} className="text-small text-ink-muted">
           {hint}
         </p>
       )}
@@ -254,7 +254,7 @@ function ProgressIndicator({
                       ? 'bg-success text-ivory'
                       : isCurrent
                         ? 'bg-rose text-ivory'
-                        : 'bg-surface-alt text-ink-subtle',
+                        : 'bg-surface-alt text-ink-muted',
                   )}
                 >
                   {isDone ? (
@@ -277,7 +277,7 @@ function ProgressIndicator({
                 <span
                   className={cn(
                     'hidden text-[11px] sm:block',
-                    isCurrent ? 'font-medium text-ink' : 'text-ink-subtle',
+                    isCurrent ? 'font-medium text-ink' : 'text-ink-muted',
                   )}
                   aria-hidden="true"
                 >
@@ -543,7 +543,7 @@ function ScheduleStep({
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-ink-subtle">
+        <p className="mt-3 text-ink-muted">
           All appointments are by arrangement. Steffi will confirm your slot personally.
         </p>
       </div>
@@ -1168,7 +1168,7 @@ export function BookingWizard() {
         </form>
 
         {/* Alternative: contact via WhatsApp */}
-        <p className="mt-6 text-center text-small text-ink-subtle">
+        <p className="mt-6 text-center text-small text-ink-muted">
           Prefer to book by phone?{' '}
           <a
             href={STUDIO.whatsapp}

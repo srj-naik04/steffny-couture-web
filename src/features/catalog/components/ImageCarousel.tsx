@@ -57,7 +57,7 @@ export function ImageCarousel({ images, productName }: ImageCarouselProps) {
   if (total === 0) {
     return (
       <div className="aspect-3/4 w-full rounded-xl bg-surface-alt flex items-center justify-center">
-        <span className="text-label text-ink-subtle uppercase tracking-widest">
+        <span className="text-label text-ink-muted uppercase tracking-widest">
           Image coming soon
         </span>
       </div>

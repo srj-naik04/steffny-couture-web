@@ -81,7 +81,7 @@ export default function JournalPage() {
                         {post.excerpt}
                       </p>
 
-                      <div className="text-label text-ink-subtle flex items-center gap-3 pt-1">
+                      <div className="text-label text-ink-muted flex items-center gap-3 pt-1">
                         <time dateTime={post.date}>{formatDate(post.date)}</time>
                         <span aria-hidden="true">·</span>
                         <span>{post.readingMinutes} min read</span>

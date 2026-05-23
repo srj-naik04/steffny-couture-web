@@ -33,6 +33,7 @@ function ColourSwatch({ colour }: { colour: string }) {
   const bg = COLOUR_SWATCHES[key] ?? 'bg-border-strong';
   return (
     <span
+      role="img"
       className={`inline-block h-3 w-3 rounded-full border border-border ${bg}`}
       title={colour}
       aria-label={colour}

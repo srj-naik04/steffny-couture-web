@@ -189,7 +189,7 @@ export function ReviewForm() {
           rows={5}
           placeholder="Tell us about your experience — what service you had, how the fitting went, and how the result turned out."
           className={cn(
-            'w-full rounded-lg border px-3 py-2.5 text-body text-ink bg-surface placeholder:text-ink-subtle',
+            'w-full rounded-lg border px-3 py-2.5 text-body text-ink bg-surface placeholder:text-ink-muted',
             'transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose',
             errors.body
               ? 'border-danger focus-visible:ring-danger'
@@ -199,7 +199,7 @@ export function ReviewForm() {
           aria-describedby={errors.body ? 'body-error' : 'body-hint'}
           {...register('body')}
         />
-        <p id="body-hint" className="text-label text-ink-subtle">
+        <p id="body-hint" className="text-label text-ink-muted">
           Between 50 and 1,000 characters.
         </p>
         {errors.body && (
@@ -213,7 +213,7 @@ export function ReviewForm() {
       <div className="space-y-1.5">
         <Label htmlFor="occasion">
           Occasion{' '}
-          <span className="text-ink-subtle text-label">(optional)</span>
+          <span className="text-ink-muted text-label">(optional)</span>
         </Label>
         <Input
           id="occasion"
@@ -228,7 +228,7 @@ export function ReviewForm() {
       <div className="space-y-1.5">
         <Label htmlFor="author_location">
           Your location{' '}
-          <span className="text-ink-subtle text-label">(optional)</span>
+          <span className="text-ink-muted text-label">(optional)</span>
         </Label>
         <Input
           id="author_location"

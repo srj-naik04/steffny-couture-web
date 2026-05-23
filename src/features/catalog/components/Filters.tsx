@@ -192,7 +192,7 @@ export function Filters({
           aria-label="Maximum price filter"
           className="w-full accent-rose"
         />
-        <div className="text-label text-ink-subtle mt-1 flex justify-between">
+        <div className="text-label text-ink-muted mt-1 flex justify-between">
           <span>{formatGBP(0)}</span>
           <span>{formatGBP(maxPriceRange)}</span>
         </div>

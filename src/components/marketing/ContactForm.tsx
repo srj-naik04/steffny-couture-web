@@ -142,7 +142,7 @@ export function ContactForm() {
       <div className="space-y-1.5">
         <Label htmlFor="phone">
           Phone number{' '}
-          <span className="text-ink-subtle font-normal">(optional)</span>
+          <span className="text-ink-muted font-normal">(optional)</span>
         </Label>
         <Input
           id="phone"
@@ -154,7 +154,7 @@ export function ContactForm() {
           className={cn(errors.phone && 'border-danger focus-visible:ring-danger')}
           {...register('phone')}
         />
-        <p id="phone-hint" className="text-label text-ink-subtle">
+        <p id="phone-hint" className="text-label text-ink-muted">
           We may use this for a quick reply, if you prefer.
         </p>
         {errors.phone && (
@@ -176,7 +176,7 @@ export function ContactForm() {
           aria-describedby={errors.message ? 'message-error' : 'message-hint'}
           aria-invalid={Boolean(errors.message)}
           className={cn(
-            'border-border bg-surface-alt text-ink placeholder:text-ink-subtle',
+            'border-border bg-surface-alt text-ink placeholder:text-ink-muted',
             'w-full rounded-lg border px-4 py-3 text-base transition-colors',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2',
             errors.message && 'border-danger focus-visible:ring-danger',
@@ -184,7 +184,7 @@ export function ContactForm() {
           placeholder="Tell us about the piece you have in mind, or simply introduce yourself."
           {...register('message')}
         />
-        <p id="message-hint" className="text-label text-ink-subtle">
+        <p id="message-hint" className="text-label text-ink-muted">
           Tell us what you need — the occasion, the garment, and anything else that will help us understand.
         </p>
         {errors.message && (
@@ -204,7 +204,7 @@ export function ContactForm() {
         {isSubmitting ? 'Sending…' : 'Send message'}
       </Button>
 
-      <p className="text-label text-ink-subtle text-center">
+      <p className="text-label text-ink-muted text-center">
         We reply within one working day. For urgent enquiries, please use WhatsApp.
       </p>
     </form>

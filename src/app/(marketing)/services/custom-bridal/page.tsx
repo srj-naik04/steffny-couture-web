@@ -134,30 +134,28 @@ export default function CustomBridalPage() {
                 eyebrow="Questions"
                 headline="Frequently asked questions"
               />
-              <dl className="space-y-0 divide-y divide-border">
+              <div className="divide-y divide-border">
                 {faqs.map((faq) => (
-                  <div key={faq.question}>
-                    <details className="group py-5">
-                      <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
-                        <dt className="font-display text-headline text-ink">
-                          {faq.question}
-                        </dt>
-                        <span
-                          className="mt-0.5 shrink-0 text-rose transition-transform group-open:rotate-45"
-                          aria-hidden="true"
-                        >
-                          <svg viewBox="0 0 16 16" fill="currentColor" className="size-5">
-                            <path d="M8 2a1 1 0 0 1 1 1v4h4a1 1 0 1 1 0 2H9v4a1 1 0 1 1-2 0V9H3a1 1 0 1 1 0-2h4V3a1 1 0 0 1 1-1z" />
-                          </svg>
-                        </span>
-                      </summary>
-                      <dd className="text-body text-ink-muted mt-4 text-pretty">
-                        {faq.answer}
-                      </dd>
-                    </details>
-                  </div>
+                  <details key={faq.question} className="group py-5">
+                    <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
+                      <span className="font-display text-headline text-ink">
+                        {faq.question}
+                      </span>
+                      <span
+                        className="mt-0.5 shrink-0 text-rose transition-transform group-open:rotate-45"
+                        aria-hidden="true"
+                      >
+                        <svg viewBox="0 0 16 16" fill="currentColor" className="size-5">
+                          <path d="M8 2a1 1 0 0 1 1 1v4h4a1 1 0 1 1 0 2H9v4a1 1 0 1 1-2 0V9H3a1 1 0 1 1 0-2h4V3a1 1 0 0 1 1-1z" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <p className="text-body text-ink-muted mt-4 text-pretty">
+                      {faq.answer}
+                    </p>
+                  </details>
                 ))}
-              </dl>
+              </div>
             </div>
           </RevealOnScroll>
         </Container>

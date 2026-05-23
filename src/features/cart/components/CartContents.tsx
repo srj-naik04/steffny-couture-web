@@ -87,7 +87,7 @@ function EmptyCart() {
   return (
     <div className="py-20 text-center">
       <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-surface-alt">
-        <ShoppingBag className="size-9 text-ink-subtle" aria-hidden="true" />
+        <ShoppingBag className="size-9 text-ink-muted" aria-hidden="true" />
       </div>
       <h2 className="font-display text-title text-ink mb-3">Your cart is empty</h2>
       <p className="text-body text-ink-muted mb-8 mx-auto max-w-sm">
@@ -182,7 +182,7 @@ export function CartContents() {
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
-                      <ShoppingBag className="size-8 text-ink-subtle" aria-hidden="true" />
+                      <ShoppingBag className="size-8 text-ink-muted" aria-hidden="true" />
                     </div>
                   )}
                 </div>
@@ -202,7 +202,7 @@ export function CartContents() {
                       aria-label={`Remove ${item.name}`}
                       className={cn(
                         'shrink-0 flex h-8 w-8 items-center justify-center rounded-full',
-                        'text-ink-subtle transition-colors hover:bg-rose-soft hover:text-rose',
+                        'text-ink-muted transition-colors hover:bg-rose-soft hover:text-rose',
                         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose',
                       )}
                     >
@@ -262,7 +262,7 @@ export function CartContents() {
             </div>
             <div className="flex justify-between">
               <span className="text-ink-muted">Delivery</span>
-              <span className="text-ink-subtle">To be confirmed</span>
+              <span className="text-ink-muted">To be confirmed</span>
             </div>
             <div className="border-t border-border pt-3 flex justify-between font-medium">
               <span className="text-ink">Total</span>
@@ -282,7 +282,7 @@ export function CartContents() {
             Proceed to checkout
           </Link>
 
-          <p className="text-small text-ink-subtle text-center leading-relaxed">
+          <p className="text-small text-ink-muted text-center leading-relaxed">
             All orders are confirmed by Steffi over WhatsApp before any payment is taken.
           </p>
         </div>

@@ -288,14 +288,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 {/* Notes */}
                 <dl className="space-y-2 text-small text-ink-muted">
                   <div className="flex gap-2">
-                    <dt className="text-label font-medium uppercase tracking-widest text-ink-subtle">
+                    <dt className="text-label font-medium uppercase tracking-widest text-ink-muted">
                       Made
                     </dt>
                     <dd>Crafted in London at the Steffny Couture studio, Hounslow.</dd>
                   </div>
                   {product.length && (
                     <div className="flex gap-2">
-                      <dt className="text-label font-medium uppercase tracking-widest text-ink-subtle">
+                      <dt className="text-label font-medium uppercase tracking-widest text-ink-muted">
                         Length
                       </dt>
                       <dd className="capitalize">{product.length}</dd>
@@ -303,7 +303,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   )}
                   {product.occasion.length > 0 && (
                     <div className="flex gap-2">
-                      <dt className="text-label font-medium uppercase tracking-widest text-ink-subtle">
+                      <dt className="text-label font-medium uppercase tracking-widest text-ink-muted">
                         Occasions
                       </dt>
                       <dd className="capitalize">
@@ -312,13 +312,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     </div>
                   )}
                   <div className="flex gap-2">
-                    <dt className="text-label font-medium uppercase tracking-widest text-ink-subtle">
+                    <dt className="text-label font-medium uppercase tracking-widest text-ink-muted">
                       Care
                     </dt>
                     <dd>Dry clean only. Store in a breathable garment bag.</dd>
                   </div>
                   <div className="flex gap-2">
-                    <dt className="text-label font-medium uppercase tracking-widest text-ink-subtle">
+                    <dt className="text-label font-medium uppercase tracking-widest text-ink-muted">
                       Studio
                     </dt>
                     <dd>{STUDIO.address}</dd>

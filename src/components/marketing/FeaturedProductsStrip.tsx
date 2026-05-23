@@ -51,7 +51,7 @@ export function FeaturedProductsStrip({ products }: FeaturedProductsStripProps) 
                 />
               ) : (
                 <div className="flex h-full items-center justify-center">
-                  <span className="text-label text-ink-subtle uppercase tracking-widest">
+                  <span className="text-label text-ink-muted uppercase tracking-widest">
                     Coming soon
                   </span>
                 </div>

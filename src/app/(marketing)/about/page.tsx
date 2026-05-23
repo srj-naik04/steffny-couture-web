@@ -134,14 +134,14 @@ export default function AboutPage() {
                         sizes="(max-width: 640px) 100vw, 33vw"
                       />
                     </div>
-                    <figcaption className="text-label text-ink-subtle text-center">
+                    <figcaption className="text-label text-ink-muted text-center">
                       {img.caption}
                     </figcaption>
                   </figure>
                 ))}
               </div>
 
-              <p className="text-label text-ink-subtle text-center">
+              <p className="text-label text-ink-muted text-center">
                 Studio photographs coming soon — Steffi to provide final images.
               </p>
             </div>

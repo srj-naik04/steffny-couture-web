@@ -78,7 +78,7 @@ export function AddToCartButton({
         added
           ? 'bg-success text-ivory'
           : disabled
-            ? 'cursor-not-allowed bg-surface-alt text-ink-subtle'
+            ? 'cursor-not-allowed bg-surface-alt text-ink-muted'
             : 'bg-rose text-ivory hover:bg-rose-dark active:scale-[0.98]',
       )}
     >

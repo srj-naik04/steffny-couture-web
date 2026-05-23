@@ -23,7 +23,7 @@ export default function CartPage() {
       <Container>
         {/* Page header */}
         <header className="mb-10 border-b border-border pb-6">
-          <p className="text-label uppercase tracking-widest text-ink-subtle mb-2">
+          <p className="text-label uppercase tracking-widest text-ink-muted mb-2">
             Your selection
           </p>
           <h1 className="font-display text-display-sm md:text-display text-ink">

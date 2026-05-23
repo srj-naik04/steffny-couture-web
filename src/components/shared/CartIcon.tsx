@@ -1,26 +1,37 @@
 /**
- * CartIcon — Phase 4
+ * CartIcon — Phase 5 (updated from Phase 4)
  *
- * Client component. Shows a shopping bag icon linking to /cart.
- * When the cart has items, displays a count badge.
+ * Client component. Shows a shopping bag icon.
+ * Clicking opens the CartDrawer (via ui-store).
+ * The /cart route remains accessible via the drawer's "View cart" link
+ * and via direct URL navigation.
  * Uses useHydrated() to avoid SSR/localStorage mismatch.
  */
 
 'use client';
 
-import Link from 'next/link';
 import { useCartCount, useHydrated } from '@/features/cart/hooks';
+import { useCartUiStore } from '@/features/cart/ui-store';
 import { cn } from '@/lib/cn';
 
 export function CartIcon() {
   const count = useCartCount();
   const hydrated = useHydrated();
+  const openDrawer = useCartUiStore((s) => s.openDrawer);
+
+  const label =
+    hydrated && count > 0 ? `Cart — ${count} item${count === 1 ? '' : 's'}` : 'Cart';
 
   return (
-    <Link
-      href="/cart"
-      aria-label={hydrated && count > 0 ? `Cart — ${count} item${count === 1 ? '' : 's'}` : 'Cart'}
-      className="relative flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-surface-alt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+    <button
+      type="button"
+      onClick={openDrawer}
+      aria-label={label}
+      className={cn(
+        'relative flex h-11 w-11 items-center justify-center rounded-full',
+        'transition-colors hover:bg-surface-alt',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
+      )}
     >
       {/* Shopping bag SVG */}
       <svg
@@ -52,6 +63,6 @@ export function CartIcon() {
           {count > 9 ? '9+' : count}
         </span>
       )}
-    </Link>
+    </button>
   );
 }

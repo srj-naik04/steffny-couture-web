@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces, Inter } from 'next/font/google';
 import { MotionConfigProvider } from '@/components/shared/MotionConfigProvider';
+import { CartDrawer } from '@/features/cart/components/CartDrawer';
 import { BRAND } from '@/constants/brand';
 import { siteUrl } from '@/lib/env';
 import './globals.css';
@@ -65,7 +66,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <body className="bg-ivory text-ink font-body min-h-dvh antialiased">
-        <MotionConfigProvider>{children}</MotionConfigProvider>
+        <MotionConfigProvider>
+          {children}
+          {/* CartDrawer mounted at root so it's available across all route groups */}
+          <CartDrawer />
+        </MotionConfigProvider>
       </body>
     </html>
   );

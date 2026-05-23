@@ -1,68 +1,148 @@
-import { Container } from '@/components/ui/Container';
-import { Section } from '@/components/ui/Section';
-import { Button } from '@/components/ui/Button';
-import { BRAND } from '@/constants/brand';
+/**
+ * Home page — Phase 3
+ *
+ * Server component. Fetches featured products from Supabase (gracefully
+ * degrades if Supabase is not available). Composes all marketing sections.
+ *
+ * Steffi photo rule: bride-bangles-portrait.jpg is the hero image per
+ * IMAGE_BRIEF.md — non-negotiable.
+ */
 
-export default function HomePage() {
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { Section } from '@/components/ui/Section';
+import { Container } from '@/components/ui/Container';
+import { Hero } from '@/components/marketing/Hero';
+import { FeaturedProductsStrip } from '@/components/marketing/FeaturedProductsStrip';
+import { AboutTeaser } from '@/components/marketing/AboutTeaser';
+import { ServicesPreview } from '@/components/marketing/ServicesPreview';
+import { ReviewsStrip } from '@/components/marketing/ReviewsStrip';
+import { JournalTeaser } from '@/components/marketing/JournalTeaser';
+import { FinalCta } from '@/components/marketing/FinalCta';
+import { RevealOnScroll } from '@/components/marketing/RevealOnScroll';
+import { organizationJsonLd, websiteJsonLd } from '@/lib/seo/jsonld';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { getFeaturedProducts } from '@/features/products/api';
+import {
+  heroHome,
+  aboutTeaser,
+  servicesPreview,
+  journalTeaser,
+  finalCta,
+} from '@/content/marketing/home';
+import { homeReviews } from '@/content/marketing/reviews-seed';
+import type { ProductCard } from '@/features/products/api';
+
+// blurDataURL for bride-bangles-portrait — from data/optimised-images.json
+const BANGLES_BLUR =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AJt6W5x+ZZ+Dc5iAbJ2AYYhqTWhMNQCehnG2n5JjUkk4JR2qlIKbfmiCYkwAn4Nxy6+hHwAAMxkQspSGrYt2kGpVAKCBZeG6onlSPqd9aNOnkJ93XpRvVwCynIHhwam9lX+vh3HdtZ2zkXiRcVgA38ywy7afyrOfxaubuZyOr5F5lHRUAPfiz72unsq9sc29sqyUiO/bzLeqmwDv5+LIwr718e///Pe2qp7S0M34//8A5eTp6erw8vX7+/v/1tDNt7a36e32ANDR0tfb3d7j7Obo8u7s8tTQ197d5xCciFay3+EUAAAAAElFTkSuQmCC';
+
+export const metadata: Metadata = buildMetadata('/');
+
+export default async function HomePage() {
+  // Fetch featured products — gracefully degrade if Supabase not available
+  let featuredProducts: ProductCard[] = [];
+  try {
+    featuredProducts = await getFeaturedProducts(4);
+  } catch {
+    // Supabase not available in local dev without credentials — render without
+  }
+
   return (
     <>
-      <Section tone="ivory" spacing="lg">
+      {/* Structured data */}
+      {organizationJsonLd()}
+      {websiteJsonLd()}
+
+      {/* Hero — Steffi photo (bride-bangles-portrait.jpg) per IMAGE_BRIEF.md */}
+      <Hero
+        kicker={heroHome.kicker}
+        headline={heroHome.headline}
+        subhead={heroHome.subhead}
+        primaryCta={heroHome.primaryCta}
+        secondaryCta={heroHome.secondaryCta}
+        image={{
+          src: '/assets/hero/bride-bangles-portrait.jpg',
+          alt: 'Steffi adjusts a bride\'s bangles before a fitting at the Steffny Couture studio in Hounslow',
+          blurDataURL: BANGLES_BLUR,
+          width: 1920,
+          height: 2876,
+        }}
+        variant="home"
+      />
+
+      {/* Featured products */}
+      {featuredProducts.length > 0 && (
+        <Section tone="surface" spacing="md" id="collection">
+          <Container>
+            <RevealOnScroll>
+              <div className="space-y-12">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <span className="text-label text-rose tracking-widest uppercase">
+                      From the studio
+                    </span>
+                    <h2 className="font-display text-display-sm md:text-display text-ink mt-3 text-balance">
+                      A few pieces from the collection
+                    </h2>
+                  </div>
+                  <Link
+                    href="/dresses"
+                    className="text-small text-rose shrink-0 font-medium hover:underline"
+                  >
+                    View all dresses →
+                  </Link>
+                </div>
+                <FeaturedProductsStrip products={featuredProducts} />
+              </div>
+            </RevealOnScroll>
+          </Container>
+        </Section>
+      )}
+
+      {/* About teaser */}
+      <Section tone="ivory" spacing="md">
         <Container>
-          <div className="max-w-3xl">
-            <span className="text-label text-ink-muted tracking-widest uppercase">
-              Crafted in London
-            </span>
-            <h1 className="font-display text-hero-sm md:text-hero text-ink mt-4 text-balance">
-              {BRAND.tagline}
-            </h1>
-            <div className="bg-gold mt-6 h-px w-24" />
-            <p className="text-body-lg text-ink-muted mt-8 max-w-xl text-pretty">
-              Bespoke couture and alterations, hand-finished in our Hounslow studio. The
-              site is still taking shape — the collection lands shortly.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Button href="/dresses" variant="primary">
-                View dresses
-              </Button>
-              <Button href="/book" variant="secondary">
-                Book a fitting
-              </Button>
-            </div>
-          </div>
+          <RevealOnScroll>
+            <AboutTeaser data={aboutTeaser} />
+          </RevealOnScroll>
         </Container>
       </Section>
 
-      <Section tone="surface" spacing="md">
+      {/* Services preview */}
+      <Section tone="surface-alt" spacing="md">
         <Container>
-          <div className="grid gap-12 md:grid-cols-3">
-            {[
-              {
-                label: 'Couture',
-                title: 'Made to measure',
-                body: 'Custom pieces drafted to your shape, your fabric, your occasion.',
-              },
-              {
-                label: 'Alterations',
-                title: 'Tailored to fit',
-                body: 'Wedding, bridal party, evening — adjusted so the cut is yours.',
-              },
-              {
-                label: 'Ready to wear',
-                title: 'From the studio',
-                body: 'A curated rail of pieces ready for fittings and final hems.',
-              },
-            ].map((item) => (
-              <div key={item.title} className="space-y-3">
-                <span className="text-label text-rose tracking-widest uppercase">
-                  {item.label}
-                </span>
-                <h2 className="font-display text-title text-ink">{item.title}</h2>
-                <p className="text-body text-ink-muted">{item.body}</p>
-              </div>
-            ))}
-          </div>
+          <RevealOnScroll>
+            <ServicesPreview data={servicesPreview} />
+          </RevealOnScroll>
         </Container>
       </Section>
+
+      {/* Reviews */}
+      <Section tone="surface" spacing="md">
+        <Container>
+          <RevealOnScroll>
+            <ReviewsStrip reviews={homeReviews} />
+          </RevealOnScroll>
+        </Container>
+      </Section>
+
+      {/* Journal teaser */}
+      <Section tone="ivory" spacing="md">
+        <Container>
+          <RevealOnScroll>
+            <JournalTeaser data={journalTeaser} />
+          </RevealOnScroll>
+        </Container>
+      </Section>
+
+      {/* Final CTA */}
+      <FinalCta
+        headline={finalCta.headline}
+        body={finalCta.body}
+        primaryCta={finalCta.primaryCta}
+        secondaryCta={finalCta.secondaryCta}
+      />
     </>
   );
 }

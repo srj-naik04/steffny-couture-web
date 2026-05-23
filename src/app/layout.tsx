@@ -41,10 +41,10 @@ export const metadata: Metadata = {
     title: `${BRAND.name} — ${BRAND.tagline}`,
     description: BRAND.description,
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots:
+    process.env.VERCEL_ENV === 'production'
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
   icons: {
     icon: '/favicon.ico',
   },

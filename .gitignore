@@ -6,6 +6,7 @@ build/
 coverage/
 .vercel/
 
+.env
 .env.local
 .env.*.local
 
@@ -36,6 +37,7 @@ tsconfig.tsbuildinfo
 .playwright-mcp/
 playwright-report/
 test-results/
+playwright-mcp-output
 
 # Test screenshots (ad-hoc, not committed)
 phase*.png

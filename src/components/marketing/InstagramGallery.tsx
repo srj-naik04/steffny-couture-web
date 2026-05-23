@@ -5,8 +5,8 @@
  * Images are curated from assets not visible elsewhere on the home page.
  *
  * Images used here (verified unique to this section on the home page):
- *   bride-fuchsia-pampas, bride-burgundy-outdoor, bride-maroon-chandelier,
- *   bride-maroon-radio, bride-white-ballgown-train, bride-maroon-arch
+ *   bride-fuchsia-pampas, bride-burgundy-outdoor, bride-white-umbrella-interior,
+ *   bride-maroon-chandelier, bride-maroon-radio, bride-white-ballgown-train
  *
  * NOTE: bride-bouquet-detail.jpg is reserved for home hero, about hero, and
  * contact founder card per IMAGE_BRIEF.md. Do not use it here.
@@ -36,8 +36,8 @@ const GALLERY_IMAGES: GalleryImage[] = [
     alt: 'Bride in a burgundy gown outdoors in natural light — Steffny Couture',
   },
   {
-    src: '/assets/hero/bride-maroon-arch.jpg',
-    alt: 'Bride in a maroon gown beneath a decorative arch — Steffny Couture',
+    src: '/assets/hero/bride-white-umbrella-interior.jpg',
+    alt: 'Bride in a white gown indoors with an umbrella prop — Steffny Couture',
   },
   {
     src: '/assets/hero/bride-maroon-chandelier.jpg',

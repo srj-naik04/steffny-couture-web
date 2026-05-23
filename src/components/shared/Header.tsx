@@ -60,7 +60,7 @@ export function Header() {
 
             <div className="hidden items-center gap-3 lg:flex">
               <CartIcon />
-              <Button href="/book" variant="primary" size="sm">
+              <Button href="/book" variant="primary" size="md">
                 Book a fitting
               </Button>
             </div>

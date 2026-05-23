@@ -500,6 +500,77 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** If a product has no size or colour selected (e.g. a single-option item with `variantId: null`), the alt falls back to the product name alone — still acceptable, as there is nothing to distinguish.
 
+## D-038 — Booking wizard cross-page state restore: lazy `useState(1)` + post-hydration restore effect with `restoredRef` guard
+
+**Date:** 2026-05-23
+
+**Chosen:** `currentStep` initialises to literal `1` on both server and client (no `getStoredStep()` call in the `useState` initialiser). A `useEffect` runs after hydration, reads `storedStep` from the Zustand persist store, and calls `setCurrentStep(storedStep)` if `storedStep > 1`. A `restoredRef` boolean ref prevents the effect from running a second time. A separate sync effect that writes `storedStep` to the store on every step change has a first-render skip (a `mountedRef`) so the mount write cannot clobber a value that the restore effect has not yet applied.
+
+**Considered:**
+- Calling `useBoundStore.getState().step` directly in the `useState` initialiser
+- Reading from `localStorage` synchronously in the initialiser
+- Skipping persistence entirely and forcing users to restart on navigation
+
+**Why:** Zustand `persist` hydrates asynchronously from `localStorage` — the stored value is not available on the first render. Calling `getState()` in the initialiser returns the unhydrated default (`1`), so restoring to a mid-wizard step requires waiting for the hydration event. Doing the restore in a `useEffect` eliminates the SSR/client mismatch (server always renders Step 1; client restores after paint). The `restoredRef` guard prevents a race where the sync-write effect fires between the restore read and the restore write.
+
+**Trade-off:** One render at Step 1 is visible before the restore kicks in on a returning user. At typical browser speeds this is sub-frame; no flash observed in Playwright tests.
+
+## D-039 — Anon DELETE policy on `booking-photos` bucket removed
+
+**Date:** 2026-05-23
+
+**Chosen:** No anon DELETE policy on the `booking-photos` bucket. Photos uploaded under `web-drafts/<draftId>/` cannot be deleted by unauthenticated visitors. Cleanup deferred to a future cron job that purges `web-drafts/` files older than 7 days.
+
+**Considered:**
+- Allowing anon DELETE scoped to the same `draftId` prefix
+- Allowing anon DELETE only on files the uploader just created (no practical enforcement mechanism in Supabase Storage without user_id)
+
+**Why:** Supabase Storage policies cannot enforce per-visitor ownership without a `user_id`. An anon DELETE policy scoped to `web-drafts/` would allow any visitor to delete any other visitor's draft photos by enumerating `draftId` values (UUIDs, but the bucket listing could be partially probed). Removing the policy eliminates the cross-visitor deletion vector. Orphaned files are a storage cost concern, not a security concern, and are addressed by a future cron.
+
+**Trade-off:** Orphaned `web-drafts/` files accumulate for abandoned wizard sessions. Mitigated by the 8 MB file limit and the planned cron (tracked in Open Questions).
+
+## D-040 — `journal_views.increment_view` RPC: anon EXECUTE revoked
+
+**Date:** 2026-05-23
+
+**Chosen:** Revoked `GRANT EXECUTE ON FUNCTION increment_view TO anon` from `supabase/migrations/20260521_0004_web_journal_views.sql`. Web journal pages now call `increment_view` via server actions (authenticated path using the service-role key) rather than from the browser client.
+
+**Considered:**
+- Keeping anon EXECUTE with a per-IP rate limit (not natively available in Supabase)
+- Moving view tracking to a separate table with weaker integrity guarantees
+
+**Why:** An anon caller could call `increment_view` from a script, pumping any slug's view count to arbitrary values. The function is `SECURITY DEFINER`, so abuse does not expose data, but it does corrupt the analytics signal. Restricting to authenticated callers (service role via server action) closes the vector with no change to the visible UX — view counts still increment on every real page visit.
+
+**Trade-off:** View tracking no longer works in pure client-side renders. Acceptable — journal posts are server-rendered.
+
+## D-041 — Booking confirmation `?ref` validated against `/^SC-[A-Z0-9]{6}$/`
+
+**Date:** 2026-05-23
+
+**Chosen:** `src/app/(booking)/book/confirmation/page.tsx` checks the `ref` searchParam against `/^SC-[A-Z0-9]{6}$/` before displaying it. An invalid or absent ref renders a generic "your booking has been received" message with no reference displayed.
+
+**Considered:**
+- Displaying whatever string is in the URL as a reference
+- Redirecting invalid refs to `/book`
+
+**Why:** A crafted URL such as `/book/confirmation?ref=<script>alert(1)</script>` could be shared as a phishing link or social-engineering vector if the value were reflected directly into the page. The regex check ensures only a valid SC reference (26-character space of known format) is displayed. A graceful fallback rather than a redirect avoids penalising users whose browser dropped the query string.
+
+**Trade-off:** A legitimate booking whose reference was somehow truncated or mangled in transit would show the generic message. The probability is negligible given the reference is generated server-side and passed directly to `redirect()`.
+
+## D-042 — `src/features/booking/` renamed to `src/features/bookings/`
+
+**Date:** 2026-05-23
+
+**Chosen:** Folder renamed to `src/features/bookings/` to match the pluralisation pattern in CLAUDE.md §2 (`products/`, `reviews/`, `cart/`, `bookings/`).
+
+**Considered:**
+- Leaving as `booking/` (singular) given the folder already existed
+- Using `booking/` for the web wizard and keeping `bookings/` for a shared data layer
+
+**Why:** CLAUDE.md §2 lists `features/bookings/` (plural). All other feature folders use the plural form. Consistent naming makes file-path reasoning predictable across the codebase and avoids the folder being invisible to contributors searching for `bookings`.
+
+**Trade-off:** Import paths in all files under the folder required updating. No functional change.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

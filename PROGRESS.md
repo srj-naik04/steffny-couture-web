@@ -4,7 +4,7 @@ Live state of the build. Update after every phase or significant change.
 
 ## Current phase
 
-**Phase 5 — Cart & Mock Checkout** (complete; ready for Phase 6)
+**Phase 7 — Reviews, Journal, Polish** (not started)
 
 ## Phase status
 
@@ -16,7 +16,7 @@ Live state of the build. Update after every phase or significant change.
 | 3 — Marketing Pages | ✅ Done | 7 marketing pages + 5 stub pages, JSON-LD (Organization/WebSite/LocalBusiness), unique image per visible placement, skip-to-content a11y, contact server action with PII-safe logging and RLS-compliant inserts; Playwright clean at all 6 viewports |
 | 4 — Dress Catalogue | ✅ Done | 10-product SSG grid with URL-state filters + product detail with carousel/variant selector/cart; demo-mode JSON fallback so catalogue works without live Supabase; Zustand cart store wired into header; Product JSON-LD with breakout-safe serializer |
 | 5 — Cart & Mock Checkout | ✅ Done | Cart drawer + cart page + 4-step checkout (Contact/Delivery/Payment/Review) + confirmation; mock card data never transits to server (serverCheckoutSchema excludes card fields); placeOrder writes inquiries row with SC-XXXXXX reference; cart store v2 with v1→v2 migration; full a11y (aria-labels, focus trap, sr-only step labels, 44×44 touch targets); demo flow verified end-to-end at 1280px, layouts clean at all 6 viewports |
-| 6 — Fitting Booking | ⏳ Not started | 6-step wizard, shared bookings table |
+| 6 — Fitting Booking | ✅ Done | 6-step booking wizard with draft persistence across navigation (SSR-safe lazy init + post-hydration restore + ref guard, 5 playwright cycles to close state-restore race); photo upload to `booking-photos/web-drafts/<draftId>/` prefix; RLS-compliant anon INSERT on shared `bookings` table; `?ref` validated against `/^SC-[A-Z0-9]{6}$/`; `journal_views.increment_view` anon EXECUTE revoked; anon DELETE on `booking-photos` removed; `src/features/booking/` renamed to `bookings/` |
 | 7 — Reviews, Journal, Polish | ⏳ Not started | MDX posts, reviews, animations, a11y |
 | 8 — Demo Prep & Deploy | ⏳ Not started | Lighthouse, cross-browser, Vercel preview |
 | 9 — Domain Migration | ⏳ Not started | Cut over from Webador to Vercel |
@@ -46,6 +46,8 @@ Notable to date:
 - [ ] Custom-bridal service hero — currently uses `bride-maroon-arch.jpg` (non-Steffi). IMAGE_BRIEF originally recommended a Steffi photo here but the rule was relaxed as both Steffi photos are already anchored on home hero, about hero, and contact founder card. Steffi: do you want a dedicated portrait for the custom-bridal page?
 - [ ] Multiple images per product — each catalogue entry currently has only one image (`01.jpg`). Carousel is built to handle multiple; once Supabase is seeded, additional `product_images` rows will render automatically. Steffi: do you have second/third angles for the 10 dresses?
 - [ ] Colour-swatch palette accuracy — `globals.css` `@theme` defines approximate hex for nine product colours (mauve, plum, aqua, coral, cobalt, blue, champagne, maroon, sage). Steffi: review the chips on demo day to confirm they read true to fabric.
+- [ ] `booking-photos` bucket provisioning — migration `20260523_0007_booking_photos_bucket.sql` creates the bucket with anon-write to `web-drafts/`. Must be applied to the live Supabase project once the service-role key is available. Until then, photo uploads in live mode will silently fail (wizard still submits; photo_paths = demo paths or []).
+- [ ] Stale `web-drafts/` photo cleanup — customers who abandon the wizard mid-upload leave orphaned files in Storage. Phase 7 should add a cleanup job (Supabase Edge Function cron or Postgres cron) to purge `web-drafts/` files older than 7 days.
 
 ## Blockers
 
@@ -137,6 +139,25 @@ Notable to date:
 - Playwright cycle 1 happy path PASS; BUG-1 (ESC focus return to body) fixed in cycle 2 by routing ESC through `handleClose` calling `openerRef.current?.focus()`; all 6 viewports clean
 - `npm run typecheck`, `lint`, `build` all clean; 30 routes generated
 - **Phase 5 complete**
+
+### 2026-05-23 (Phase 6)
+- 6-step booking wizard built at `src/app/(booking)/book/page.tsx` — Service type / Photos / Details / Schedule / Contact / Review; single React Hook Form instance with per-step `trigger()` validation
+- Framer Motion slide transitions; `useReducedMotion` respected; progress indicator uses `<nav aria-label="Booking progress"><ol>` with `aria-current="step"` and sr-only completion labels
+- `src/features/bookings/schema.ts` — Zod per-step schemas + `bookingFullSchema` + `serverBookingSchema`
+- `src/features/bookings/action.ts` — `submitBooking` server action; `SC-XXXXXX` reference via `crypto.getRandomValues`; writes shared `bookings` table with `source='web'`, `status='new'`, `user_id=null`; demo-mode guard `(!hasSupabase || isDemoMode)` logs reference + timestamp only
+- `src/features/bookings/draft-store.ts` — Zustand `persist` key `steffny-booking-draft-v1`; saves partial form state on every `watch()` change; clears on successful submit
+- Cross-page state-restore race resolved after 5 playwright cycles: SSR/first-render = literal `1`; post-hydration `useEffect` restores `storedStep` via a `restoredRef` guard that only locks after seeing `storedStep > 1`; first-render skip on the sync effect prevents mount write clobbering the restored value
+- `src/features/bookings/components/PhotoUploader.tsx` — JPEG/PNG/WebP/HEIC; max 5 × 8 MB; uploads to `booking-photos/web-drafts/<draftId>/<uuid>.<ext>`; `demo://...` paths in demo mode; object URL previews revoked on unmount/remove
+- `src/app/(booking)/book/confirmation/page.tsx` — `noindex`; `?ref` validated against `/^SC-[A-Z0-9]{6}$/` before display; graceful generic fallback prevents cosmetic phishing
+- `supabase/migrations/20260523_0006_web_bookings_rls.sql` — anon INSERT policy on shared `bookings` table (`source='web'`, `status='new'`, `user_id IS NULL`); no anon SELECT/UPDATE/DELETE
+- `supabase/migrations/20260523_0007_booking_photos_bucket.sql` — `booking-photos` private bucket (8 MB limit, image MIME only); anon write scoped to `web-drafts/` prefix; anon DELETE policy removed (security fix: visitor A cannot delete visitor B's drafts)
+- `supabase/migrations/20260521_0004_web_journal_views.sql` updated — revoked anon EXECUTE on `increment_view` RPC (was a view-count abuse vector); web server actions call via authenticated path only
+- `src/types/database.ts` — `bookings` table `Row`/`Insert`/`Update` types added
+- `src/content/marketing/seo.ts` — `/book` and `/book/confirmation` SEO entries added
+- Folder renamed `src/features/booking/` → `src/features/bookings/` to match CLAUDE.md §2 pluralisation
+- `/book` hero uses `bride-white-umbrella-interior.jpg` (non-Steffi, previously unassigned per IMAGE_BRIEF distribution)
+- `npm run typecheck`, `lint`, `build` all clean; 32 routes generated; `/book` static (○), `/book/confirmation` dynamic (ƒ)
+- **Phase 6 complete**
 
 ### 2026-05-23 (Phase 4)
 - `src/features/products/source.ts` — Supabase-first wrapper with local JSON fallback; `warnFallback()` suppresses verbose stack traces for expected SSG DYNAMIC_SERVER_USAGE errors

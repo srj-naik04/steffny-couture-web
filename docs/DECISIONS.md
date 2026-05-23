@@ -257,6 +257,77 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** Adding new allowed `type` values requires a migration to update the policy.
 
+## D-021 — Unique image per visible placement; Steffi photos limited to anchor placements
+
+**Date:** 2026-05-23
+
+**Chosen:** Every visible image placement across the site uses a distinct file. `bride-bangles-portrait.jpg` anchors the home hero. `bride-bouquet-detail.jpg` anchors the about hero and contact founder card (the only intentional cross-page reuse, per IMAGE_BRIEF).
+
+**Considered:**
+- Reusing the same hero image across multiple pages to strengthen brand recognition
+- Allowing any Steffi photo on any page
+
+**Why:** IMAGE_BRIEF specifies that Steffi's two photos must anchor the highest-prominence placements. Reusing the same file on generic service pages dilutes the anchor effect and repeats an image the visitor has already seen. `bride-bouquet-detail.jpg` on both about hero and contact founder card is a deliberate exception: both placements reinforce the founder identity at appropriate moments in the user journey.
+
+**Trade-off:** Non-Steffi images on service detail pages (e.g. `bride-maroon-arch.jpg` on custom-bridal). Acceptable until Steffi provides additional portraits.
+
+## D-022 — Stub pages for unbuilt routes shipped in Phase 3
+
+**Date:** 2026-05-23
+
+**Chosen:** `/reviews`, `/journal`, `/book`, `/dresses`, and `/cart` ship in Phase 3 as brand-voice "coming soon" pages rather than 404s.
+
+**Considered:**
+- Hiding nav links to unbuilt pages until those phases are done
+- Shipping nothing and letting clicks 404
+
+**Why:** Header and footer links to these routes are present from Phase 0. A 404 on a first visit is a poor impression and breaks the demo flow. Stub pages preserve navigation continuity and demonstrate the full site structure during the Phase 3 demo. Phases 4-7 replace each stub with the real implementation.
+
+**Trade-off:** Five extra files to maintain; each must be deleted/replaced rather than created fresh in later phases.
+
+## D-023 — `RevealOnScroll` uses Framer Motion `whileInView` with `viewport.once: true`
+
+**Date:** 2026-05-23
+
+**Chosen:** `motion.div` with `whileInView` + `viewport={{ once: true }}`. When `useReducedMotion()` is true, the component renders a plain `<div>` with no animation and content immediately visible.
+
+**Considered:**
+- Manual `useInView` ref + `useEffect` toggling a CSS class
+- Intersection Observer directly
+- CSS-only `@keyframes` triggered by `:is(:not(:has(+ *)))` hacks
+
+**Why:** `whileInView` handles observer lifecycle, unmount cleanup, and SSR (content is visible on first paint before JS hydrates). `viewport.once: true` prevents re-triggering on scroll-up, which matches the site's editorial feel. The `useReducedMotion` fallback satisfies WCAG 2.3.3 (Animation from Interactions) without a separate CSS media query.
+
+**Trade-off:** Framer Motion is a required dependency; cannot tree-shake this component server-side.
+
+## D-024 — Preview deploys are no-indexed via `VERCEL_ENV` check
+
+**Date:** 2026-05-23
+
+**Chosen:** Root layout sets `robots: { index: false, follow: false }` when `process.env.VERCEL_ENV !== 'production'`. `src/app/robots.ts` mirrors this with `disallow: '/'` for non-production environments.
+
+**Considered:**
+- Always allow indexing and rely on Vercel's preview URL obscurity
+- Password-protect preview URLs instead
+
+**Why:** Preview URLs are not obscure — Vercel generates them deterministically from branch names. A search engine crawling a preview deploy would index duplicate content at a different URL, potentially splitting link equity from the real domain. The `VERCEL_ENV` check is zero-maintenance and applies automatically to every preview and development deploy.
+
+**Trade-off:** If `VERCEL_ENV` is not set (e.g. local `npm run build`), the check evaluates as non-production and the build will also be no-indexed. Acceptable — local builds are never served publicly.
+
+## D-025 — Contact server action sets `source = 'web'` to match RLS `WITH CHECK`
+
+**Date:** 2026-05-23
+
+**Chosen:** `src/features/contact/actions.ts` always inserts with `source: 'web'`. Demo-mode fallback logs only a reference id and timestamp — never name, email, phone, or message content.
+
+**Considered:**
+- Omitting `source` and relying on column DEFAULT
+- Logging the full payload for debugging
+
+**Why:** The `inquiries` anon INSERT policy (D-020) enforces `WITH CHECK (source = 'web')`. Omitting the field would not trigger the check but would also not pass it if the DEFAULT were ever changed. Explicitly setting it makes the intent clear and matches the constraint. PII-free logging is required because server logs in Vercel are accessible to anyone with project access — logging a customer's email would be a data protection issue.
+
+**Trade-off:** If a second submission source is added (e.g. `source = 'booking'`), the policy and the action must both be updated.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

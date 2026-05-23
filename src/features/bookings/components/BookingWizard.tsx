@@ -922,42 +922,50 @@ export function BookingWizard() {
   // Submit
   // -------------------------------------------------------------------
 
-  const onSubmit = handleSubmit(async (data: BookingFullValues) => {
-    setIsSubmitting(true);
-    setSubmitError(null);
+  const onSubmit = handleSubmit(
+    async (data: BookingFullValues) => {
+      setIsSubmitting(true);
+      setSubmitError(null);
 
-    const result = await submitBooking(data);
+      const result = await submitBooking(data);
 
-    if (!result.success) {
-      setSubmitError(result.error);
-      setIsSubmitting(false);
-      return;
-    }
+      if (!result.success) {
+        setSubmitError(result.error);
+        setIsSubmitting(false);
+        return;
+      }
 
-    // Persist last booking for the confirmation page
-    try {
-      sessionStorage.setItem(
-        'steffny-last-booking',
-        JSON.stringify({
-          reference: result.reference,
-          type: data.type,
-          garmentType: data.garmentType,
-          appointmentDate: data.appointmentDate,
-          appointmentTime: data.appointmentTime,
-          guestName: data.guestName,
-          guestEmail: data.guestEmail,
-        }),
+      // Persist last booking for the confirmation page
+      try {
+        sessionStorage.setItem(
+          'steffny-last-booking',
+          JSON.stringify({
+            reference: result.reference,
+            type: data.type,
+            garmentType: data.garmentType,
+            appointmentDate: data.appointmentDate,
+            appointmentTime: data.appointmentTime,
+            guestName: data.guestName,
+            guestEmail: data.guestEmail,
+          }),
+        );
+      } catch {
+        // sessionStorage unavailable — non-fatal
+      }
+
+      // Clear draft and draft id
+      clearDraft();
+      try { localStorage.removeItem('steffny-booking-draft-id'); } catch { /* ok */ }
+
+      router.push(`/book/confirmation?ref=${result.reference}`);
+    },
+    (errors) => {
+      console.error('[BookingWizard] Submit validation rejected:', errors);
+      setSubmitError(
+        'Please check your details — some fields need attention. Use Back to review your answers.',
       );
-    } catch {
-      // sessionStorage unavailable — non-fatal
-    }
-
-    // Clear draft and draft id
-    clearDraft();
-    try { localStorage.removeItem('steffny-booking-draft-id'); } catch { /* ok */ }
-
-    router.push(`/book/confirmation?ref=${result.reference}`);
-  });
+    },
+  );
 
   // -------------------------------------------------------------------
   // Animation

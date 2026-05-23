@@ -57,6 +57,17 @@ Notable to date:
 - [ ] `booking-photos` bucket provisioning — migration `20260523_0007_booking_photos_bucket.sql` creates the bucket with anon-write to `web-drafts/`. Must be applied to the live Supabase project once the service-role key is available. Until then, photo uploads in live mode will silently fail (wizard still submits; photo_paths = demo paths or []).
 - [ ] Stale `web-drafts/` photo cleanup — customers who abandon the wizard mid-upload leave orphaned files in Storage. Phase 7 should add a cleanup job (Supabase Edge Function cron or Postgres cron) to purge `web-drafts/` files older than 7 days.
 
+## Activity log
+
+### 2026-05-24 — Post-ship UX polish — card heights + image dedupe
+
+User feedback: "sizes inconsistent. handle across all view ports."
+
+- Card row-height consistency applied across 6 grid components: `h-full flex flex-col` on card root, `flex-1` on body, `mt-auto` on footer — covers ProductCard, journal/page.tsx, JournalTeaser, reviews/page.tsx, services/page.tsx, FeaturedProductsStrip. Cards in the same row now equalise height regardless of content length at all viewports.
+- Header CTA button bumped from h-10 (40px) to h-12 (48px) — consistent with site button minimum, meets WCAG 44px touch target.
+- InstagramGallery slot 3 swapped from `bride-maroon-arch.jpg` (duplicating JournalTeaser slot 3) to `bride-white-umbrella-interior.jpg` — deduplicated home page image set.
+- Occasion-wear keywords added: "21st birthday dress" + "prom dress" appended to /dresses, /services, /services/alterations SEO entries, closing gap identified during original-site scrape audit.
+
 ## Blockers
 
 - `SUPABASE_SERVICE_ROLE_KEY` blank in `.env.local` — owner must provide before `scripts/seed-products.ts` can run and before live Supabase tables are populated. Code is ready; no further engineering needed.

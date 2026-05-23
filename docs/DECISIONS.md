@@ -796,6 +796,48 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** Two migrations now manage permissions for the same function (`0004` grants to authenticated; `0008` revokes from PUBLIC). The ordering dependency is implicit in the filename sequence. Any re-sequencing of migrations must preserve `0008` running after `0004`.
 
+## D-059 — Grid card pattern: `h-full flex flex-col` on root, `flex-1` on body, `mt-auto` on footer
+
+**Date:** 2026-05-24
+
+**Chosen:** Every grid card that lives inside a `RevealOnScroll` (Framer Motion `motion.div`) must carry `h-full flex flex-col` on its root element. The card body section gets `flex-1` so it expands to fill available space; the footer section (price row, CTA button, etc.) gets `mt-auto` to pin it to the bottom.
+
+**Considered:**
+- CSS Grid `align-items: stretch` (applied at grid level, not card level) — insufficient because the RevealOnScroll wrapper is an intermediate block between the grid cell and the card root; the card root needs `h-full` to fill the already-stretched wrapper.
+- Removing RevealOnScroll wrappers from grid children — would eliminate the entrance animation that is part of the brand motion vocabulary.
+
+**Why:** When `RevealOnScroll` wraps each card, Framer Motion inserts a `motion.div` that stretches to the grid row height via CSS Grid's implicit `align-items: stretch`. The card root sits inside that `motion.div`. Without `h-full`, the card root collapses to its intrinsic height and cards in the same row appear different heights. Adding `h-full flex flex-col` makes the card fill the wrapper, and `flex-1` + `mt-auto` ensure content and footer are distributed predictably regardless of title or description length.
+
+**Trade-off:** Any new grid component that uses RevealOnScroll must follow this pattern or cards will regress to unequal heights. Documented here so the pattern is discoverable.
+
+## D-060 — Header CTA button at h-12 (48px)
+
+**Date:** 2026-05-24
+
+**Chosen:** The "Book a fitting" CTA in the site header uses `h-12` (48px) rather than the previous `h-10` (40px).
+
+**Considered:**
+- Keeping `h-10` (40px) — below the WCAG 2.5.5 recommended 44px touch target
+- `h-11` (44px) — meets the minimum; chose 48px to align with the hero CTAs on the same page
+
+**Why:** WCAG 2.5.5 recommends 44×44px minimum touch targets for interactive elements. The hero CTAs and booking wizard buttons already use 48px. A 40px header button felt visually lighter and inconsistent with the rest of the site's interactive scale, which the user flagged as part of the "sizes inconsistent" feedback.
+
+**Trade-off:** Slightly taller header on mobile. Tested at 375px — header height remains acceptable; no layout overflow.
+
+## D-061 — Original-site SEO gap: occasion-wear keywords added
+
+**Date:** 2026-05-24
+
+**Chosen:** "21st birthday dress" and "prom dress" appended to the keywords arrays for `/dresses`, `/services`, and `/services/alterations` in `src/content/marketing/seo.ts`.
+
+**Considered:**
+- Adding a dedicated `/services/occasion-wear` page — out of scope for current build; no corresponding service copy or imagery exists yet
+- Leaving the gap until Phase 9 / content refresh
+
+**Why:** The original Webador site marketed Steffny Couture for occasion wear beyond bridal. A scrape audit found these keywords present on the old site but absent in the rebuilt SEO metadata. Adding them to the three most relevant pages recovers that keyword coverage at zero content cost.
+
+**Trade-off:** Keywords without a dedicated landing page carry less SEO weight than a full page + copy. A future phase should add an occasion-wear service page if demand data supports it.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

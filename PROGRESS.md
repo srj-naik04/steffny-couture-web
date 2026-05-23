@@ -4,7 +4,7 @@ Live state of the build. Update after every phase or significant change.
 
 ## Current phase
 
-**Phase 1 — Asset Extraction** (complete; ready for Phase 2)
+**Phase 2 — Database & Backend** (complete; ready for Phase 3)
 
 ## Phase status
 
@@ -12,7 +12,7 @@ Live state of the build. Update after every phase or significant change.
 |---|---|---|
 | 0 — Foundation | ✅ Done | Playwright MCP visual pass: 375px, 768px, 1024px, 1440px all clean; mobile drawer open/Escape/close verified; 404 page styled; 0 console errors; build clean |
 | 1 — Asset Extraction | ✅ Done | 36 raw images scraped, curated to 10 products + 13 hero + 3 about placeholders; WebP/AVIF + blurDataURLs generated; data/products.json populated |
-| 2 — Database & Backend | ⏳ Not started | Web-only tables, RLS, Supabase clients |
+| 2 — Database & Backend | ✅ Done | 5 web-only migrations (products/product_images, inquiries, reviews, journal_views, storage), RLS hardened with WITH CHECK + EXISTS guards, supabase clients split (browser/server/admin), env.ts split for server-only safety, products feature API; seed pending live SUPABASE_SERVICE_ROLE_KEY |
 | 3 — Marketing Pages | ⏳ Not started | Home, about, services, contact |
 | 4 — Dress Catalogue | ⏳ Not started | Grid, product detail, carousel |
 | 5 — Cart & Mock Checkout | ⏳ Not started | Zustand cart, fake payment, inquiry record |
@@ -44,7 +44,7 @@ Notable to date:
 
 ## Blockers
 
-None currently. Setup pending.
+- `SUPABASE_SERVICE_ROLE_KEY` blank in `.env.local` — owner must provide before `scripts/seed-products.ts` can run and before live Supabase tables are populated. Code is ready; no further engineering needed.
 
 ## Activity log
 
@@ -72,6 +72,19 @@ None currently. Setup pending.
 - `npm run scrape | curate | optimise | seed` wired up in package.json
 - Acceptance: ✓ 10 product photos at original res, ✓ 3 about photos, ✓ 13 hero candidates, ✓ data/products.json with 10 products
 - **Phase 1 complete**
+
+### 2026-05-23
+- 5 SQL migrations written: `products`, `product_images`, `inquiries`, `reviews`, `journal_views` + `dress-photos` storage bucket (`supabase/migrations/20260521_0001–0005_*.sql`)
+- RLS hardened: `product_images` anon read guarded via `EXISTS` on `products.active=true`; `inquiries` anon INSERT tightened with `WITH CHECK` constraining `status/source/type`; `journal_views` `increment_view` RPC uses `SECURITY DEFINER` with `char_length` guard
+- `reviews` table has `updated_at` column + auto-update trigger
+- Storage bucket `dress-photos` created with 5 MB file size limit (down from initial 50 MB)
+- Supabase clients split into `src/lib/supabase/client.ts` (`createBrowserSupabaseClient`), `server.ts` (`createServerSupabaseClient`), `admin.ts` (service-role; `server-only` guarded)
+- `src/lib/env.ts` split: public vars remain in `env.ts`; server-only `serverEnv` moved to `env.server.ts` with `import 'server-only'` to prevent service-role key leakage into client bundles
+- `src/types/database.ts` hand-written to match schema; `src/features/products/api.ts` exports `getActiveProducts`, `getFeaturedProducts`, `getProductBySlug`, `getRelatedProducts`
+- `scripts/seed-products.ts` updated to read `data/products.json` + `data/optimised-images.json`; ready to run once `SUPABASE_SERVICE_ROLE_KEY` is supplied
+- Playwright acceptance: `/` and 404 pass at all 6 viewports (375/640/768/1024/1280/1920); 0 console errors; 0 network failures
+- `npm audit --omit=dev --audit-level=high` returned 0 high/critical findings
+- **Phase 2 complete**
 
 ---
 

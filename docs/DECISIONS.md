@@ -197,6 +197,66 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** A customer might try to "buy" a dress not realising payment is fake. The notice on the payment page + the post-checkout "Steffi will WhatsApp you to confirm delivery" messaging makes this clear.
 
+## D-016 — Migration filename convention: `YYYYMMDD_NNNN_<description>.sql`
+
+**Chosen:** Four-digit zero-padded sequence suffix (`0001`, `0002`, …) after the date prefix.
+
+**Considered:**
+- `YYYYMMDD_HHMM_<description>.sql` (timestamp-based sequence, as used by some Supabase starters)
+- Flat sequential numbers with no date (`001_products.sql`)
+
+**Why:** Multiple migrations can land on the same day during active development. A `HHMM` suffix is ambiguous when two contributors create migrations at similar times. A monotonically incrementing `NNNN` counter gives deterministic ordering regardless of wall-clock time.
+
+**Trade-off:** Counter must be manually checked before creating a new file; no automatic enforcement.
+
+## D-017 — `env.ts` split into public `env.ts` and server-only `env.server.ts`
+
+**Chosen:** Server-side secrets (`SUPABASE_SERVICE_ROLE_KEY`, `SMTP_*`) live in `src/lib/env.server.ts` behind `import 'server-only'`. Client-safe vars (`NEXT_PUBLIC_*`) remain in `src/lib/env.ts`.
+
+**Considered:**
+- Single `env.ts` exporting all vars (original approach)
+- Separate files without `server-only` guard
+
+**Why:** Without the split, any client component that imports `siteUrl` or `isDemoMode` from `env.ts` would also bundle the service-role key if it was exported from the same file. `import 'server-only'` causes a build-time error if the file is ever imported in a client bundle, making the guard enforced rather than advisory.
+
+**Trade-off:** Two files to maintain; imports must be routed to the correct one.
+
+## D-018 — Supabase client export names: `createBrowserSupabaseClient` and `createServerSupabaseClient`
+
+**Chosen:** Explicit, verbose export names rather than a default `supabase` export or generic `createClient`.
+
+**Considered:**
+- Default export `supabase` (singleton)
+- Named `createClient` (mirrors `@supabase/supabase-js` surface)
+
+**Why:** Both clients are imported into the same module in some server components (e.g. comparing anon vs admin access). Disambiguating names at import time eliminates accidental usage of the wrong client. Also makes call-site intent clear during code review.
+
+**Trade-off:** Verbose. Mitigated by IDE autocomplete.
+
+## D-019 — `product_images` anon read policy guards via `EXISTS` subquery on `products.active`
+
+**Chosen:** `USING (EXISTS (SELECT 1 FROM products WHERE products.id = product_images.product_id AND products.active = true))` on the anon SELECT policy.
+
+**Considered:**
+- No RLS on `product_images` (trust app-layer joins)
+- Separate `active` boolean column mirrored onto `product_images`
+
+**Why:** Without the guard, an anon client could enumerate all product images by id — including images for hidden/draft products — by querying `product_images` directly, bypassing the `products.active = true` filter on the join. The EXISTS subquery closes the gap at the DB layer with no application code required.
+
+**Trade-off:** Slightly more complex policy; EXISTS subquery adds a join per row scan. Negligible at catalogue scale.
+
+## D-020 — `inquiries` anon INSERT policy uses `WITH CHECK` to constrain `status`, `source`, and `type`
+
+**Chosen:** `WITH CHECK (status = 'new' AND source = 'web' AND type IN ('product_inquiry', 'product_order', 'general'))`.
+
+**Considered:**
+- Rely on column DEFAULT values and app-layer validation only
+- Separate server-side API route that sanitises before inserting
+
+**Why:** An anon caller can override column defaults by specifying explicit values in the INSERT payload. Without `WITH CHECK`, a malicious actor could insert rows with `status = 'closed'` or `source = 'staff'`, poisoning the moderation queue in the mobile app. The constraint enforces legitimate values at the DB layer regardless of what the client sends.
+
+**Trade-off:** Adding new allowed `type` values requires a migration to update the policy.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

@@ -30,9 +30,16 @@ data/optimised-images.json
 
 next-env.d.ts
 .tsbuildinfo
+tsconfig.tsbuildinfo
 
 # Playwright MCP output
 .playwright-mcp/
+playwright-report/
+test-results/
 
 # Test screenshots (ad-hoc, not committed)
 phase*.png
+test-*.png
+test-*.jpeg
+test-*.jpg
+final-regression/

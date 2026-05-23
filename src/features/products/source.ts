@@ -18,7 +18,14 @@ import {
   type ProductCard,
   type ProductDetail,
 } from './api';
-import { hasSupabase } from '@/lib/env';
+import { hasSupabase, isDemoMode } from '@/lib/env';
+
+/**
+ * True when we should skip the Supabase round-trip entirely and go straight
+ * to the local JSON fallback. This prevents a ~1.8 s TTFB stall on pages that
+ * await Supabase while it is unreachable (demo/local environment).
+ */
+const useLocalOnly = isDemoMode || !hasSupabase;
 
 // ---------------------------------------------------------------------------
 // Local JSON shapes (what data/products.json contains)
@@ -179,7 +186,7 @@ function warnFallback(label: string, err?: unknown) {
 // ---------------------------------------------------------------------------
 
 export async function getActiveProductsFromSource(): Promise<ProductCard[]> {
-  if (hasSupabase) {
+  if (!useLocalOnly) {
     try {
       const products = await getActiveProducts();
       if (products.length > 0) return products;
@@ -194,7 +201,7 @@ export async function getActiveProductsFromSource(): Promise<ProductCard[]> {
 }
 
 export async function getFeaturedProductsFromSource(limit = 4): Promise<ProductCard[]> {
-  if (hasSupabase) {
+  if (!useLocalOnly) {
     try {
       const products = await getFeaturedProducts(limit);
       if (products.length > 0) return products;
@@ -217,7 +224,7 @@ export async function getFeaturedProductsFromSource(limit = 4): Promise<ProductC
 export async function getProductBySlugFromSource(
   slug: string,
 ): Promise<ProductDetail | null> {
-  if (hasSupabase) {
+  if (!useLocalOnly) {
     try {
       const product = await getProductBySlug(slug);
       if (product) return product;
@@ -239,7 +246,7 @@ export async function getRelatedProductsFromSource(
   category: string,
   limit = 3,
 ): Promise<ProductCard[]> {
-  if (hasSupabase) {
+  if (!useLocalOnly) {
     try {
       const products = await getRelatedProducts(productId, category, limit);
       if (products.length > 0) return products;
@@ -260,7 +267,7 @@ export async function getRelatedProductsFromSource(
 }
 
 export async function getAllProductSlugsFromSource(): Promise<string[]> {
-  if (hasSupabase) {
+  if (!useLocalOnly) {
     try {
       const products = await getActiveProducts();
       if (products.length > 0) return products.map((p) => p.slug);

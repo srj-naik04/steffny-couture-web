@@ -39,6 +39,12 @@ import type { ProductCard } from '@/features/products/api';
 const BANGLES_BLUR =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AJt6W5x+ZZ+Dc5iAbJ2AYYhqTWhMNQCehnG2n5JjUkk4JR2qlIKbfmiCYkwAn4Nxy6+hHwAAMxkQspSGrYt2kGpVAKCBZeG6onlSPqd9aNOnkJ93XpRvVwCynIHhwam9lX+vh3HdtZ2zkXiRcVgA38ywy7afyrOfxaubuZyOr5F5lHRUAPfiz72unsq9sc29sqyUiO/bzLeqmwDv5+LIwr718e///Pe2qp7S0M34//8A5eTp6erw8vX7+/v/1tDNt7a36e32ANDR0tfb3d7j7Obo8u7s8tTQ197d5xCciFay3+EUAAAAAElFTkSuQmCC';
 
+// Pre-render the home page at build time (or at most every hour via ISR).
+// With isDemoMode=true, getFeaturedProductsFromSource reads local JSON only —
+// no Supabase call, no cookies() usage, no dynamic-page penalty.
+export const dynamic = 'force-static';
+export const revalidate = 3600;
+
 export const metadata: Metadata = buildMetadata('/');
 
 export default async function HomePage() {

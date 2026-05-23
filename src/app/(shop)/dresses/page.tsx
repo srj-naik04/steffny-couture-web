@@ -1,11 +1,12 @@
 /**
- * Dresses catalogue page — Phase 4
+ * Dresses catalogue page — Phase 4 (updated Phase 8)
  *
- * Server component. Fetches all products via the source wrapper (Supabase
- * or local JSON fallback), parses URL filter params, and renders the grid.
+ * Server component. Fetches all products at build time (SSG) and passes them
+ * to DressesClient, which handles filtering entirely on the client via
+ * useSearchParams(). This makes the page fully static (○) so the <head>
+ * metadata is present in the initial HTML — required for Lighthouse SEO 100.
  *
- * The Filters component is client — it manages URL state. The ProductGrid
- * is server — it receives the already-filtered list.
+ * Filters update the URL so they are shareable and survive page refresh.
  */
 
 import type { Metadata } from 'next';
@@ -14,14 +15,13 @@ import { Hero } from '@/components/marketing/Hero';
 import { Section } from '@/components/ui/Section';
 import { Container } from '@/components/ui/Container';
 import { getActiveProductsFromSource } from '@/features/products/source';
-import { ProductGrid } from '@/features/catalog/components/ProductGrid';
-import { Filters } from '@/features/catalog/components/Filters';
-import {
-  parseFilters,
-  applyFilters,
-} from '@/features/catalog/components/filters-helpers';
+import { DressesClient } from '@/features/catalog/components/DressesClient';
 import { siteUrl } from '@/lib/env';
 import { BRAND } from '@/constants/brand';
+
+// Pre-render at build time — metadata must be in the initial HTML for SEO.
+export const dynamic = 'force-static';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'The dress collection',
@@ -56,50 +56,8 @@ export const metadata: Metadata = {
   },
 };
 
-interface DressesPageProps {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}
-
-export default async function DressesPage({ searchParams }: DressesPageProps) {
+export default async function DressesPage() {
   const allProducts = await getActiveProductsFromSource();
-
-  // Build filter meta from the full product list
-  const allCategories = [...new Set(allProducts.map((p) => p.category))].sort();
-  const allColours = [
-    ...new Set(
-      allProducts.map((p) => p.primary_colour).filter(Boolean) as string[],
-    ),
-  ].sort();
-  const allOccasions = [
-    ...new Set(allProducts.flatMap((p) => p.occasion)),
-  ].sort();
-  const maxPriceRange =
-    Math.ceil(Math.max(...allProducts.map((p) => p.price)) / 50) * 50 || 1000;
-
-  // Parse filter params from URL
-  const resolvedParams = await searchParams;
-  const paramEntries = Object.entries(resolvedParams).map(([k, v]) => [
-    k,
-    Array.isArray(v) ? v[0] : (v ?? ''),
-  ]);
-  const urlParams = new URLSearchParams(paramEntries as [string, string][]);
-  const currentFilters = parseFilters(urlParams, maxPriceRange, {
-    categories: allCategories,
-    colours: allColours,
-    occasions: allOccasions,
-  });
-  const filteredProducts = applyFilters(allProducts, currentFilters);
-
-  const hasActiveFilters =
-    currentFilters.categories.length > 0 ||
-    currentFilters.colours.length > 0 ||
-    currentFilters.occasions.length > 0 ||
-    currentFilters.maxPrice < maxPriceRange;
-
-  const resultLabel =
-    filteredProducts.length === allProducts.length
-      ? `${allProducts.length} piece${allProducts.length === 1 ? '' : 's'}`
-      : `${filteredProducts.length} of ${allProducts.length} piece${allProducts.length === 1 ? '' : 's'}`;
 
   return (
     <>
@@ -112,33 +70,26 @@ export default async function DressesPage({ searchParams }: DressesPageProps) {
 
       <Section tone="ivory" spacing="md">
         <Container>
-          <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
-            {/* Filters column */}
-            <aside aria-label="Product filters">
-              <Suspense fallback={null}>
-                <Filters
-                  allCategories={allCategories}
-                  allColours={allColours}
-                  allOccasions={allOccasions}
-                  maxPriceRange={maxPriceRange}
-                  currentFilters={currentFilters}
-                />
-              </Suspense>
-            </aside>
-
-            {/* Grid column */}
-            <div>
-              <div className="mb-6 flex items-center justify-between">
-                <p className="text-small text-ink-muted">
-                  {resultLabel}
-                </p>
+          {/*
+           * DressesClient handles filtering via useSearchParams().
+           * Wrapped in Suspense so the page shell renders immediately while
+           * the client-side URL parsing hydrates.
+           */}
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="aspect-[3/4] animate-pulse rounded-xl bg-surface-alt"
+                    aria-hidden="true"
+                  />
+                ))}
               </div>
-              <ProductGrid
-                products={filteredProducts}
-                hasActiveFilters={hasActiveFilters}
-              />
-            </div>
-          </div>
+            }
+          >
+            <DressesClient allProducts={allProducts} />
+          </Suspense>
         </Container>
       </Section>
     </>

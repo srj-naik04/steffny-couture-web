@@ -59,23 +59,16 @@ export function Hero({
     <section
       className={cn(
         'relative bg-ivory overflow-hidden',
-        isHome && 'min-h-[85vh] lg:min-h-[90vh]',
-        (isAbout || variant === 'service') && 'min-h-[55vh] lg:min-h-[65vh]',
-        variant === 'contact' && 'py-20 md:py-28',
+        isHome && 'pt-10 pb-4 md:pt-16 md:pb-6 lg:pt-20 lg:pb-8',
+        (isAbout || variant === 'service') && 'pt-10 pb-4 md:pt-14 md:pb-6 lg:pt-16 lg:pb-8',
+        variant === 'contact' && 'pt-10 pb-4 md:pt-14 md:pb-6 lg:pt-16 lg:pb-8',
         className,
       )}
     >
-      <Container
-        className={cn(
-          'relative z-10 flex h-full flex-col justify-center',
-          isHome && 'py-20 md:py-28 lg:py-0 lg:min-h-[90vh]',
-          (isAbout || variant === 'service') &&
-            'py-16 md:py-20 lg:py-0 lg:min-h-[65vh]',
-        )}
-      >
+      <Container className="relative z-10">
         <div
           className={cn(
-            'grid items-center gap-12',
+            'grid items-start gap-12',
             hasImage && 'lg:grid-cols-2',
             !hasImage && 'max-w-2xl',
           )}
@@ -126,8 +119,8 @@ export function Hero({
               className={cn(
                 'relative w-full overflow-hidden rounded-2xl',
                 isHome
-                  ? 'aspect-3/4 lg:aspect-4/5 lg:max-h-[75vh]'
-                  : 'aspect-3/4 lg:aspect-4/5',
+                  ? 'aspect-3/4 lg:aspect-4/5 lg:max-h-170'
+                  : 'aspect-3/4 lg:aspect-4/5 lg:max-h-140',
               )}
             >
               <Image
@@ -136,7 +129,7 @@ export function Hero({
                 fill
                 priority
                 fetchPriority="high"
-                className="object-cover object-center"
+                className="object-cover object-center hero-ken-burns"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 blurDataURL={image.blurDataURL}
                 placeholder={image.blurDataURL ? 'blur' : 'empty'}

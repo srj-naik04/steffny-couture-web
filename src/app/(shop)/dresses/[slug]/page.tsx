@@ -207,7 +207,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             defaultSize={defaultSize}
             defaultColour={defaultColour}
           >
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] lg:gap-16">
+            <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] lg:gap-16">
               {/* Left: Image carousel */}
               <div className="w-full">
                 <ImageCarousel

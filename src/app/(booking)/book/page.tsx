@@ -40,9 +40,9 @@ export default function BookPage() {
       {/* ------------------------------------------------------------------ */}
       {/* Page hero                                                            */}
       {/* ------------------------------------------------------------------ */}
-      <section className="relative bg-ivory overflow-hidden min-h-[45vh] lg:min-h-[55vh]">
-        <Container className="relative z-10 flex h-full flex-col justify-center py-16 lg:py-0 lg:min-h-[55vh]">
-          <div className="grid items-center gap-10 lg:grid-cols-2">
+      <section className="relative bg-ivory overflow-hidden pt-10 pb-4 md:pt-14 md:pb-6 lg:pt-16 lg:pb-8">
+        <Container className="relative z-10">
+          <div className="grid items-start gap-10 lg:grid-cols-2">
             {/* Text */}
             <div className="space-y-5 lg:pr-8">
               <span className="text-label uppercase tracking-widest text-rose">
@@ -74,7 +74,7 @@ export default function BookPage() {
             </div>
 
             {/* Image */}
-            <div className="relative w-full overflow-hidden rounded-2xl aspect-square lg:aspect-4/5 lg:max-h-[60vh]">
+            <div className="relative w-full overflow-hidden rounded-2xl aspect-square lg:aspect-4/5 lg:max-h-140">
               <Image
                 src="/assets/hero/bride-white-umbrella-interior.jpg"
                 alt="A bride in a white gown photographed inside a bright studio interior, ready for a fitting"

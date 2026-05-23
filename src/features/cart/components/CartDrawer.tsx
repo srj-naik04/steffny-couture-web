@@ -339,7 +339,7 @@ export function CartDrawer() {
             ) : (
               <>
                 <ul
-                  className="flex-1 overflow-y-auto px-5"
+                  className="overflow-y-auto px-5 py-2 max-h-[60vh]"
                   aria-label="Cart items"
                 >
                   {hydratedItems.map((item) => (

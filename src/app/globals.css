@@ -113,3 +113,140 @@
     }
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Journal post prose — brand-voice typography for MDX article bodies.
+   No dependency on @tailwindcss/typography modifier classes.
+   --------------------------------------------------------------------------- */
+.journal-prose {
+  color: var(--color-ink-muted);
+  font-size: 1rem;
+  line-height: 1.75rem;
+  max-width: none;
+}
+
+.journal-prose h2,
+.journal-prose h3,
+.journal-prose h4 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.journal-prose h2 {
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.journal-prose h3 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.journal-prose p {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.journal-prose a {
+  color: var(--color-rose);
+  text-underline-offset: 3px;
+}
+
+.journal-prose a:hover {
+  color: var(--color-rose-dark);
+}
+
+.journal-prose strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.journal-prose ul,
+.journal-prose ol {
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.journal-prose ul {
+  list-style-type: disc;
+}
+
+.journal-prose ol {
+  list-style-type: decimal;
+}
+
+.journal-prose li {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.journal-prose li::marker {
+  color: var(--color-rose);
+}
+
+.journal-prose blockquote {
+  border-left: 3px solid var(--color-rose);
+  padding-left: 1.25rem;
+  margin-left: 0;
+  font-style: italic;
+  color: var(--color-ink-muted);
+}
+
+.journal-prose hr {
+  border-color: var(--color-border);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.journal-prose img {
+  border-radius: 0.75rem;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Hero image Ken Burns — subtle scale-up over 12 s.
+   Applied via .hero-ken-burns class on the Image wrapper.
+   Disabled automatically when prefers-reduced-motion: reduce is set.
+   --------------------------------------------------------------------------- */
+@keyframes kenBurns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.hero-ken-burns {
+  animation: kenBurns 12s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ken-burns {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Image lazy fade-in — applied via .img-fade class.
+   next/image fires onLoad; pair this with a JS toggle of opacity-0 → opacity-100.
+   CSS-only approach: images start opaque so there's no JS dependency.
+   The data-loaded attribute approach is handled inline in components that need it.
+   --------------------------------------------------------------------------- */
+.img-fade {
+  transition: opacity 0.4s ease-in;
+}
+.img-fade[data-loaded='true'] {
+  opacity: 1;
+}
+.img-fade[data-loaded='false'] {
+  opacity: 0;
+}

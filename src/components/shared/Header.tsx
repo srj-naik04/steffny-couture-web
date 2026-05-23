@@ -45,7 +45,8 @@ export function Header() {
                       <Link
                         href={link.href}
                         className={cn(
-                          'text-small font-body py-2 font-medium transition-colors',
+                          'text-small font-body rounded py-2 font-medium transition-colors',
+                          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose',
                           active ? 'text-rose' : 'text-ink hover:text-rose',
                         )}
                       >
@@ -71,7 +72,7 @@ export function Header() {
                 onClick={() => setOpen(true)}
                 aria-label="Open menu"
                 aria-expanded={open}
-                className="hover:bg-surface-alt -mr-2 rounded-full p-2.5 transition-colors"
+                className="hover:bg-surface-alt -mr-2 rounded-full p-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
               >
                 <Menu className="size-6" aria-hidden="true" />
               </button>

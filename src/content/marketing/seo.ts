@@ -135,6 +135,7 @@ export const marketingSeo: Record<string, PageSeo> = {
       'couture studio Hounslow reviews',
       'bridal alterations reviews London',
     ],
+    ogImage: '/assets/hero/bride-bangles-portrait.jpg',
   },
 
   // Journal: full title = "Journal — Steffny Couture" = 25 chars ✓

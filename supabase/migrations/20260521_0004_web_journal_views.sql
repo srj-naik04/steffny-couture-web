@@ -54,6 +54,6 @@ BEGIN
 END;
 $$;
 
--- Allow anon to call the RPC
-GRANT EXECUTE ON FUNCTION public.increment_view(text) TO anon;
+-- Only authenticated staff may call the RPC directly.
+-- Web pages increment views via a server action using the admin client (Phase 7).
 GRANT EXECUTE ON FUNCTION public.increment_view(text) TO authenticated;

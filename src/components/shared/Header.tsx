@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { Logo } from './Logo';
 import { MobileDrawer } from './MobileDrawer';
+import { CartIcon } from './CartIcon';
 import { cn } from '@/lib/cn';
 
 export function Header() {
@@ -56,21 +57,25 @@ export function Header() {
               </ul>
             </nav>
 
-            <div className="hidden lg:block">
+            <div className="hidden items-center gap-3 lg:flex">
+              <CartIcon />
               <Button href="/book" variant="primary" size="sm">
                 Book a fitting
               </Button>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              aria-label="Open menu"
-              aria-expanded={open}
-              className="hover:bg-surface-alt -mr-2 rounded-full p-2.5 transition-colors lg:hidden"
-            >
-              <Menu className="size-6" aria-hidden="true" />
-            </button>
+            <div className="flex items-center gap-1 lg:hidden">
+              <CartIcon />
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                aria-label="Open menu"
+                aria-expanded={open}
+                className="hover:bg-surface-alt -mr-2 rounded-full p-2.5 transition-colors"
+              >
+                <Menu className="size-6" aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </Container>
       </header>

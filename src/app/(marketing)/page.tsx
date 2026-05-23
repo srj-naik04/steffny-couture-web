@@ -22,7 +22,7 @@ import { FinalCta } from '@/components/marketing/FinalCta';
 import { RevealOnScroll } from '@/components/marketing/RevealOnScroll';
 import { organizationJsonLd, websiteJsonLd } from '@/lib/seo/jsonld';
 import { buildMetadata } from '@/lib/seo/metadata';
-import { getFeaturedProducts } from '@/features/products/api';
+import { getFeaturedProductsFromSource } from '@/features/products/source';
 import {
   heroHome,
   aboutTeaser,
@@ -40,12 +40,12 @@ const BANGLES_BLUR =
 export const metadata: Metadata = buildMetadata('/');
 
 export default async function HomePage() {
-  // Fetch featured products — gracefully degrade if Supabase not available
+  // Fetch featured products — falls back to local JSON when Supabase is unavailable
   let featuredProducts: ProductCard[] = [];
   try {
-    featuredProducts = await getFeaturedProducts(4);
+    featuredProducts = await getFeaturedProductsFromSource(4);
   } catch {
-    // Supabase not available in local dev without credentials — render without
+    // Unexpected error — render without
   }
 
   return (

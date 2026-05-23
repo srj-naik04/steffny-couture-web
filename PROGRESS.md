@@ -4,7 +4,7 @@ Live state of the build. Update after every phase or significant change.
 
 ## Current phase
 
-**Phase 7 — Reviews, Journal, Polish** (not started)
+**Phase 8 — Demo Prep & Deploy** (not started)
 
 ## Phase status
 
@@ -17,7 +17,7 @@ Live state of the build. Update after every phase or significant change.
 | 4 — Dress Catalogue | ✅ Done | 10-product SSG grid with URL-state filters + product detail with carousel/variant selector/cart; demo-mode JSON fallback so catalogue works without live Supabase; Zustand cart store wired into header; Product JSON-LD with breakout-safe serializer |
 | 5 — Cart & Mock Checkout | ✅ Done | Cart drawer + cart page + 4-step checkout (Contact/Delivery/Payment/Review) + confirmation; mock card data never transits to server (serverCheckoutSchema excludes card fields); placeOrder writes inquiries row with SC-XXXXXX reference; cart store v2 with v1→v2 migration; full a11y (aria-labels, focus trap, sr-only step labels, 44×44 touch targets); demo flow verified end-to-end at 1280px, layouts clean at all 6 viewports |
 | 6 — Fitting Booking | ✅ Done | 6-step booking wizard with draft persistence across navigation (SSR-safe lazy init + post-hydration restore + ref guard, 5 playwright cycles to close state-restore race); photo upload to `booking-photos/web-drafts/<draftId>/` prefix; RLS-compliant anon INSERT on shared `bookings` table; `?ref` validated against `/^SC-[A-Z0-9]{6}$/`; `journal_views.increment_view` anon EXECUTE revoked; anon DELETE on `booking-photos` removed; `src/features/booking/` renamed to `bookings/` |
-| 7 — Reviews, Journal, Polish | ⏳ Not started | MDX posts, reviews, animations, a11y |
+| 7 — Reviews, Journal, Polish | ✅ Done | Reviews page (14 reviews + submission form), 3 SSG MDX journal posts, BlogPosting + Person JSON-LD, InstagramGallery, draft post filtering, comprehensive UI spacing tighten (Hero items-start + asymmetric padding + Section halved + product/book grids items-start) after 3 Playwright cycles closed all user-reported voids; all 12 pages × 6 viewports clean |
 | 8 — Demo Prep & Deploy | ⏳ Not started | Lighthouse, cross-browser, Vercel preview |
 | 9 — Domain Migration | ⏳ Not started | Cut over from Webador to Vercel |
 
@@ -40,8 +40,8 @@ Notable to date:
 - [ ] About-page gallery photos — three Pexels stock placeholders in `public/assets/about/` are marked `data-placeholder="true"`. Steffi to provide 3 real studio/process shots for swap before launch.
 - [ ] About-page copy — content-writer produced full narrative; Steffi to voice-review before launch.
 - [ ] Journal post topics — 3 placeholder posts stubbed in JournalTeaser. Phase 7 will write real MDX posts; Steffi to confirm topic angles.
-- [ ] Press section — does Steffi have any press features? If yes, Phase 7 adds a press strip on about/home.
-- [ ] Instagram pull — auto-pull (requires Instagram API + Business account) or static curated grid? Decide before Phase 7.
+- [ ] Press section — `pressFeatures` array in `src/content/marketing/press.ts` is empty (pending Steffi confirmation). PressStrip component not rendered; will auto-appear once array is populated.
+- [ ] Instagram pull — static curated grid used for Phase 7. Auto-pull requires Instagram Business account + token refresh; defer to post-launch.
 - [ ] Real phone/email/WhatsApp — all sourced from `src/constants/brand.ts` STUDIO constant. Confirm these are correct before launch.
 - [ ] Custom-bridal service hero — currently uses `bride-maroon-arch.jpg` (non-Steffi). IMAGE_BRIEF originally recommended a Steffi photo here but the rule was relaxed as both Steffi photos are already anchored on home hero, about hero, and contact founder card. Steffi: do you want a dedicated portrait for the custom-bridal page?
 - [ ] Multiple images per product — each catalogue entry currently has only one image (`01.jpg`). Carousel is built to handle multiple; once Supabase is seeded, additional `product_images` rows will render automatically. Steffi: do you have second/third angles for the 10 dresses?
@@ -158,6 +158,41 @@ Notable to date:
 - `/book` hero uses `bride-white-umbrella-interior.jpg` (non-Steffi, previously unassigned per IMAGE_BRIEF distribution)
 - `npm run typecheck`, `lint`, `build` all clean; 32 routes generated; `/book` static (○), `/book/confirmation` dynamic (ƒ)
 - **Phase 6 complete**
+
+### 2026-05-23 (Phase 7)
+- **PRIORITY 0 hero fix**: removed `min-h-[85vh] lg:min-h-[90vh]` from home variant and `min-h-[55vh] lg:min-h-[65vh]` from about/service variant in `Hero.tsx`; replaced `flex h-full justify-center` Container with direct `py-` padding (`py-16 md:py-24 lg:py-28` home; `py-14 md:py-20 lg:py-24` about/service). Image column `lg:max-h-[75vh]` replaced with `lg:max-h-170` (home) and `lg:max-h-140` (about/service). Same pattern fixed in `book/page.tsx` custom hero section.
+- `next-mdx-remote` + `gray-matter` added to deps; YAML-colon sanitiser in loader handles content-writer MDX with unquoted colons in titles
+- `src/features/journal/loader.ts`: `getAllPosts`, `getPostBySlug`, `getRelatedPosts`, `getAllPostSlugs`; server-only; reads `content/journal/*.mdx`
+- `/journal/page.tsx` replaced Phase 3 stub: uses `journalIndexCopy` from content-writer's `journal-index.ts`; real post grid with dates + reading times
+- `/journal/[slug]/page.tsx`: SSG (generateStaticParams), per-post `generateMetadata`, BlogPosting JSON-LD, MDX rendered via `next-mdx-remote/rsc` with `img` → `next/image` override and `a` → `Link` override; related posts at bottom; breadcrumb nav
+- `/journal/[slug]/loading.tsx` + `not-found.tsx` added
+- `JournalTeaser.tsx` updated to accept real `JournalPostPreview[]` prop; falls back to placeholder posts if not supplied; home page now passes real posts from loader
+- `src/features/reviews/schema.ts` + `action.ts`: Zod schema + `submitReview` server action; `published: false, featured: false` enforced; demo-mode gate `(!hasSupabase || isDemoMode)`; PII-safe logging
+- `src/features/reviews/components/ReviewForm.tsx`: RHF+Zod; star-picker radiogroup (44×44 touch targets, aria-checked); success/error states with brand voice
+- `/reviews/page.tsx` replaced Phase 3 stub: 14-review grid (8 seed + 6 extra from content-writer) + sticky sidebar leave-a-review form; uses `reviewsIntroCopy` from content-writer's `reviews-intro.ts`
+- `InstagramGallery.tsx`: static 6-image grid; links to `STUDIO.instagram`; uses images not visible elsewhere on home page; external link with `rel=noopener`
+- Home page: `InstagramGallery` added between ReviewsStrip and JournalTeaser
+- `personJsonLd()` added to `jsonld.tsx`; added to `/about` page
+- `src/app/sitemap.ts`: extended with journal slug entries (priority 0.75, monthly)
+- `globals.css`: `journal-prose` CSS class for brand-voice MDX article typography; `kenBurns` CSS animation + `hero-ken-burns` class (reduced-motion aware); applied to Hero image column
+- `Header.tsx` nav links: `focus-visible:ring-2 focus-visible:ring-rose` added for keyboard nav visibility
+- `npm run typecheck`, `lint`, `build` all clean; 34 routes; 3 journal post pages SSG-prerendered (●)
+- **Phase 7 complete**
+
+### 2026-05-23 (Phase 7 — UI polish + final acceptance)
+- Reviews page `/reviews`: 14-review grid (8 Phase 3 seed + 6 from `reviews-extra.ts`); `submitReview` server action writes `published: false, featured: false`; star-picker radiogroup with `aria-pressed`; demo-mode gate `(!hasSupabase || isDemoMode)`; PII-safe logs
+- Journal: 3 MDX posts SSG-prerendered (`how-to-choose-a-wedding-dress-in-hounslow`, `bridal-alterations-timeline`, `south-asian-bridal-and-bridesmaid-wear`); draft frontmatter filter in `getAllPosts/getPostBySlug/getAllPostSlugs` prevents WIP posts publishing; sitemap appends slugs dynamically (priority 0.75, monthly)
+- Person JSON-LD added to `/about` with Steffi photo absolute URL for knowledge-panel SEO
+- `InstagramGallery` on home page: 6 non-Steffi hero photos, links to `STUDIO.instagram`, `rel=noopener`; Steffi crown jewels reserved per IMAGE_BRIEF
+- Ken Burns CSS animation on Hero image column (`hero-ken-burns` class, `prefers-reduced-motion` override in `globals.css`)
+- Dead dep `@tailwindcss/typography` removed; `next-mdx-remote` + `gray-matter` added
+- Hamburger `focus-visible:ring-2 focus-visible:ring-rose` + Header nav link focus rings wired
+- UI spacing tighten (3 Playwright cycles to close user-reported voids): `Hero.tsx` grid `items-center` → `items-start`; Hero padding cut to `pt-10 pb-4 md:pt-14 md:pb-6 lg:pt-16 lg:pb-8`; Section spacing variants halved (sm `py-8 md:py-10`, md `py-10 md:py-14 lg:py-16`, lg `py-14 md:py-18 lg:py-20`); `/book` inline hero and `/dresses/[slug]` product grid both given `items-start`; CartDrawer items `<ul>` `flex-1` removed + `max-h-[60vh] overflow-y-auto` added
+- Cycle 3 Playwright result: 88px top gap at 1280px, 64px at 375px; `/book` kicker aligns with image top within 6px; cart drawer single-item gap 21px; 0 console errors across all 12 pages × both viewports
+- consistency-checker: 8 findings raised; all resolved (Steffi photo in InstagramGallery, hamburger focus ring, dead dep, `personJsonLd` missing image, Tailwind `max-h-*` tokens confirmed valid)
+- security-reviewer: 0 critical/high; 1 medium fixed (sitemap draft leak via `draft?: boolean` frontmatter filter); `npm audit --omit=dev --audit-level=high`: 0
+- `npm run typecheck`, `lint`, `build` all clean; 34 routes; 3 journal posts SSG-prerendered (●)
+- **Phase 7 complete**
 
 ### 2026-05-23 (Phase 4)
 - `src/features/products/source.ts` — Supabase-first wrapper with local JSON fallback; `warnFallback()` suppresses verbose stack traces for expected SSG DYNAMIC_SERVER_USAGE errors

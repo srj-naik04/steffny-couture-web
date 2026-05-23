@@ -571,6 +571,104 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** Import paths in all files under the folder required updating. No functional change.
 
+## D-043 — Hero grid uses `items-start`, not `items-center`
+
+**Date:** 2026-05-23
+
+**Chosen:** Two-column Hero grid uses `items-start` so the text column aligns with the top edge of the image column.
+
+**Considered:**
+- `items-center` (original, vertically centres both columns in the row)
+- `items-stretch` (stretches both columns to equal height)
+
+**Why:** With `items-center`, a tall image in the right column pushes the text column's vertical midpoint well below the image top edge. This created a visible void above the kicker/headline at wide viewports where the image is constrained by `lg:max-h-*`. `items-start` anchors the kicker to the image top edge regardless of aspect ratio or viewport width, eliminating the void without changing the image dimensions.
+
+**Trade-off:** If a hero image is very short and the text column is tall, the text will extend below the image bottom edge. This does not occur with the current set of portrait-ratio hero images.
+
+## D-044 — Hero padding is asymmetric (`pt-*` retained, `pb-*` cut)
+
+**Date:** 2026-05-23
+
+**Chosen:** Hero container uses `pt-10 pb-4 md:pt-14 md:pb-6 lg:pt-16 lg:pb-8` (top > bottom). Previously symmetric `py-16 md:py-24 lg:py-28`.
+
+**Considered:**
+- Keeping symmetric padding (equal top and bottom)
+- Removing all padding and relying solely on Section spacing
+
+**Why:** The section immediately following the Hero provides its own `pt-*` spacing. Symmetric padding on the Hero created a double-padding sandwich — the Hero's `pb-*` plus the next Section's `pt-*` stacked to over 200px of white space at 1280px. Cutting `pb-*` to roughly half while preserving `pt-*` (breathing room under the header) closes the sandwich without removing the visual separation between hero and first content section.
+
+**Trade-off:** If a Hero is placed above a non-Section element with no top padding, the gap between hero and content will appear tight. Not a concern with the current page structures.
+
+## D-045 — Section spacing variants halved in Phase 7
+
+**Date:** 2026-05-23
+
+**Chosen:** Section `sm` → `py-8 md:py-10`; `md` → `py-10 md:py-14 lg:py-16`; `lg` → `py-14 md:py-18 lg:py-20`. Previous values were from the `py-16 md:py-24 lg:py-28` family.
+
+**Considered:**
+- Keeping original values and adjusting only Hero padding
+- Per-section overrides rather than a global change
+
+**Why:** Playwright cycle 1 showed ~200px gaps between sections at 1280px across all pages. The root cause was the combination of large Hero bottom padding and large Section top padding. After the Hero asymmetric fix (D-044), the remaining gap came from Section's own `py-*`. Halving the variant values uniformly brought all 12 pages into range (88px max at 1280px) in a single change, with no per-section overrides needed.
+
+**Trade-off:** The tighter spacing is a permanent spec change. If a future section genuinely needs the old airy spacing, a custom class or a new `xl` variant can be introduced.
+
+## D-046 — Draft journal posts filtered via `draft` frontmatter boolean
+
+**Date:** 2026-05-23
+
+**Chosen:** MDX post frontmatter accepts `draft?: boolean`. `getAllPosts`, `getPostBySlug`, and `getAllPostSlugs` in `src/features/journal/loader.ts` all filter out entries where `draft === true`. Sitemap generation therefore omits draft slugs automatically.
+
+**Considered:**
+- Keeping draft posts in a separate `content/journal/_drafts/` folder
+- Using a `published: boolean` flag instead
+
+**Why:** A draft post committed to `main` (e.g. during content review) must not appear in the public journal index, in search results, or in the sitemap. A `draft: true` frontmatter flag is the simplest mechanism — the file stays in the repo for review and editing, but all public surfaces treat it as invisible. A separate folder would require either a glob exclusion at every loader call site or a build-time move; frontmatter keeps the convention in one place.
+
+**Trade-off:** A post with no `draft` field is treated as published. Content writers must explicitly set `draft: true` to suppress a WIP post; omitting the field publishes it. This matches MDX convention (opt-in draft, not opt-in publish).
+
+## D-047 — `InstagramGallery` uses 6 non-Steffi hero images
+
+**Date:** 2026-05-23
+
+**Chosen:** `InstagramGallery` on the home page uses 6 images that are not visible anywhere else on the home page and are not Steffi's two crown jewels (`bride-bangles-portrait.jpg`, `bride-bouquet-detail.jpg`).
+
+**Considered:**
+- Pulling live Instagram photos via the Instagram Basic Display API
+- Using the Steffi photos in the gallery for brand reinforcement
+
+**Why:** IMAGE_BRIEF reserves the two Steffi photos for the home hero, about hero, and contact founder card. Placing them in the gallery would dilute those anchor placements and repeat images the visitor has already seen on the same page. The 6 curated studio images cover placements not otherwise used on the home page, maximising visual variety. Live Instagram pull deferred to post-launch (requires Business account + token refresh logic).
+
+**Trade-off:** Gallery is static until an Instagram pull is implemented. Tracked in Open Questions.
+
+## D-048 — `personJsonLd` includes Steffi photo as `image` field
+
+**Date:** 2026-05-23
+
+**Chosen:** The `personJsonLd()` helper in `src/lib/seo/jsonld.tsx` accepts an `image` parameter; the `/about` page passes the absolute URL of `bride-bouquet-detail.jpg`.
+
+**Considered:**
+- Omitting the `image` field (simpler, avoids using Steffi photo in structured data)
+- Using a separate non-portrait photo for the schema image
+
+**Why:** Google's knowledge panel for a Person entity is significantly more likely to surface a photo if the `image` field in Person JSON-LD points to a clear, high-quality portrait of the subject. `bride-bouquet-detail.jpg` is already on the `/about` page as the hero and founder card image; referencing it in structured data is an appropriate non-display use that reinforces the SEO signal without violating the IMAGE_BRIEF's placement rules (JSON-LD is not a visible image slot).
+
+**Trade-off:** If the `/about` hero image is ever swapped for a different photo, the Person schema image must be updated in tandem.
+
+## D-049 — Cart drawer items list is content-sized with `max-h-[60vh]` overflow scroll
+
+**Date:** 2026-05-23
+
+**Chosen:** The items `<ul>` in `CartDrawer.tsx` has `flex-1` removed; replaced with `max-h-[60vh] overflow-y-auto`. The subtotal/CTA block immediately follows in the drawer's flex column.
+
+**Considered:**
+- Keeping `flex-1` (fills remaining drawer height; subtotal anchored to bottom)
+- Fixed pixel height on the items list
+
+**Why:** With `flex-1`, a drawer containing one item had a 400px+ void between the item and the subtotal block, because `flex-1` expanded the items container to fill the full remaining drawer height. Removing `flex-1` makes the items container only as tall as its content. `max-h-[60vh]` with overflow scroll prevents the list from exceeding the viewport when many items are added, keeping the subtotal reachable without scrolling past items.
+
+**Trade-off:** Subtotal position is no longer pinned to the drawer bottom — it sits immediately below the last item. This is acceptable UX and consistent with how most cart drawers behave on fashion e-commerce sites.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

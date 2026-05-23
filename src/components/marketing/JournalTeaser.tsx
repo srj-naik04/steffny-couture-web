@@ -121,7 +121,7 @@ export function JournalTeaser({ data, posts }: JournalTeaserProps) {
           <Link
             key={post.slug}
             href={`/journal/${post.slug}`}
-            className="group block overflow-hidden rounded-xl border border-border bg-surface transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose"
+            className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-surface transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose"
             aria-label={`Read: ${post.title}`}
           >
             <div className="relative aspect-video w-full overflow-hidden">
@@ -136,7 +136,7 @@ export function JournalTeaser({ data, posts }: JournalTeaserProps) {
                   : {})}
               />
             </div>
-            <div className="p-6">
+            <div className="flex flex-1 flex-col p-6">
               <span className="text-label text-rose tracking-widest uppercase">
                 {post.category}
               </span>
@@ -146,7 +146,7 @@ export function JournalTeaser({ data, posts }: JournalTeaserProps) {
               <p className="text-body text-ink-muted mt-3 text-pretty line-clamp-3">
                 {post.excerpt}
               </p>
-              <div className="text-label text-ink-muted mt-4 flex items-center gap-3">
+              <div className="mt-auto pt-4 text-label text-ink-muted flex items-center gap-3">
                 <time>{post.date}</time>
                 <span aria-hidden="true">·</span>
                 <span>{post.readingTime}</span>

@@ -59,7 +59,7 @@ export function ProductCard({ product }: ProductCardProps) {
     product.category.charAt(0).toUpperCase() + product.category.slice(1);
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl bg-surface shadow-sm transition-shadow duration-300 hover:shadow-md">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-surface shadow-sm transition-shadow duration-300 hover:shadow-md">
       <Link
         href={`/dresses/${product.slug}`}
         className="absolute inset-0 z-10"

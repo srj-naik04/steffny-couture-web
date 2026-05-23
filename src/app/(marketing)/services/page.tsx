@@ -78,8 +78,8 @@ export default function ServicesPage() {
         <Container>
           <div className="grid gap-8 sm:grid-cols-3">
             {serviceCards.map((card) => (
-              <RevealOnScroll key={card.href}>
-                <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface">
+              <RevealOnScroll key={card.href} className="h-full">
+                <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface">
                   {/* Image */}
                   <div className="relative aspect-4/3 w-full overflow-hidden">
                     <Image

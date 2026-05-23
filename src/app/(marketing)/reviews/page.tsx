@@ -123,10 +123,10 @@ export default function ReviewsPage() {
                   aria-label="Customer testimonials"
                 >
                   {allReviews.map((review, i) => (
-                    <RevealOnScroll key={review.id} delay={i * 0.03}>
+                    <RevealOnScroll key={review.id} delay={i * 0.03} className="h-full">
                       <article
                         role="listitem"
-                        className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-6"
+                        className="flex h-full flex-col gap-4 rounded-xl border border-border bg-surface p-6"
                       >
                         <StarRating rating={review.rating} />
                         <blockquote className="text-body text-ink-muted flex-1 text-pretty italic leading-relaxed">

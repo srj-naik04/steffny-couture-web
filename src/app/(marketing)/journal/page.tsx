@@ -47,10 +47,10 @@ export default function JournalPage() {
           ) : (
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((post, i) => (
-                <RevealOnScroll key={post.slug} delay={i * 0.05}>
+                <RevealOnScroll key={post.slug} delay={i * 0.05} className="h-full">
                   <Link
                     href={`/journal/${post.slug}`}
-                    className="group block overflow-hidden rounded-2xl border border-border bg-surface transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose"
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose"
                     aria-label={`Read: ${post.title}`}
                   >
                     {/* Hero image */}
@@ -65,7 +65,7 @@ export default function JournalPage() {
                     </div>
 
                     {/* Card body */}
-                    <div className="p-6 space-y-3">
+                    <div className="flex flex-1 flex-col p-6 space-y-3">
                       {/* Tags */}
                       {post.tags.length > 0 && (
                         <span className="text-label text-rose tracking-widest uppercase">
@@ -81,7 +81,7 @@ export default function JournalPage() {
                         {post.excerpt}
                       </p>
 
-                      <div className="text-label text-ink-muted flex items-center gap-3 pt-1">
+                      <div className="mt-auto text-label text-ink-muted flex items-center gap-3 pt-1">
                         <time dateTime={post.date}>{formatDate(post.date)}</time>
                         <span aria-hidden="true">·</span>
                         <span>{post.readingMinutes} min read</span>

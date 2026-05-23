@@ -34,7 +34,7 @@ export function FeaturedProductsStrip({ products }: FeaturedProductsStripProps) 
           <Link
             key={product.id}
             href={`/dresses/${product.slug}`}
-            className="group block overflow-hidden rounded-xl bg-surface"
+            className="group flex h-full flex-col overflow-hidden rounded-xl bg-surface"
             aria-label={`View ${product.name}`}
           >
             {/* Image */}
@@ -59,7 +59,7 @@ export function FeaturedProductsStrip({ products }: FeaturedProductsStripProps) 
             </div>
 
             {/* Details */}
-            <div className="p-4 space-y-1">
+            <div className="flex flex-1 flex-col p-4 space-y-1">
               <p className="text-label text-rose tracking-widest uppercase">
                 {product.category}
               </p>

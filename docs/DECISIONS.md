@@ -669,6 +669,91 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** Subtotal position is no longer pinned to the drawer bottom — it sits immediately below the last item. This is acceptable UX and consistent with how most cart drawers behave on fashion e-commerce sites.
 
+## D-050 — Lighthouse verification is local-only for Phase 8
+
+**Date:** 2026-05-23
+
+**Chosen:** Phase 8 ran Lighthouse 13.3.0 against `npm run build && npm run start` on localhost (desktop preset, Puppeteer Chrome). All 13 routes tested. Vercel deploy and preview-URL verification deferred to Phase 9.
+
+**Considered:**
+- Running Lighthouse against the Vercel preview URL once deployed
+- Skipping Lighthouse entirely and relying on Playwright coverage
+
+**Why:** A live Vercel deploy requires the service-role key and a remote git push, both of which are blocked pending owner action. Running against `next start` on localhost is functionally equivalent for all performance, accessibility, SEO, and best-practices audits — network latency and CDN edge behaviour are the only differences, and they do not affect the categories being tested.
+
+**Trade-off:** Real-device and cross-browser testing (Chrome, Firefox, Safari, Edge) are not covered in this phase. Documented as out-of-scope; to be completed before domain migration.
+
+## D-051 — Security headers in `next.config.ts` headers() block
+
+**Date:** 2026-05-23
+
+**Chosen:** HSTS (`max-age=63072000; includeSubDomains; preload`), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()` added to the `headers()` function in `next.config.ts`, applied to all routes via the `source: '/(.*)'` matcher.
+
+**Considered:**
+- Vercel project-level security headers in `vercel.json`
+- Middleware-based header injection
+- Leaving headers to browser defaults
+
+**Why:** The site has no legitimate iframe-embedding use case (DENY is safe), no real-time camera/microphone/geolocation features (Permissions-Policy denials are safe), and HSTS with preload is appropriate given the canonical domain is HTTPS-only. Applying in `next.config.ts` keeps security configuration co-located with the app and ensures headers are present in all environments including local `next start`.
+
+**Trade-off:** HSTS preload requires owner sign-off before submitting the domain to the HSTS preload list — premature submission on a domain that may revert to HTTP would lock visitors out for up to two years. The header is set now; list submission is deferred until post-domain-migration.
+
+## D-052 — Robots gate: canonical-domain double-guard
+
+**Date:** 2026-05-23
+
+**Chosen:** Pages are indexable only when `process.env.VERCEL_ENV` is `'production'` or `undefined` AND `process.env.NEXT_PUBLIC_SITE_URL === 'https://www.steffnycouture.co.uk'`. Applied to both `src/app/robots.ts` and the `robots` field in root layout metadata.
+
+**Considered:**
+- `VERCEL_ENV === 'production'` check only (D-024 original approach)
+- Always-index with reliance on preview URL obscurity
+
+**Why:** D-024's original `VERCEL_ENV !== 'production'` check blocked local `next start` (where `VERCEL_ENV` is undefined) — a regression caught by Phase 8 Lighthouse audit (SEO=61 on local run). The secondary `NEXT_PUBLIC_SITE_URL` guard closes the remaining gap: a non-Vercel staging host with `VERCEL_ENV` unset but an arbitrary URL would be blocked unless it explicitly declares the canonical production URL.
+
+**Trade-off:** A legitimate non-Vercel production deployment (e.g. self-hosted) must set `NEXT_PUBLIC_SITE_URL` to the canonical URL or it will be blocked. This is the desired behaviour — any deployment that is not the canonical production site should not be indexed.
+
+## D-053 — Home and `/dresses` promoted to static rendering
+
+**Date:** 2026-05-23
+
+**Chosen:** `src/app/(marketing)/page.tsx` and `src/app/(shop)/dresses/page.tsx` both use `export const dynamic = 'force-static'` and `export const revalidate = 3600` (1-hour ISR). The `/dresses` filter logic moved to `DressesClient.tsx` (client component using `useSearchParams()`), allowing the server page to be statically rendered.
+
+**Considered:**
+- Keeping both pages dynamic (default)
+- Static home only; leaving `/dresses` dynamic
+
+**Why:** The home page TTFB was 1,810 ms in demo mode because `getFeaturedProductsFromSource` was triggering a Supabase network call despite demo mode being active. After the `useLocalOnly` guard (D-054) reduced the Supabase call to zero, promoting the page to `force-static` eliminated the remaining dynamic overhead. `/dresses` was dynamic due to `searchParams` access — extracting filter state to a client component removes the server-side dynamic dependency while preserving URL-driven filter state.
+
+**Trade-off:** Static pages serve stale data for up to one hour. Acceptable for a product catalogue that changes infrequently. If Steffi adds a product in the mobile app, the change appears on the website within one hour on Vercel ISR.
+
+## D-054 — Demo mode short-circuits Supabase calls in `source.ts`
+
+**Date:** 2026-05-23
+
+**Chosen:** `src/features/products/source.ts` introduces `const useLocalOnly = isDemoMode || !hasSupabase`. When true, the wrapper skips the Supabase client entirely and returns data from `data/products.json` + `data/optimised-images.json` directly. No network call is made.
+
+**Considered:**
+- Always attempting Supabase and falling back on timeout/error (original D-026 approach)
+- Checking `isDemoMode` at each call site
+
+**Why:** The original fallback (D-026) attempted the Supabase call and caught errors. In demo mode this caused a ~1.8 s wait for the Supabase timeout before falling back to local JSON, resulting in a Performance score of 56 on the home page. The `useLocalOnly` guard is evaluated synchronously before any async work begins, bringing TTFB from ~1,810 ms to under 200 ms in demo mode.
+
+**Trade-off:** In demo mode, no live Supabase data is ever fetched — even if credentials are present. This is intentional: `isDemoMode=true` is an explicit operator signal that the local JSON is the intended data source.
+
+## D-055 — `text-ink-subtle` deprecated for small text; replaced with `text-ink-muted` site-wide
+
+**Date:** 2026-05-23
+
+**Chosen:** `text-ink-subtle` (`#9A9089`, ~2.92:1 contrast on ivory) is no longer used on text smaller than display size. Replaced with `text-ink-muted` (`#5C5551`, ~4.51:1 contrast on ivory) across 17 files (46 replacements total: `Filters.tsx`, product detail page, `reviews/page.tsx`, `ReviewsStrip.tsx`, `ReviewForm.tsx`, `ContactForm.tsx`, `FeaturedProductsStrip.tsx`, `JournalTeaser.tsx`, `journal/page.tsx`, `journal/[slug]/page.tsx`, checkout, booking wizard, cart, confirmations, photo uploader).
+
+**Considered:**
+- Adjusting `--color-ink-subtle` token value globally
+- Per-instance decisions
+
+**Why:** WCAG AA requires 4.5:1 for text smaller than 18pt (or 14pt bold). `text-ink-subtle` at 2.92:1 fails this threshold on ivory backgrounds. Changing the token value globally would affect display-size headings where the 3:1 large-text threshold applies and where the softer colour is intentional. A site-wide class swap on small text preserves the design intent for large text while meeting the AA threshold where it is required.
+
+**Trade-off:** `text-ink-subtle` remains available in the token set and may still be used on display-scale text (≥24px / ≥18pt). Future contributors must be aware of this distinction; it is enforced by convention, not by tooling.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

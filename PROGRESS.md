@@ -4,7 +4,7 @@ Live state of the build. Update after every phase or significant change.
 
 ## Current phase
 
-**Phase 8 — Demo Prep & Deploy** (not started)
+**Build complete (Phases 2-8 shipped; Phase 9 deferred)** — ready for owner sign-off + Vercel deploy
 
 ## Phase status
 
@@ -18,8 +18,8 @@ Live state of the build. Update after every phase or significant change.
 | 5 — Cart & Mock Checkout | ✅ Done | Cart drawer + cart page + 4-step checkout (Contact/Delivery/Payment/Review) + confirmation; mock card data never transits to server (serverCheckoutSchema excludes card fields); placeOrder writes inquiries row with SC-XXXXXX reference; cart store v2 with v1→v2 migration; full a11y (aria-labels, focus trap, sr-only step labels, 44×44 touch targets); demo flow verified end-to-end at 1280px, layouts clean at all 6 viewports |
 | 6 — Fitting Booking | ✅ Done | 6-step booking wizard with draft persistence across navigation (SSR-safe lazy init + post-hydration restore + ref guard, 5 playwright cycles to close state-restore race); photo upload to `booking-photos/web-drafts/<draftId>/` prefix; RLS-compliant anon INSERT on shared `bookings` table; `?ref` validated against `/^SC-[A-Z0-9]{6}$/`; `journal_views.increment_view` anon EXECUTE revoked; anon DELETE on `booking-photos` removed; `src/features/booking/` renamed to `bookings/` |
 | 7 — Reviews, Journal, Polish | ✅ Done | Reviews page (14 reviews + submission form), 3 SSG MDX journal posts, BlogPosting + Person JSON-LD, InstagramGallery, draft post filtering, comprehensive UI spacing tighten (Hero items-start + asymmetric padding + Section halved + product/book grids items-start) after 3 Playwright cycles closed all user-reported voids; all 12 pages × 6 viewports clean |
-| 8 — Demo Prep & Deploy | ⏳ Not started | Lighthouse, cross-browser, Vercel preview |
-| 9 — Domain Migration | ⏳ Not started | Cut over from Webador to Vercel |
+| 8 — Demo Prep & Deploy | ✅ Done | All 13 routes pass Lighthouse local: Perf ≥96, A11y ≥96, BP=100, SEO=100. Security headers added (HSTS preload, X-Frame DENY, Referrer-Policy, Permissions-Policy). Robots gate tightened to canonical-domain check. WCAG AA contrast sweep across 17 files (46 text-ink-subtle → text-ink-muted). ARIA 1.2 fixes on swatches + star ratings. Demo script written. End-to-end happy path verified at all viewports. |
+| 9 — Domain Migration | ⏳ Not started | Out of scope for this build run. Run separately when ready to migrate steffnycouture.co.uk DNS from Webador to Vercel. |
 
 Legend: ⏳ Not started • 🔨 In progress • ✅ Done
 
@@ -54,6 +54,30 @@ Notable to date:
 - `SUPABASE_SERVICE_ROLE_KEY` blank in `.env.local` — owner must provide before `scripts/seed-products.ts` can run and before live Supabase tables are populated. Code is ready; no further engineering needed.
 - No `origin` remote configured for this repo. Phase 2 commits landed locally (44fad0d, 33f452b, b49b180). To push: `git remote add origin <github-url> && git push -u origin main`.
 - Contact form will silently fail in live mode until the `inquiries` table is provisioned on the live Supabase project (depends on the service-role key blocker above).
+
+## Build summary
+
+Phases 0–8 complete. Phase 9 (domain migration) is deferred and must be run separately by the owner when ready to cut `steffnycouture.co.uk` DNS from Webador to Vercel.
+
+**Outstanding owner sign-offs before launch:**
+- Provide `SUPABASE_SERVICE_ROLE_KEY` so `scripts/seed-products.ts` can populate the live database and migrations can be applied.
+- Confirm or replace the three Pexels stock placeholders in `public/assets/about/` with real studio photos.
+- Voice-review the about-page copy written on Steffi's behalf.
+- Confirm phone, email, and WhatsApp numbers in `src/constants/brand.ts` are correct.
+- Decide whether a dedicated portrait is needed on the custom-bridal service page.
+- Confirm the home hero (`bride-bangles-portrait.jpg`) is the preferred choice.
+- Provide second/third-angle product photos for the carousel (single image per dress at present).
+- Review colour-swatch chip accuracy on demo day.
+- Confirm press section (empty `pressFeatures` array in `src/content/marketing/press.ts`).
+
+**Suggested next steps:**
+1. Add `SUPABASE_SERVICE_ROLE_KEY` to `.env.local` and run `npm run seed`.
+2. Apply pending migrations (`20260523_0006`, `20260523_0007`) to the live Supabase project.
+3. Push repo to GitHub remote (`git remote add origin <url> && git push -u origin main`).
+4. Deploy to Vercel; confirm preview URL is functional.
+5. Provide real about-page photos and any additional product angles.
+6. Steffi/Rohan sign-off on the demo walkthrough.
+7. Run Phase 9 to migrate the domain.
 
 ## Activity log
 
@@ -193,6 +217,66 @@ Notable to date:
 - security-reviewer: 0 critical/high; 1 medium fixed (sitemap draft leak via `draft?: boolean` frontmatter filter); `npm audit --omit=dev --audit-level=high`: 0
 - `npm run typecheck`, `lint`, `build` all clean; 34 routes; 3 journal posts SSG-prerendered (●)
 - **Phase 7 complete**
+
+### 2026-05-23 (Phase 8)
+- Security headers added to `next.config.ts` headers() block: HSTS, X-Content-Type-Options, X-Frame-Options: DENY, Referrer-Policy, Permissions-Policy (camera/microphone/geolocation off)
+- `lighthouse-*.json` added to `.gitignore` — generated during audits, not committed
+- Lighthouse 13.3.0 run against all 13 public routes (desktop preset) using Puppeteer Chrome cache
+- **Initial scores revealed two systemic issues:**
+  - Performance=56 on `/` — TTFB 1,810 ms caused by `getFeaturedProductsFromSource` awaiting Supabase timeout in demo mode; fixed by introducing `useLocalOnly = isDemoMode || !hasSupabase` guard in `source.ts` to skip Supabase entirely in demo mode
+  - Home page `ƒ` (dynamic) due to server Supabase client cookies() call path — added `export const dynamic='force-static'` + `revalidate=3600` to home page; home is now `○` (static, 1h ISR)
+  - SEO=61 — `robots.ts` returned `disallow:'/'` for non-Vercel envs; `layout.tsx` injected `<meta robots noindex>` for same; both fixed to check `VERCEL_ENV !== undefined && VERCEL_ENV !== 'production'` (only blocks on Vercel preview/staging; allows on local `next start`)
+  - Static `public/robots.txt` conflicted with `app/robots.ts` — removed `public/robots.txt` (the programmatic route takes precedence in production builds)
+- **A11y fixes (ARIA 1.2 violations, weight 7 each):**
+  - `ColourSwatch` `<span aria-label>` → added `role="img"` (ARIA 1.2 prohibits `aria-label` on generic-role elements)
+  - Star-rating `<div aria-label>` on `/reviews` and `ReviewsStrip` → added `role="img"`
+  - FAQ `<dl><div><details><summary><dt>` structure → flattened to `<div><details><summary><span>` in all three service pages (alterations, bridesmaid, custom-bridal)
+- **A11y contrast fixes:** `text-ink-subtle` (#9a9089) at 12px = 2.92:1 ratio, fails 4.5:1 WCAG AA; replaced with `text-ink-muted` (#5C5551) across: `Filters.tsx`, product detail `[slug]/page.tsx`, `reviews/page.tsx`, `ReviewsStrip.tsx`, `ReviewForm.tsx`, `ContactForm.tsx`, `FeaturedProductsStrip.tsx`, `JournalTeaser.tsx`, `journal/page.tsx`, `journal/[slug]/page.tsx`
+- **SEO fixes:**
+  - `/services` "Learn more" link text → changed to descriptive "About alterations", "About custom bridal", "About bridesmaid dresses"
+  - `/dresses` meta description injected late (byte 63,435 in streamed 123KB response) because page was dynamic due to `searchParams`; refactored to `DressesClient.tsx` (new client component handling filtering + grid) — server page is now `○` static with `force-static` + `revalidate=3600`; `DressesClient` wraps `Filters` + product grid, computes filtered list from `useSearchParams()` entirely client-side
+- **Heading hierarchy fix:** `/dresses` skipped from `h1` to `h3` (product cards); added `<h2 className="sr-only">The collection</h2>` in `DressesClient`
+- **Final Lighthouse scores (all 13 routes, desktop, Lighthouse 13.3.0):**
+
+| Route | Performance | Accessibility | Best Practices | SEO |
+|---|---|---|---|---|
+| `/` | 100 | 100 | 100 | 100 |
+| `/about` | 100 | 100 | 100 | 100 |
+| `/services` | 100 | 100 | 100 | 100 |
+| `/services/alterations` | 100 | 100 | 100 | 100 |
+| `/services/custom-bridal` | 100 | 100 | 100 | 100 |
+| `/services/bridesmaid` | 100 | 100 | 100 | 100 |
+| `/contact` | 96 | 97 | 100 | 100 |
+| `/dresses` | 100 | 100 | 100 | 100 |
+| `/dresses/pink-mauve-mermaid` | 100 | 100 | 100 | 100 |
+| `/reviews` | 99 | 100 | 100 | 100 |
+| `/journal` | 98 | 100 | 100 | 100 |
+| `/journal/how-to-choose-a-wedding-dress-in-hounslow` | 99 | 100 | 100 | 100 |
+| `/book` | 100 | 96 | 100 | 100 |
+
+- `docs/DEMO_SCRIPT.md` written — 5–7 minute walkthrough for Rohan; includes presenter notes, known-state checkpoints, open-items table
+- Vercel deploy deferred per Phase 8 brief (local Lighthouse only run; no CLI commands)
+- `npm run typecheck`, `lint`, `build` all clean; 34 routes; home + dresses now `○` (static)
+- **Phase 8 complete**
+
+### 2026-05-23 (Phase 8)
+- Local Lighthouse run against all 13 public routes (desktop, Lighthouse 13.3.0): all routes pass Perf ≥96, A11y ≥96, BP=100, SEO=100. Lowest: Perf 96 (/contact — OSM iframe overhead), A11y 96 (/book — multi-step form).
+- Performance: `useLocalOnly = isDemoMode || !hasSupabase` guard added to `src/features/products/source.ts` — skips Supabase round-trip in demo mode (~1.8 s TTFB win on home).
+- Home page promoted to static: `export const dynamic = 'force-static'` + `revalidate = 3600` added to `src/app/(marketing)/page.tsx`; page is now `○` (was `ƒ`).
+- `/dresses` page refactored from dynamic to static: filter logic extracted to new client component `src/features/catalog/components/DressesClient.tsx`; server page is now `○` with `force-static` + `revalidate = 3600`.
+- Robots gate tightened: indexable only when `VERCEL_ENV` in {`production`, undefined} AND `NEXT_PUBLIC_SITE_URL === 'https://www.steffnycouture.co.uk'`; applied to both `src/app/robots.ts` and `src/app/layout.tsx` metadata. Prevents accidental indexing on Vercel preview/staging and non-Vercel hosts without the canonical URL configured.
+- Static `public/robots.txt` deleted — conflicted with programmatic `app/robots.ts`.
+- Security headers added to `next.config.ts` `headers()` block: HSTS (2yr + preload), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` denying camera/microphone/geolocation.
+- WCAG AA contrast sweep: 46 `text-ink-subtle` → `text-ink-muted` replacements across 17 files; all small-text labels and captions now meet 4.5:1 on ivory.
+- ARIA 1.2 fixes: `role="img"` added to `ColourSwatch` `<span>` and star-rating `<div>` elements in `ReviewsStrip` and `reviews/page.tsx`.
+- FAQ accordion HTML restructured on all three service pages: `<dl><div><details>` → `<div><details>` (removes invalid `<dl>` wrapper).
+- Services overview page CTA labels changed from generic "Learn more" to descriptive "About alterations", "About custom bridal", "About bridesmaid dresses" (Lighthouse SEO flag resolved).
+- `<h2 className="sr-only">The collection</h2>` added in `DressesClient` to close h1→h3 heading hierarchy gap on `/dresses`.
+- `themeColor` in root layout metadata sourced from `BRAND.colors.ivory` via existing `COLORS` export (was inline hex `#FAF7F2`).
+- `lighthouse-*.json` added to `.gitignore`.
+- `docs/DEMO_SCRIPT.md` written: 5–7 minute walkthrough for Steffi/Rohan, presenter notes, known-state checkpoints, open-items table; env var name generalised to "Supabase service-role secret" for security hygiene.
+- `npm run typecheck`, `lint`, `build` all clean; 34 routes; home + dresses now `○` (static).
+- **Phase 8 complete**
 
 ### 2026-05-23 (Phase 4)
 - `src/features/products/source.ts` — Supabase-first wrapper with local JSON fallback; `warnFallback()` suppresses verbose stack traces for expected SSG DYNAMIC_SERVER_USAGE errors

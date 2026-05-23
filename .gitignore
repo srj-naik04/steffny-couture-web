@@ -48,3 +48,6 @@ final-regression/
 
 # Claude Code agent runtime files
 .claude/scheduled_tasks.lock
+
+# Lighthouse reports (generated during Phase 8 audits — not committed)
+lighthouse-*.json

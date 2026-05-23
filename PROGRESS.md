@@ -4,7 +4,7 @@ Live state of the build. Update after every phase or significant change.
 
 ## Current phase
 
-**Phase 4 — Dress Catalogue** (complete; ready for Phase 5)
+**Phase 5 — Cart & Mock Checkout** (complete; ready for Phase 6)
 
 ## Phase status
 
@@ -15,7 +15,7 @@ Live state of the build. Update after every phase or significant change.
 | 2 — Database & Backend | ✅ Done | 5 web-only migrations (products/product_images, inquiries, reviews, journal_views, storage), RLS hardened with WITH CHECK + EXISTS guards, supabase clients split (browser/server/admin), env.ts split for server-only safety, products feature API; seed pending live SUPABASE_SERVICE_ROLE_KEY |
 | 3 — Marketing Pages | ✅ Done | 7 marketing pages + 5 stub pages, JSON-LD (Organization/WebSite/LocalBusiness), unique image per visible placement, skip-to-content a11y, contact server action with PII-safe logging and RLS-compliant inserts; Playwright clean at all 6 viewports |
 | 4 — Dress Catalogue | ✅ Done | 10-product SSG grid with URL-state filters + product detail with carousel/variant selector/cart; demo-mode JSON fallback so catalogue works without live Supabase; Zustand cart store wired into header; Product JSON-LD with breakout-safe serializer |
-| 5 — Cart & Mock Checkout | ⏳ Not started | Zustand cart, fake payment, inquiry record |
+| 5 — Cart & Mock Checkout | ✅ Done | Cart drawer + cart page + 4-step checkout (Contact/Delivery/Payment/Review) + confirmation; mock card data never transits to server (serverCheckoutSchema excludes card fields); placeOrder writes inquiries row with SC-XXXXXX reference; cart store v2 with v1→v2 migration; full a11y (aria-labels, focus trap, sr-only step labels, 44×44 touch targets); demo flow verified end-to-end at 1280px, layouts clean at all 6 viewports |
 | 6 — Fitting Booking | ⏳ Not started | 6-step wizard, shared bookings table |
 | 7 — Reviews, Journal, Polish | ⏳ Not started | MDX posts, reviews, animations, a11y |
 | 8 — Demo Prep & Deploy | ⏳ Not started | Lighthouse, cross-browser, Vercel preview |
@@ -111,6 +111,32 @@ Notable to date:
 - Playwright (2 cycles): cycle 1 caught RevealOnScroll invisible content, Supabase insert failure, Instagram touch target, broken nav links — all fixed; cycle 2 clean at all 6 viewports (375/640/768/1024/1280/1920); BUG-2 (Supabase rejection) deferred pending live table provisioning
 - `npm run typecheck`, `lint`, `build` all clean; 13 routes generated
 - **Phase 3 complete**
+
+### 2026-05-23 (Phase 5)
+- Cart store bumped from v1 → v2: `CartItem` gains `variantId?: string | null`; persist key `steffny-cart-v2`; `migrate()` maps v1 items → v2 by injecting `variantId: null`
+- `src/features/cart/ui-store.ts` — Zustand UI store (no persist) for drawer open/close state; `useCartUiStore` with `openDrawer`, `closeDrawer`, `toggleDrawer`
+- `src/features/cart/components/CartDrawer.tsx` — right-side slide-in sheet; Framer Motion; body-scroll-lock; ESC closes; backdrop click closes; focus trap (Tab/Shift+Tab cycle) + return-focus to opener; ARIA `role="dialog"`, `aria-modal`, `aria-labelledby`; quantity stepper (44×44 buttons, aria-label includes item name, min 1 max 10); image alts include size + colour via `describeCartItem` helper
+- `src/components/shared/CartIcon.tsx` — updated to button (was Link); opens CartDrawer via `useCartUiStore` on click; `/cart` remains navigable via drawer's "View cart" link
+- `src/app/layout.tsx` — `<CartDrawer />` mounted at root layout inside `MotionConfigProvider`; available across all route groups without duplication
+- `src/features/cart/components/CartContents.tsx` — client component; full cart page contents with quantity stepper, remove, order summary, brand-voice studio note; AnimatePresence exit on item remove
+- `src/app/(shop)/cart/page.tsx` — replaced Phase 3 stub; server shell with CartContents client wrapper; `noindex` metadata
+- `src/app/(shop)/cart/loading.tsx` — shimmer skeleton
+- `src/features/checkout/schema.ts` — Zod schemas: `contactStepSchema`, `deliveryStepSchema`, `paymentStepSchema` (client-only), `serverCheckoutSchema` (excludes card fields); UK postcode regex; mock card length checks; `serverCheckoutSchema` enforces no card data over the wire
+- `src/features/checkout/action.ts` — `placeOrder` server action; generates `SC-XXXXXX` reference via `crypto.getRandomValues`; builds `InquiryItem[]` with `variantId` per D-019 contract; writes `inquiries` row (`type: 'product_order'`, `source: 'web'`, `status: 'new'`); card data never persisted; demo-mode guard `(!hasSupabase || isDemoMode)` logs reference + timestamp + itemCount only, no PII; sanitised error logging
+- `src/features/checkout/components/CheckoutForm.tsx` — `"use client"` 4-step wizard; React Hook Form + Zod; step-level partial validation via `trigger()`; progress indicator with `<nav><ol><li>` semantics, `aria-current="step"`, sr-only completion labels; 2-second fake delay on submit; writes `steffny-last-order` to sessionStorage; clears cart; redirects to `/checkout/confirmation?ref=<ref>`; AnimatePresence step transitions; demo-mode notice on Payment step
+- `src/features/checkout/components/CheckoutSummary.tsx` — client sidebar; reads Zustand cart; subtotal + delivery placeholder
+- `src/app/(shop)/checkout/page.tsx` — server shell with two-column layout (form + sticky sidebar)
+- `src/app/(shop)/checkout/loading.tsx` — shimmer skeleton
+- `src/app/(shop)/checkout/error.tsx` — brand-voice error boundary with "Try again" + "Return to collection" CTAs
+- `src/app/(shop)/checkout/confirmation/page.tsx` — server component; reads `ref` from searchParams; gold-soft reference badge; brand-voice WhatsApp notice ("within one working day"); "Your card has not been charged" assurance; `noindex` metadata
+- `src/app/(shop)/checkout/confirmation/LastOrderSummary.tsx` — client component; reads `steffny-last-order` from sessionStorage; clears after first read; displays item list + total; graceful fallback
+- `src/features/cart/utils.ts` — `describeCartItem(item)` helper returns `[name, size, colour].filter(Boolean).join(', ')`; used across all 5 cart thumbnail Image sites
+- Contact server action updated to same `(!hasSupabase || isDemoMode)` dual gate for consistency with `placeOrder`
+- `src/content/marketing/seo.ts` — added `/cart`, `/checkout`, `/checkout/confirmation` entries; `src/app/robots.ts` — added `/checkout/` + `/checkout/confirmation` to disallow list
+- security-reviewer: 0 critical; 2 high fixed (card-field wire transit via `serverCheckoutSchema`; `hasSupabase` vs `isDemoMode` mismatch); 1 medium fixed; `npm audit --omit=dev --audit-level=high` returned 0
+- Playwright cycle 1 happy path PASS; BUG-1 (ESC focus return to body) fixed in cycle 2 by routing ESC through `handleClose` calling `openerRef.current?.focus()`; all 6 viewports clean
+- `npm run typecheck`, `lint`, `build` all clean; 30 routes generated
+- **Phase 5 complete**
 
 ### 2026-05-23 (Phase 4)
 - `src/features/products/source.ts` — Supabase-first wrapper with local JSON fallback; `warnFallback()` suppresses verbose stack traces for expected SSG DYNAMIC_SERVER_USAGE errors

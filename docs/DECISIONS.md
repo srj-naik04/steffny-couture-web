@@ -413,6 +413,93 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** CLAUDE.md §2 does not reflect `catalog/`. Future builders reading only CLAUDE.md will be surprised. Mitigated by this decision log entry.
 
+## D-032 — Cart store bumped to v2; persistence key `steffny-cart-v2`
+
+**Date:** 2026-05-23
+
+**Chosen:** Persist key changed from `steffny-cart-v1` to `steffny-cart-v2`. `CartItem` type gains `variantId?: string | null`. `migrate()` function on the Zustand persist config injects `variantId: null` for any v1 items found in localStorage.
+
+**Considered:**
+- Keeping v1 key and accepting silent type mismatch for existing carts
+- Clearing localStorage on schema change (losing active carts)
+
+**Why:** D-019 introduced `variantId` on `InquiryItem`; the `placeOrder` server action builds `InquiryItem[]` from the cart and must carry `variantId` through to the order payload. A cart item without `variantId` would fail the type check at the action boundary. Bumping the key triggers a clean migration rather than rehydrating stale data that no longer matches the type. The `migrate()` function provides a non-destructive upgrade path rather than silently dropping existing cart contents.
+
+**Trade-off:** Customers with items in a v1 cart will see their cart preserved but with `variantId: null` (no variant selected). Acceptable — they can re-select a variant on the product page.
+
+## D-033 — Mock card data is client-only; `serverCheckoutSchema` excludes card fields
+
+**Date:** 2026-05-23
+
+**Chosen:** `paymentStepSchema` validates card fields client-side only. `serverCheckoutSchema` is a separate Zod schema that omits all card fields (`cardNumber`, `cardExpiry`, `cardCvc`, `cardName`). The `placeOrder` server action input type is typed against `serverCheckoutSchema`, making it structurally impossible for card data to transit to the server.
+
+**Considered:**
+- Single schema for client and server, stripping card fields in the action body
+- Marking card fields as optional on the server schema and ignoring them
+
+**Why:** PCI-DSS scope minimisation — even in demo mode, card data must not transit the server. A runtime strip in the action body is still a violation: the data would have been received and processed at the server boundary. Separate schemas enforce the boundary at the type level; a TypeScript error surfaces at build time if the calling code ever attempts to pass card data.
+
+**Trade-off:** Two schemas to maintain. The split is intentional and should not be collapsed.
+
+## D-034 — Server actions gate on `(!hasSupabase || isDemoMode)` dual check
+
+**Date:** 2026-05-23
+
+**Chosen:** Both `placeOrder` (Phase 5) and the contact server action (Phase 3, updated) skip the live DB write when either `hasSupabase` is false or `isDemoMode` is true. The demo-mode flag is the authoritative signal; absence of Supabase credentials is the secondary guard.
+
+**Considered:**
+- Single check on `isDemoMode` only
+- Single check on `hasSupabase` only
+- Environment-based branching in a separate config module
+
+**Why:** A deployment with Supabase credentials wired but `NEXT_PUBLIC_DEMO_MODE=true` must still skip the live write — the operator explicitly asked for demo mode. Checking only `hasSupabase` would bypass that intent. Checking only `isDemoMode` would cause a runtime crash in a fresh dev environment where credentials are absent but `NEXT_PUBLIC_DEMO_MODE` is not yet set. The dual check covers both states without needing a separate config module.
+
+**Trade-off:** Two conditions to reason about in every server action. Mitigated by the consistent pattern across actions and this entry explaining the reasoning.
+
+## D-035 — Reference id format: `SC-XXXXXX` generated server-side via `crypto.getRandomValues`
+
+**Date:** 2026-05-23
+
+**Chosen:** Order reference ids are six uppercase alphanumeric characters prefixed with `SC-`, generated in `placeOrder` using `crypto.getRandomValues`. Stored in `inquiries.reference` (UNIQUE NOT NULL). Surfaced on the confirmation page and used by Steffi to track orders in the mobile app.
+
+**Considered:**
+- UUID v4 (too long for verbal communication)
+- Sequential integer (predictable, leaks order volume)
+- Nanoid (adds a dependency)
+
+**Why:** `SC-` prefix is instantly recognisable as a Steffny Couture reference. Six alphanumeric chars gives 2.18 billion combinations — collision probability negligible at expected order volume. `crypto.getRandomValues` is available in the Node.js Edge runtime with no extra dependency. Short enough that Steffi can read it over the phone or WhatsApp to match against the mobile app's inquiry list.
+
+**Trade-off:** Theoretical collision risk at very high order volume. The UNIQUE constraint on `inquiries.reference` causes a DB error on collision; the action can retry with a new reference if required in a later phase.
+
+## D-036 — `CartDrawer` mounted at root layout, not per route group
+
+**Date:** 2026-05-23
+
+**Chosen:** `<CartDrawer />` is rendered once in `src/app/layout.tsx` inside `MotionConfigProvider`. It is available from all route groups ((marketing), (shop), (booking)) without being duplicated in each group's layout.
+
+**Considered:**
+- Mounting in each route group layout that needs a cart
+- Mounting in `(shop)/layout.tsx` only
+- Rendering the drawer inline at the Header component level
+
+**Why:** The "Add to cart" CTA exists on product detail pages (under `(shop)`) but the cart icon is in the Header which renders across all route groups. A user on the home page (under `(marketing)`) clicking the cart icon must be able to open the drawer. Mounting at root satisfies all placements with a single instance and no state reset between route group navigations.
+
+**Trade-off:** The CartDrawer is in the DOM on pages that have no cart functionality (e.g. booking pages). The drawer is hidden and adds no visible overhead; the Zustand store is lazily initialised.
+
+## D-037 — Image alts for cart items include size and colour via `describeCartItem`
+
+**Date:** 2026-05-23
+
+**Chosen:** `src/features/cart/utils.ts` exports `describeCartItem(item)` which returns `[name, size, colour].filter(Boolean).join(', ')`. This string is used as the `alt` attribute on product thumbnails in the cart drawer, cart page, checkout review step, checkout summary sidebar, and confirmation summary.
+
+**Considered:**
+- Using just the product name as alt
+- Generating alt inline at each usage site
+
+**Why:** WCAG 1.1.1 requires alt text to convey the purpose of the image in context. In a cart, two rows may show the same dress in different sizes or colours; an alt of just the dress name would be identical for both, failing to distinguish them for screen reader users. `describeCartItem` appends the selected size and colour so each thumbnail's alt is unique and descriptive. Centralising the logic in a helper prevents the five usage sites from diverging.
+
+**Trade-off:** If a product has no size or colour selected (e.g. a single-option item with `variantId: null`), the alt falls back to the product name alone — still acceptable, as there is nothing to distinguish.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

@@ -45,3 +45,6 @@ test-*.png
 test-*.jpeg
 test-*.jpg
 final-regression/
+
+# Claude Code agent runtime files
+.claude/scheduled_tasks.lock

@@ -2,6 +2,14 @@
 
 Live state of the build. Update after every phase or significant change.
 
+## Build outcome
+
+Phases 0-8 shipped. Phase 9 (domain migration) deferred pending owner sign-off.
+
+All 13 routes pass Lighthouse local (Perf ≥96, A11y ≥96, BP=100, SEO=100). Final regression: 54 screenshots across 17 pages × 6 viewports — 0 bugs remaining, 0 console errors, 0 network failures. Security sweep: 0 critical/high findings; 0 high/critical npm audit findings. Build is demo-ready.
+
+**Owner actions required before domain cut-over:** provide `SUPABASE_SERVICE_ROLE_KEY`, confirm real contact details, supply studio/product photos, voice-review about copy, then run Phase 9.
+
 ## Current phase
 
 **Build complete (Phases 2-8 shipped; Phase 9 deferred)** — ready for owner sign-off + Vercel deploy
@@ -80,6 +88,18 @@ Phases 0–8 complete. Phase 9 (domain migration) is deferred and must be run se
 7. Run Phase 9 to migrate the domain.
 
 ## Activity log
+
+### 2026-05-24 (Final testing + pre-ship polish)
+
+- Final regression: 54 screenshots captured across 17 pages × 6 viewports (375/640/768/1024/1280/1920); all owner-spotlight placements verified; 0 console errors; 0 network failures
+- Blocking bug found and closed: `BookingWizard` `handleSubmit` silently swallowed validation failures — `onInvalid` callback added to surface brand-voice error toast (`src/app/(booking)/book/page.tsx`)
+- FIX: `/reviews` page — `LocalBusiness` JSON-LD with `AggregateRating` (ratingValue 5.0, reviewCount 14) and 10 `Review` nodes added; enables Google star-rating rich snippets; first-name-only author fields, no PII
+- FIX: contact server action — raw `err` object replaced with sanitised log (reference id + timestamp only; `src/features/contact/actions.ts`)
+- FIX: new migration `supabase/migrations/20260524_0008_revoke_increment_view_public.sql` — `REVOKE EXECUTE ON FUNCTION increment_view FROM PUBLIC` applied explicitly; Postgres `CREATE FUNCTION` grants to PUBLIC by default; migration 0006 added an authenticated GRANT but the PUBLIC grant was never revoked
+- FIX: checkout confirmation — `ref` searchParam validated against `/^SC-[A-Z0-9]{6}$/` regex (parity with booking confirmation D-041; `src/app/(shop)/checkout/confirmation/page.tsx`)
+- Post-fix Playwright re-verify: BUG-1 closed, JSON-LD live on `/reviews`, ref validation working; 0 bugs remaining
+- All 13 Lighthouse routes still pass thresholds (no performance-affecting changes in this pass)
+- `npm audit --omit=dev --audit-level=high`: 0 high/critical; postcss moderate noted as Next.js internal dependency, not actionable
 
 ### 2026-05-18
 - Project kit assembled

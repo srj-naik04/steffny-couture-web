@@ -754,6 +754,48 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** `text-ink-subtle` remains available in the token set and may still be used on display-scale text (≥24px / ≥18pt). Future contributors must be aware of this distinction; it is enforced by convention, not by tooling.
 
+## D-056 — `handleSubmit` always receives an `onInvalid` callback for forms that call server actions
+
+**Date:** 2026-05-24
+
+**Chosen:** Every React Hook Form `handleSubmit(onValid, onInvalid)` call that drives a server action must supply an explicit `onInvalid` handler. The handler sets a form-level error or triggers a brand-voice toast ("Please check the form above and try again."). Applied as a fix to `src/app/(booking)/book/page.tsx`; pattern must be followed for any future RHF form using `handleSubmit` to call a server action.
+
+**Considered:**
+- Relying on per-field inline error messages only (original approach — produced silent submit failure when step validation passed but full-schema validation failed)
+- Adding a generic `console.error` in `onInvalid` (inadequate UX; no user-visible feedback)
+
+**Why:** RHF's `handleSubmit` calls `onInvalid` and stops — it does not call `onValid` — when the full schema fails validation. Without an `onInvalid` callback, the user sees no feedback and the form appears frozen. Playwright caught this as a blocking bug: the wizard submit button appeared to do nothing. An explicit callback closes the gap and ensures the brand voice is applied to the error message.
+
+**Trade-off:** Every form that adds a server action must now include an `onInvalid` handler. The pattern is low-effort to follow and enforced by code review rather than tooling.
+
+## D-057 — `/reviews` page emits `LocalBusiness` JSON-LD with `AggregateRating` and `Review` array
+
+**Date:** 2026-05-24
+
+**Chosen:** The `/reviews` page includes a `LocalBusiness` structured data block containing an `AggregateRating` (ratingValue: 5.0, reviewCount: 14) and an array of 10 individual `Review` nodes. Author names are first-name-only, matching the existing seed data. No `email`, `telephone`, or other PII fields are included in the schema.
+
+**Considered:**
+- Emitting `AggregateRating` only (no individual `Review` nodes)
+- Omitting structured data from `/reviews` entirely (leaving it to the existing `LocalBusiness` block on `/contact`)
+
+**Why:** Google's rich-snippet eligibility for star ratings on organic results requires either `AggregateRating` on the `LocalBusiness` entity or individual `Review` nodes on the entity. The `/contact` page already has a `LocalBusiness` block without ratings; adding a second `LocalBusiness` block with `AggregateRating` on `/reviews` covers the rating signal at the page most likely to rank for "Steffny Couture reviews". Including `Review` nodes increases the richness of the snippet and the confidence of the structured data validator. First-name-only authors are not PII under GDPR when used in a public review context.
+
+**Trade-off:** The `reviewCount` (14) and `ratingValue` (5.0) are hardcoded in the page. If Steffi adds reviews via the mobile app, these values will drift until the page is updated. A future phase can derive the aggregate from live Supabase data once the service-role key is provisioned.
+
+## D-058 — `increment_view` RPC: `REVOKE EXECUTE FROM PUBLIC` applied explicitly in a dedicated migration
+
+**Date:** 2026-05-24
+
+**Chosen:** `supabase/migrations/20260524_0008_revoke_increment_view_public.sql` contains `REVOKE EXECUTE ON FUNCTION increment_view(text) FROM PUBLIC`. This migration runs after `20260521_0004_web_journal_views.sql` (which defines the function) and after `20260523_0006_web_bookings_rls.sql` (which is unrelated but confirms the GRANT-then-REVOKE sequence).
+
+**Considered:**
+- Editing the original `0004` migration to include the `REVOKE` (would require re-running the migration on the live DB)
+- Relying on the absence of an explicit anon `GRANT EXECUTE` (insufficient — Postgres grants EXECUTE to PUBLIC on `CREATE FUNCTION` by default regardless of whether an explicit `GRANT` is also issued)
+
+**Why:** Postgres's default `CREATE FUNCTION` behaviour grants `EXECUTE` to `PUBLIC`. Migration `0004` added `GRANT EXECUTE ON FUNCTION increment_view TO authenticated` but never revoked the PUBLIC grant. The effective permission was therefore: everyone (including anon) can call `increment_view`. A separate migration with an explicit `REVOKE` is the correct remediation without touching the applied `0004` migration. Noted in D-040 that the revoke was done inline to `0004`; this decision supersedes that note — the standalone `0008` migration is the definitive fix.
+
+**Trade-off:** Two migrations now manage permissions for the same function (`0004` grants to authenticated; `0008` revokes from PUBLIC). The ordering dependency is implicit in the filename sequence. Any re-sequencing of migrations must preserve `0008` running after `0004`.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

@@ -24,6 +24,7 @@ interface ServiceCard {
   eyebrow: string;
   summary: string;
   href: string;
+  ctaLabel: string;
   imageSrc: string;
   imageAlt: string;
 }
@@ -35,6 +36,7 @@ const serviceCards: ServiceCard[] = [
     summary:
       'Wedding dresses, lehengas, evening gowns, South Asian bridal wear — adjusted to fit your body as it is, not as a size chart imagines it.',
     href: '/services/alterations',
+    ctaLabel: 'About alterations',
     imageSrc: '/assets/hero/bride-white-ballgown-train.jpg',
     imageAlt: 'Bride in a white ballgown with a long train — Steffny Couture alterations, Hounslow',
   },
@@ -44,6 +46,7 @@ const serviceCards: ServiceCard[] = [
     summary:
       'A commission built from scratch, starting with a consultation and ending with a piece that was made for no one else. Gowns, lehengas, fusion silhouettes.',
     href: '/services/custom-bridal',
+    ctaLabel: 'About custom bridal',
     imageSrc: '/assets/hero/bride-maroon-chandelier.jpg',
     imageAlt: 'Bride in a maroon gown beneath a chandelier — Steffny Couture custom bridal, Hounslow',
   },
@@ -53,6 +56,7 @@ const serviceCards: ServiceCard[] = [
     summary:
       'Dresses made or altered to fit every person in your bridal party — same colour, same standard, every size. Synchronised fittings, consistent results.',
     href: '/services/bridesmaid',
+    ctaLabel: 'About bridesmaid dresses',
     imageSrc: '/assets/hero/bride-fuchsia-pampas.jpg',
     imageAlt: 'Bride in a fuchsia gown among pampas grass — Steffny Couture bridesmaid service, Hounslow',
   },
@@ -99,7 +103,7 @@ export default function ServicesPage() {
                       {card.summary}
                     </p>
                     <Button href={card.href} variant="secondary">
-                      Learn more
+                      {card.ctaLabel}
                     </Button>
                   </div>
                 </article>

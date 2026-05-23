@@ -19,7 +19,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer noopener"
               aria-label="Steffny Couture on Instagram"
-              className="hover:bg-ivory/10 inline-flex items-center justify-center rounded-full p-2 transition-colors"
+              className="hover:bg-ivory/10 inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors"
             >
               <svg
                 viewBox="0 0 24 24"

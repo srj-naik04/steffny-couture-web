@@ -4,7 +4,7 @@ Live state of the build. Update after every phase or significant change.
 
 ## Current phase
 
-**Phase 3 — Marketing Pages** (complete; ready for Phase 4)
+**Phase 4 — Dress Catalogue** (complete; ready for Phase 5)
 
 ## Phase status
 
@@ -14,7 +14,7 @@ Live state of the build. Update after every phase or significant change.
 | 1 — Asset Extraction | ✅ Done | 36 raw images scraped, curated to 10 products + 13 hero + 3 about placeholders; WebP/AVIF + blurDataURLs generated; data/products.json populated |
 | 2 — Database & Backend | ✅ Done | 5 web-only migrations (products/product_images, inquiries, reviews, journal_views, storage), RLS hardened with WITH CHECK + EXISTS guards, supabase clients split (browser/server/admin), env.ts split for server-only safety, products feature API; seed pending live SUPABASE_SERVICE_ROLE_KEY |
 | 3 — Marketing Pages | ✅ Done | 7 marketing pages + 5 stub pages, JSON-LD (Organization/WebSite/LocalBusiness), unique image per visible placement, skip-to-content a11y, contact server action with PII-safe logging and RLS-compliant inserts; Playwright clean at all 6 viewports |
-| 4 — Dress Catalogue | ⏳ Not started | Grid, product detail, carousel |
+| 4 — Dress Catalogue | ✅ Done | 10-product SSG grid with URL-state filters + product detail with carousel/variant selector/cart; demo-mode JSON fallback so catalogue works without live Supabase; Zustand cart store wired into header; Product JSON-LD with breakout-safe serializer |
 | 5 — Cart & Mock Checkout | ⏳ Not started | Zustand cart, fake payment, inquiry record |
 | 6 — Fitting Booking | ⏳ Not started | 6-step wizard, shared bookings table |
 | 7 — Reviews, Journal, Polish | ⏳ Not started | MDX posts, reviews, animations, a11y |
@@ -44,6 +44,8 @@ Notable to date:
 - [ ] Instagram pull — auto-pull (requires Instagram API + Business account) or static curated grid? Decide before Phase 7.
 - [ ] Real phone/email/WhatsApp — all sourced from `src/constants/brand.ts` STUDIO constant. Confirm these are correct before launch.
 - [ ] Custom-bridal service hero — currently uses `bride-maroon-arch.jpg` (non-Steffi). IMAGE_BRIEF originally recommended a Steffi photo here but the rule was relaxed as both Steffi photos are already anchored on home hero, about hero, and contact founder card. Steffi: do you want a dedicated portrait for the custom-bridal page?
+- [ ] Multiple images per product — each catalogue entry currently has only one image (`01.jpg`). Carousel is built to handle multiple; once Supabase is seeded, additional `product_images` rows will render automatically. Steffi: do you have second/third angles for the 10 dresses?
+- [ ] Colour-swatch palette accuracy — `globals.css` `@theme` defines approximate hex for nine product colours (mauve, plum, aqua, coral, cobalt, blue, champagne, maroon, sage). Steffi: review the chips on demo day to confirm they read true to fabric.
 
 ## Blockers
 
@@ -109,6 +111,24 @@ Notable to date:
 - Playwright (2 cycles): cycle 1 caught RevealOnScroll invisible content, Supabase insert failure, Instagram touch target, broken nav links — all fixed; cycle 2 clean at all 6 viewports (375/640/768/1024/1280/1920); BUG-2 (Supabase rejection) deferred pending live table provisioning
 - `npm run typecheck`, `lint`, `build` all clean; 13 routes generated
 - **Phase 3 complete**
+
+### 2026-05-23 (Phase 4)
+- `src/features/products/source.ts` — Supabase-first wrapper with local JSON fallback; `warnFallback()` suppresses verbose stack traces for expected SSG DYNAMIC_SERVER_USAGE errors
+- `src/features/cart/store.ts` + `hooks.ts` — Zustand cart with localStorage persistence; `CartItem` type; merge-by-productId+size+colour; `useCartCount()` + `useHydrated()` for SSR-safe badge
+- `src/components/shared/CartIcon.tsx` — hydration-safe cart icon with count badge; 44px touch target; added to Header (desktop + mobile)
+- `src/features/catalog/components/ProductCard.tsx` — server card with image zoom hover, colour swatches, full-card link
+- `src/features/catalog/components/ProductGrid.tsx` — server grid (1/2/3/4 cols) with RevealOnScroll stagger + brand-voice empty state
+- `src/features/catalog/components/Filters.tsx` — client component; URL search param state; category/colour/occasion chips + price slider; mobile expandable panel; `parseFilters` + `applyFilters` helpers
+- `src/app/(shop)/dresses/page.tsx` — replaced stub; server page with filter parsing + filtered product grid
+- `src/app/(shop)/dresses/loading.tsx` + `error.tsx` — shimmer skeleton + brand-voice error boundary
+- `src/features/catalog/components/ImageCarousel.tsx` — client; keyboard ←/→; swipe via pointer events; thumbnail tablist; pagination dots; hover zoom; fullscreen dialog overlay
+- `src/features/catalog/components/VariantContext.tsx` + `VariantSelector.tsx` + `AddToCartButton.tsx` — client trio; context shares selected size/colour; auto-selects single option; 2s in-button "Added" confirmation
+- `src/app/(shop)/dresses/[slug]/page.tsx` — SSG (generateStaticParams over 10 slugs); generateMetadata per product; Product JSON-LD; breadcrumb; two-column layout; story section; related dresses; FinalCta
+- `src/app/(shop)/dresses/[slug]/loading.tsx` + `not-found.tsx` — matching skeleton + brand-voice not-found
+- `src/app/sitemap.ts` — extended to async; appends `/dresses/<slug>` for all 10 products
+- Home page updated to use `getFeaturedProductsFromSource(4)` — works in demo mode without Supabase
+- `npm run typecheck`, `lint`, `build` all clean; 28 routes generated; all 10 product slugs SSG-prerendered (`●`)
+- **Phase 4 complete**
 
 ---
 

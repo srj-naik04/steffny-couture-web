@@ -328,6 +328,91 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** If a second submission source is added (e.g. `source = 'booking'`), the policy and the action must both be updated.
 
+## D-026 — Data source wrapper with JSON fallback (`src/features/products/source.ts`)
+
+**Date:** 2026-05-23
+
+**Chosen:** `source.ts` tries Supabase first; falls back to bundled `data/products.json` + `data/optimised-images.json` when the service-role key is absent or a DYNAMIC_SERVER_USAGE error is thrown during SSG. Both paths return the same `ProductCard` / `ProductDetail` shape.
+
+**Considered:**
+- Hardcoded fallback data inline in each server component
+- Requiring a live Supabase connection for all SSG builds
+
+**Why:** Demo mode must work without `SUPABASE_SERVICE_ROLE_KEY`. Centralising the fallback in one wrapper means every server component (home featured strip, dresses grid, product detail, related dresses) benefits without duplicating guard logic. Phases 5-7 reuse the same wrapper.
+
+**Trade-off:** Two JSON files in the repo must be kept consistent with the Supabase schema. Once the service-role key is wired, the JSON files become redundant but harmless.
+
+## D-027 — Cart store: Zustand with localStorage, persistence key `steffny-cart-v1`
+
+**Date:** 2026-05-23
+
+**Chosen:** Zustand `persist` middleware writing to `localStorage` under key `steffny-cart-v1`. SSR safety via `useHydrated` hook in `src/features/cart/hooks.ts` which delays rendering the count badge until after client hydration.
+
+**Considered:**
+- Supabase cart table keyed by anonymous session id
+- sessionStorage (lost on tab close)
+- No persistence (cart resets on navigate)
+
+**Why:** No customer accounts in v1 means no stable server-side key. The versioned key (`-v1`) lets us change the cart item shape between phases without silently rehydrating stale data that no longer matches the type. `useHydrated` prevents the server-rendered badge showing a stale count from a prior visit, which would cause a hydration mismatch.
+
+**Trade-off:** Cart does not sync across devices. Acceptable for v1; Stripe integration in a later phase would introduce server-side cart state.
+
+## D-028 — Tailwind v4 product swatch tokens in `globals.css` `@theme`
+
+**Date:** 2026-05-23
+
+**Chosen:** Nine colour tokens (`--color-swatch-mauve`, `-plum`, `-aqua`, `-coral`, `-cobalt`, `-blue`, `-champagne`, `-maroon`, `-sage`) added to the `@theme` block in `globals.css`. Used exclusively on `ProductCard` colour chips.
+
+**Considered:**
+- Inline hex codes on the chip elements
+- Extending `tailwind.config.ts` (v3 approach)
+
+**Why:** CLAUDE.md §6 forbids inline hex codes. Tailwind v4 extends the theme via `@theme` in CSS rather than a JS config. Naming tokens after the product colour names (not semantic UI names) keeps the mapping explicit. Phase 7 may extend the set if Steffi adds more colour names via the mobile app.
+
+**Trade-off:** These tokens are not UI surface tokens and should not be used for anything other than product swatches. The naming convention (`swatch-*`) makes this visually distinct in the class list.
+
+## D-029 — Filters split into client component and server helpers
+
+**Date:** 2026-05-23
+
+**Chosen:** `src/features/catalog/components/Filters.tsx` is a client component (uses `useSearchParams`, `useRouter`). `src/features/catalog/filters-helpers.ts` contains `parseFilters`, `applyFilters`, and `FilterState` with no `'use client'` directive and is imported by the server page.
+
+**Considered:**
+- One file with `'use client'` exporting both the component and the helpers
+- Server-only filter parsing via `searchParams` prop on the page
+
+**Why:** Next.js 15 forbids a server component from importing exports from a module that contains `'use client'`. The server `dresses/page.tsx` needs `parseFilters` and `applyFilters` to filter the product list before rendering. Separating helpers into a plain module with no client directive resolves the boundary violation without duplicating logic.
+
+**Trade-off:** Two files where one might seem sufficient. The split is a Next.js 15 constraint, not a design preference.
+
+## D-030 — JSON-LD breakout-safe serialiser (`safeJsonLd` in `src/lib/seo/jsonld.tsx`)
+
+**Date:** 2026-05-23
+
+**Chosen:** `safeJsonLd(data)` replaces `<` with `<`, `>` with `>`, and `&` with `&` before injecting structured data into an inline `<script type="application/ld+json">` tag.
+
+**Considered:**
+- `JSON.stringify` directly (default Next.js pattern)
+- Sanitising input at the Supabase insert layer
+
+**Why:** Product names and descriptions come from Supabase rows that Steffi edits via the mobile app. A stored string containing `</script>` would break out of the inline script tag and potentially execute arbitrary HTML. The Unicode escape approach is the OWASP-recommended method for safely embedding JSON in HTML. Sanitising at the insert layer would require co-ordinating with the mobile app's schema and would not protect against data already stored.
+
+**Trade-off:** The escaped output is slightly harder to read in View Source. No functional difference at runtime — JSON parsers handle Unicode escapes transparently.
+
+## D-031 — `src/features/catalog/` for UI components; `src/features/products/` for data layer
+
+**Date:** 2026-05-23
+
+**Chosen:** `src/features/catalog/` holds UI components (`ProductCard`, `ProductGrid`, `ImageCarousel`, `VariantSelector`, `AddToCartButton`, `Filters`). `src/features/products/` holds the data layer (`api.ts`, `source.ts`, hooks, types, schemas). CLAUDE.md §2 lists only `features/products/`; the `catalog/` folder is not documented there.
+
+**Considered:**
+- Merging everything into `src/features/products/` as CLAUDE.md originally specified
+- Keeping CLAUDE.md accurate by amending it
+
+**Why:** Separating rendering concerns (`catalog/`) from data concerns (`products/`) maps cleanly to "what the page renders" vs "what fetches data". The split emerged naturally during Phase 4 implementation when a single folder became unwieldy. CLAUDE.md is not amended because this is an implementation detail, not a spec change; the folder structure in CLAUDE.md is advisory, not enforced by tooling.
+
+**Trade-off:** CLAUDE.md §2 does not reflect `catalog/`. Future builders reading only CLAUDE.md will be surprised. Mitigated by this decision log entry.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

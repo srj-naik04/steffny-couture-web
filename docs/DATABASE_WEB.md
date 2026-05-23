@@ -62,6 +62,7 @@ CREATE TABLE public.products (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   slug text UNIQUE NOT NULL,
   name text NOT NULL,
+  short_description text,              -- one-liner for cards/grids
   description text NOT NULL,
   story text,
   category text NOT NULL,          -- 'wedding', 'evening', 'occasion', 'bridal'
@@ -98,6 +99,8 @@ CREATE TABLE public.product_images (
   storage_path text NOT NULL,      -- e.g. 'products/maroon-wedding-dress-1.jpg'
   alt_text text NOT NULL,
   blur_data_url text,
+  aspect_ratio numeric(6,4),       -- width / height, e.g. 0.6935 (for next/image sizing)
+  variants jsonb,                  -- [{width, format, storage_path}, ...] for srcset
   width int,
   height int,
   display_order int NOT NULL DEFAULT 0,
@@ -151,10 +154,12 @@ CREATE TABLE public.reviews (
   occasion text,                   -- e.g. 'wedding alterations'
   published boolean NOT NULL DEFAULT false,
   featured boolean NOT NULL DEFAULT false,
-  created_at timestamptz NOT NULL DEFAULT now()
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
 );
 
 CREATE INDEX reviews_published_idx ON public.reviews(published, created_at DESC);
+-- updated_at kept current by a BEFORE UPDATE trigger (same pattern as products)
 ```
 
 RLS: anyone reads published; anyone inserts (unpublished); staff publishes + features.
@@ -174,10 +179,10 @@ RLS: anyone can call `increment_view(slug)` RPC; no direct table access.
 
 ## Storage buckets
 
-### `public/` bucket
-Anyone can read; only authenticated staff can write.
+### `dress-photos` bucket
+Public bucket (anyone can read); file size limit 5 MB; only authenticated staff can write. Created by `20260521_0005_web_storage.sql`.
 
-Folders:
+Folder conventions inside the bucket:
 - `products/` — dress photography
 - `about/` — about page photos
 - `hero/` — homepage hero images
@@ -185,7 +190,7 @@ Folders:
 
 URLs follow:
 ```
-https://<project>.supabase.co/storage/v1/object/public/products/<filename>
+https://<project>.supabase.co/storage/v1/object/public/dress-photos/<path>
 ```
 
 These work with `next/image` as long as the hostname is in `next.config.ts` `remotePatterns`.
@@ -209,7 +214,7 @@ Website operates as **guest** (anonymous), with very specific allowed actions:
 
 Web project migrations live in `supabase/migrations/` like the mobile app. **Coordinate timestamps** so they apply in order.
 
-Naming: `YYYYMMDD_HHMM_<description>.sql`
+Naming: `YYYYMMDD_NNNN_<description>.sql` (four-digit zero-padded sequence, e.g. `0001`, `0002`)
 
 Each web-only table migration must:
 1. `CREATE TABLE IF NOT EXISTS`

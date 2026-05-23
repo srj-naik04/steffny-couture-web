@@ -66,5 +66,9 @@
       "Read(**/*.key)"
     ]
   },
-  "model": "opus"
+  "model": "opus",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "teammateMode": "in-process"
 }

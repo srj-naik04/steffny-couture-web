@@ -66,6 +66,17 @@
   --text-label--font-weight: 500;
 
   --tracking-widest: 0.1em;
+
+  /* Product colour swatches — used only on ProductCard chips, not on UI surfaces */
+  --color-swatch-mauve: #c8a4b6;
+  --color-swatch-plum: #7b2a61;
+  --color-swatch-aqua: #7ecdc8;
+  --color-swatch-coral: #e8836a;
+  --color-swatch-cobalt: #1b4fa0;
+  --color-swatch-blue: #1b4fa0;
+  --color-swatch-champagne: #f0dcae;
+  --color-swatch-maroon: #6b1a1a;
+  --color-swatch-sage: #7e9e73;
 }
 
 @layer base {

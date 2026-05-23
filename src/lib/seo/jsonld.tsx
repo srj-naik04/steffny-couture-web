@@ -14,6 +14,17 @@ import { BRAND, STUDIO } from '@/constants/brand';
 import { siteUrl } from '@/lib/env';
 
 // ---------------------------------------------------------------------------
+// Safe JSON-LD serialiser — prevents </script> injection via product data
+// ---------------------------------------------------------------------------
+
+export function safeJsonLd(obj: unknown): string {
+  return JSON.stringify(obj)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026');
+}
+
+// ---------------------------------------------------------------------------
 // Organisation — for root layout / home page
 // ---------------------------------------------------------------------------
 
@@ -38,7 +49,7 @@ export function organizationJsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }}
     />
   );
 }
@@ -66,7 +77,7 @@ export function websiteJsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }}
     />
   );
 }
@@ -128,7 +139,7 @@ export function localBusinessJsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }}
     />
   );
 }

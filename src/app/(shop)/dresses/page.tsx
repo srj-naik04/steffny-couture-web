@@ -1,44 +1,142 @@
 /**
- * Dresses catalogue page stub — Phase 3
+ * Dresses catalogue page — Phase 4
  *
- * Placeholder until Phase 4 (Dress Catalogue & Product Detail) implements
- * the full grid with filters and product cards. Uses shop layout.
+ * Server component. Fetches all products via the source wrapper (Supabase
+ * or local JSON fallback), parses URL filter params, and renders the grid.
+ *
+ * The Filters component is client — it manages URL state. The ProductGrid
+ * is server — it receives the already-filtered list.
  */
 
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { Hero } from '@/components/marketing/Hero';
 import { Section } from '@/components/ui/Section';
 import { Container } from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
-import { buildMetadata } from '@/lib/seo/metadata';
+import { getActiveProductsFromSource } from '@/features/products/source';
+import { ProductGrid } from '@/features/catalog/components/ProductGrid';
+import { Filters } from '@/features/catalog/components/Filters';
+import {
+  parseFilters,
+  applyFilters,
+} from '@/features/catalog/components/filters-helpers';
+import { siteUrl } from '@/lib/env';
+import { BRAND } from '@/constants/brand';
 
-export const metadata: Metadata = buildMetadata('/dresses');
+export const metadata: Metadata = {
+  title: 'The dress collection',
+  description:
+    'Browse the full Steffny Couture collection — wedding gowns, evening dresses, and occasion wear, all hand-finished at the Hounslow studio.',
+  keywords: [
+    'wedding dresses London',
+    'evening gowns Hounslow',
+    'couture dresses',
+    'South Asian bridal',
+    'occasion wear London',
+  ],
+  alternates: {
+    canonical: `${siteUrl}/dresses`,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_GB',
+    url: `${siteUrl}/dresses`,
+    siteName: BRAND.name,
+    title: 'The dress collection — Steffny Couture',
+    description:
+      'Browse the full Steffny Couture collection — wedding gowns, evening dresses, and occasion wear, all hand-finished at the Hounslow studio.',
+    images: [
+      {
+        url: `${siteUrl}/assets/hero/bride-bangles-portrait.jpg`,
+        width: 1200,
+        height: 630,
+        alt: 'The Steffny Couture dress collection',
+      },
+    ],
+  },
+};
 
-export default function DressesPage() {
+interface DressesPageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function DressesPage({ searchParams }: DressesPageProps) {
+  const allProducts = await getActiveProductsFromSource();
+
+  // Build filter meta from the full product list
+  const allCategories = [...new Set(allProducts.map((p) => p.category))].sort();
+  const allColours = [
+    ...new Set(
+      allProducts.map((p) => p.primary_colour).filter(Boolean) as string[],
+    ),
+  ].sort();
+  const allOccasions = [
+    ...new Set(allProducts.flatMap((p) => p.occasion)),
+  ].sort();
+  const maxPriceRange =
+    Math.ceil(Math.max(...allProducts.map((p) => p.price)) / 50) * 50 || 1000;
+
+  // Parse filter params from URL
+  const resolvedParams = await searchParams;
+  const paramEntries = Object.entries(resolvedParams).map(([k, v]) => [
+    k,
+    Array.isArray(v) ? v[0] : (v ?? ''),
+  ]);
+  const urlParams = new URLSearchParams(paramEntries as [string, string][]);
+  const currentFilters = parseFilters(urlParams, maxPriceRange, {
+    categories: allCategories,
+    colours: allColours,
+    occasions: allOccasions,
+  });
+  const filteredProducts = applyFilters(allProducts, currentFilters);
+
+  const hasActiveFilters =
+    currentFilters.categories.length > 0 ||
+    currentFilters.colours.length > 0 ||
+    currentFilters.occasions.length > 0 ||
+    currentFilters.maxPrice < maxPriceRange;
+
+  const resultLabel =
+    filteredProducts.length === allProducts.length
+      ? `${allProducts.length} piece${allProducts.length === 1 ? '' : 's'}`
+      : `${filteredProducts.length} of ${allProducts.length} piece${allProducts.length === 1 ? '' : 's'}`;
+
   return (
     <>
       <Hero
         kicker="The collection"
-        headline="The dress collection"
-        subhead="We are curating the full catalogue. The collection page — with filters by colour, occasion, and price — is coming in Phase 4 of the build."
-        variant="contact"
+        headline="Couture and ready-to-wear"
+        subhead="Hand-finished gowns for weddings, evenings, and the moments that deserve to be remembered. Each piece is made or curated at the Hounslow studio."
+        variant="service"
       />
 
       <Section tone="ivory" spacing="md">
-        <Container size="narrow">
-          <div className="space-y-6 text-center">
-            <p className="text-body text-ink-muted text-pretty">
-              The full collection grid, with multi-angle product images and size variant selectors,
-              arrives in Phase 4. To enquire about a particular piece or commission something new,
-              get in touch or book a consultation at the studio.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button href="/book" variant="primary">
-                Book a fitting
-              </Button>
-              <Button href="/contact" variant="secondary">
-                Get in touch
-              </Button>
+        <Container>
+          <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+            {/* Filters column */}
+            <aside aria-label="Product filters">
+              <Suspense fallback={null}>
+                <Filters
+                  allCategories={allCategories}
+                  allColours={allColours}
+                  allOccasions={allOccasions}
+                  maxPriceRange={maxPriceRange}
+                  currentFilters={currentFilters}
+                />
+              </Suspense>
+            </aside>
+
+            {/* Grid column */}
+            <div>
+              <div className="mb-6 flex items-center justify-between">
+                <p className="text-small text-ink-muted">
+                  {resultLabel}
+                </p>
+              </div>
+              <ProductGrid
+                products={filteredProducts}
+                hasActiveFilters={hasActiveFilters}
+              />
             </div>
           </div>
         </Container>

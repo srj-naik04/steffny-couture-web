@@ -86,7 +86,7 @@ export async function submitContactForm(
         'Thank you for getting in touch. Steffi will reply within one working day.',
     };
   } catch (err) {
-    console.error('[Contact] Unexpected error:', err);
+    console.error('[Contact] Unexpected error:', err instanceof Error ? err.message : String(err));
     return {
       success: false,
       error:

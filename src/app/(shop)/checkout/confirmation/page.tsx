@@ -19,12 +19,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+const REF_PATTERN = /^SC-[A-Z0-9]{6}$/;
+
 type Props = {
   searchParams: Promise<{ ref?: string }>;
 };
 
 export default async function ConfirmationPage({ searchParams }: Props) {
   const { ref } = await searchParams;
+  const validatedRef = ref && REF_PATTERN.test(ref) ? ref : undefined;
 
   return (
     <Section tone="ivory" spacing="lg">
@@ -39,12 +42,12 @@ export default async function ConfirmationPage({ searchParams }: Props) {
             Order received
           </h1>
 
-          {ref && (
+          {validatedRef && (
             <div className="inline-flex items-baseline gap-2 rounded-full bg-gold-soft px-5 py-2 mb-6">
               <span className="text-label uppercase tracking-widest text-ink-muted">
                 Reference
               </span>
-              <span className="font-display text-title text-ink">{ref}</span>
+              <span className="font-display text-title text-ink">{validatedRef}</span>
             </div>
           )}
 
@@ -68,8 +71,8 @@ export default async function ConfirmationPage({ searchParams }: Props) {
         <div className="mb-10 rounded-xl border border-border bg-surface p-5 text-center space-y-1.5">
           <p className="text-small text-ink-muted">
             Keep this reference number handy:{' '}
-            {ref ? (
-              <strong className="text-ink">{ref}</strong>
+            {validatedRef ? (
+              <strong className="text-ink">{validatedRef}</strong>
             ) : (
               'check your email for details'
             )}

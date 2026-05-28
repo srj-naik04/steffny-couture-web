@@ -59,6 +59,10 @@ Notable to date:
 
 ## Activity log
 
+### 2026-05-28 — Hero + catalogue layout polish
+
+Hero + catalogue layout polish — full-bleed split hero (image bleeds to right edge on lg+, text aligns to container; removes empty desktop side gutters), about hero object-top (head no longer cropped), dresses grid de-gated from RevealOnScroll + compact catalogue header so products show without scrolling. Playwright verified 0 horizontal overflow across 6 viewports × 6 pages.
+
 ### 2026-05-24 — Copy de-personalisation — studio voice pass
 
 Copy de-personalisation — generalized all operational "Steffi will…" service promises to studio voice ("we will…", "the studio…") across 21 files; kept founder identity on about page, founder card, home teaser, JSON-LD, journal bylines. Playwright verified 0 operational promises in visible text; build clean.

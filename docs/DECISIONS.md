@@ -852,6 +852,34 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** Very slightly less personal tone in transactional flows. The about page and founder card preserve the human connection that makes the brand feel boutique.
 
+## D-063 — Hero uses full-bleed split layout on lg+
+
+**Date:** 2026-05-28
+
+**Chosen:** On `lg+` viewports the hero image column bleeds to the viewport right edge while the text column left-aligns to the `max-w-7xl` container via `xl:pl-[max(3rem,calc((100vw-80rem)/2+3rem))]`. The contact variant (no image) is unchanged. `HeroImage` gains an `objectPosition` prop so each call site can control crop independently (portraits use `object-top`).
+
+**Considered:**
+- Keeping the fully contained hero (image constrained inside `max-w-7xl` on both sides) — simple but leaves ~320px of empty background on either side of the content on wide monitors
+- Using a fixed `max-w-screen-2xl` outer cap — still gaps at 1920px
+
+**Why:** Empty side gutters at large viewport widths made the layout look unfinished on desktop. Full-bleed imagery is the couture and editorial standard; bleeding the photo to the right edge uses the full canvas and creates the visual weight the brand requires. The `objectPosition` prop gives per-image crop control without forking the component.
+
+**Trade-off:** The `max(3rem, calc(...))` clamp is slightly complex; it is isolated to one line in `Hero.tsx` and documented with a comment.
+
+## D-064 — Primary catalogue content is never wrapped in RevealOnScroll
+
+**Date:** 2026-05-28
+
+**Chosen:** `RevealOnScroll` (scroll-triggered opacity/translate animation) is applied only to secondary or decorative sections — never to the primary content a user arrives at a page to see. On `/dresses` the product `<ul>` grid is rendered unconditionally visible; the page header is compact so the first product row appears within the initial viewport.
+
+**Considered:**
+- Wrapping the grid in `RevealOnScroll` for visual consistency with other pages — caused products to be invisible until the user scrolled, which blocked the core purpose of the page
+- A taller hero section above the grid — pushed all products below the fold
+
+**Why:** Scroll-gated opacity on primary content is a UX anti-pattern: if a user opens `/dresses` to browse dresses they should see dresses immediately. Reveal animations are intentional, not decorative — they should only be applied to content that enhances the experience when it enters view (teaser sections, secondary calls to action, decorative images), never to the first thing a user came for.
+
+**Trade-off:** None — this is strictly correct UX behaviour.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

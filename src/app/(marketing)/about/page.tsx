@@ -60,6 +60,7 @@ export default function AboutPage() {
           blurDataURL: BOUQUET_BLUR,
           width: 1920,
           height: 2876,
+          objectPosition: 'object-top',
         }}
         variant="about"
       />

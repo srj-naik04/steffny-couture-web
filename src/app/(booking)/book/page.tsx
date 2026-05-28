@@ -18,11 +18,11 @@ import { BookingWizard } from '@/features/bookings/components/BookingWizard';
 export const metadata: Metadata = {
   title: 'Book a fitting',
   description:
-    'Book a fitting, alteration, or bridal consultation at Steffny Couture in Hounslow. Steffi confirms every appointment personally.',
+    'Book a fitting, alteration, or bridal consultation at Steffny Couture in Hounslow. Every appointment is confirmed personally.',
   openGraph: {
     title: 'Book a fitting — Steffny Couture',
     description:
-      'Book a fitting, alteration, or bridal consultation at Steffny Couture in Hounslow. Steffi confirms every appointment personally.',
+      'Book a fitting, alteration, or bridal consultation at Steffny Couture in Hounslow. Every appointment is confirmed personally.',
     images: [
       {
         url: '/assets/hero/bride-white-umbrella-interior.jpg',
@@ -54,13 +54,13 @@ export default function BookPage() {
               <div className="h-px w-16 bg-gold" aria-hidden="true" />
               <p className="text-body text-ink-muted max-w-xl text-pretty">
                 Whether you need alterations, a custom piece, or an initial consultation,
-                fill in the form and Steffi will confirm your appointment within one
+                fill in the form and we will confirm your appointment within one
                 working day.
               </p>
               <ul className="space-y-2 text-small text-ink-muted" aria-label="Booking assurances">
                 <li className="flex items-center gap-2">
                   <span className="size-1.5 rounded-full bg-rose shrink-0" aria-hidden="true" />
-                  Steffi confirms every booking personally
+                  Every booking is confirmed personally
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="size-1.5 rounded-full bg-rose shrink-0" aria-hidden="true" />

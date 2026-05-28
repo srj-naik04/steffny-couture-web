@@ -56,7 +56,7 @@ export function LastOrderSummary() {
   if (!order || !order.items?.length) {
     return (
       <p className="text-body text-ink-muted text-center">
-        Your items are confirmed and Steffi will be in touch shortly.
+        Your items are confirmed and we will be in touch shortly.
       </p>
     );
   }

@@ -208,7 +208,7 @@ function ContactStep({
     <div className="space-y-5">
       <h2 className="font-display text-title text-ink">Contact details</h2>
       <p className="text-body text-ink-muted">
-        Steffi will use these details to get in touch about your order.
+        We will use these details to get in touch about your order.
       </p>
 
       <Field label="Full name" required error={errors.fullName?.message} id="fullName">
@@ -262,8 +262,7 @@ function DeliveryStep({
     <div className="space-y-5">
       <h2 className="font-display text-title text-ink">Delivery address</h2>
       <p className="text-body text-ink-muted">
-        Your order will be sent to this address. Steffi will confirm delivery
-        timing over WhatsApp.
+        Your order will be sent to this address. We will confirm delivery timing once your order is processed.
       </p>
 
       <Field label="Address line 1" required error={errors.addressLine1?.message} id="addressLine1">
@@ -356,8 +355,8 @@ function PaymentStep({
           role="note"
           aria-label="Demo mode notice"
         >
-          <strong>Demo mode</strong> — no payment is taken. Steffi will confirm
-          your order over WhatsApp before any charges apply.
+          <strong>Demo mode</strong> — no payment is taken. We will confirm
+          your order before any charges apply.
         </div>
       )}
 
@@ -414,7 +413,7 @@ function PaymentStep({
       {/* Trust signal */}
       <div className="flex items-center gap-2 text-small text-ink-muted">
         <ShieldCheck className="size-4 shrink-0 text-success" aria-hidden="true" />
-        <span>Your card details are encrypted. No payment is taken until Steffi confirms your order.</span>
+        <span>Your card details are encrypted. No payment is taken until your order is confirmed.</span>
       </div>
     </div>
   );

@@ -362,7 +362,7 @@ export function CartDrawer() {
                   </div>
 
                   <p className="text-small text-ink-muted">
-                    Delivery and final pricing confirmed with Steffi after placing your order.
+                    Delivery and final pricing confirmed by the studio after placing your order.
                   </p>
 
                   {/* CTAs */}

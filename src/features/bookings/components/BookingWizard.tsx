@@ -93,7 +93,7 @@ const SERVICE_TYPES = [
   {
     value: 'consultation' as const,
     label: 'Consultation',
-    description: 'Not sure yet? Come in for a conversation with Steffi and see what is possible.',
+    description: 'Not sure yet? Come in for a conversation and see what is possible.',
     icon: MessageSquare,
   },
 ];
@@ -433,7 +433,7 @@ function DetailsStep({
         Tell us about your garment
       </legend>
       <p className="text-body text-ink-muted">
-        The more detail you share here, the better Steffi can prepare for your appointment.
+        The more detail you share here, the better we can prepare for your appointment.
       </p>
 
       <Field
@@ -490,8 +490,7 @@ function ScheduleStep({
         When would you like to come in?
       </legend>
       <p className="text-body text-ink-muted">
-        Choose a preferred date and time. Steffi will confirm availability over WhatsApp
-        within one working day.
+        Choose a preferred date and time. We will confirm availability within one working day.
       </p>
 
       <Field
@@ -544,7 +543,7 @@ function ScheduleStep({
           ))}
         </ul>
         <p className="mt-3 text-ink-muted">
-          All appointments are by arrangement. Steffi will confirm your slot personally.
+          All appointments are by arrangement. We will confirm your slot personally.
         </p>
       </div>
     </fieldset>
@@ -568,7 +567,7 @@ function ContactStep({
         Your contact details
       </legend>
       <p className="text-body text-ink-muted">
-        Steffi will use these to confirm your appointment and answer any questions.
+        We will use these to confirm your appointment and answer any questions.
       </p>
 
       <Field
@@ -694,7 +693,7 @@ function ReviewStep({ values }: { values: BookingFullValues }) {
 
       <div className="rounded-xl border border-border bg-rose-soft/30 px-5 py-4 text-small text-ink">
         <p>
-          Steffi will confirm your appointment personally over WhatsApp within one working day.
+          We will confirm your appointment within one working day.
           This is a booking request — not a confirmed slot.
         </p>
       </div>
@@ -717,16 +716,16 @@ function WhatHappensNext() {
         <ol className="mt-4 space-y-4 text-small text-ink">
           <li className="flex gap-3">
             <span className="font-display text-rose tabular-nums shrink-0">1.</span>
-            <span>Steffi sees your request in the studio app within minutes.</span>
+            <span>Your request is received in the studio within minutes.</span>
           </li>
           <li className="flex gap-3">
             <span className="font-display text-rose tabular-nums shrink-0">2.</span>
-            <span>Steffi will WhatsApp you within one working day to confirm.</span>
+            <span>We will be in touch within one working day to confirm.</span>
           </li>
           <li className="flex gap-3">
             <span className="font-display text-rose tabular-nums shrink-0">3.</span>
             <span>
-              Steffi will reply on WhatsApp or email within one working day to confirm
+              We will reply by WhatsApp or email within one working day to confirm
               the slot and let you know what to bring.
             </span>
           </li>
@@ -740,7 +739,7 @@ function WhatHappensNext() {
       <div className="rounded-2xl border border-border bg-surface p-6">
         <h3 className="font-display text-base text-ink">Prefer to chat first?</h3>
         <p className="mt-2 text-small text-ink-muted">
-          Send a message on WhatsApp and Steffi will reply directly.
+          Send a message on WhatsApp and we will reply directly.
         </p>
         <a
           href={STUDIO.whatsapp}
@@ -761,7 +760,7 @@ function WhatHappensNext() {
         <h3 className="font-display text-base text-ink">Cancellations</h3>
         <p className="text-ink-muted">
           You can cancel or reschedule up to 24 hours before your appointment.
-          Contact Steffi directly on WhatsApp.
+          Contact the studio directly on WhatsApp.
         </p>
       </div>
     </aside>
@@ -1001,7 +1000,7 @@ export function BookingWizard() {
             className="mb-6 rounded-xl bg-gold-soft border border-gold/20 px-4 py-3 text-small text-ink"
           >
             <strong>Demo mode</strong> — your booking request will not be saved to a live
-            database. Steffi will confirm your appointment over WhatsApp once this site goes live.
+            database. We will confirm your appointment once this site goes live.
           </div>
         )}
 

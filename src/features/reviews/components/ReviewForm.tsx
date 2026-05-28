@@ -126,7 +126,7 @@ export function ReviewForm() {
           Thank you for sharing your experience.
         </p>
         <p className="text-body text-ink-muted text-pretty">
-          Steffi reviews each note before publishing — you will see your review here
+          We read each review before publishing — you will see yours here
           once it has been approved.
         </p>
       </div>

@@ -177,7 +177,7 @@ export const customBridal: ServicePage = {
       },
       {
         title: 'Final delivery',
-        body: 'Your completed piece is pressed and prepared for collection at a final appointment. Steffi will show you how to put it on, how to move in it, and how to care for it after the ceremony. If anything needs a last-minute refinement, it is done before you leave.',
+        body: 'Your completed piece is pressed and prepared for collection at a final appointment. We will show you how to put it on, how to move in it, and how to care for it after the ceremony. If anything needs a last-minute refinement, it is done before you leave.',
       },
     ],
   },

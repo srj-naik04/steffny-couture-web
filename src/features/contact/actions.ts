@@ -51,7 +51,7 @@ export async function submitContactForm(
     return {
       success: true,
       message:
-        'Thank you for getting in touch. Steffi will reply within one working day.',
+        'Thank you for getting in touch. We will reply within one working day.',
     };
   }
 
@@ -83,7 +83,7 @@ export async function submitContactForm(
     return {
       success: true,
       message:
-        'Thank you for getting in touch. Steffi will reply within one working day.',
+        'Thank you for getting in touch. We will reply within one working day.',
     };
   } catch (err) {
     console.error('[Contact] Unexpected error:', err instanceof Error ? err.message : String(err));

@@ -26,7 +26,7 @@ export const marketingSeo: Record<string, PageSeo> = {
   '/': {
     title: 'Couture studio & alterations, Hounslow',
     description:
-      'Hand-finished couture and expert alterations in Hounslow, West London. South Asian and Western bridal wear. Book a free fitting with Steffi.',
+      'Hand-finished couture and expert alterations in Hounslow, West London. South Asian and Western bridal wear. Book a free fitting at the studio.',
     keywords: [
       'couture studio Hounslow',
       'wedding dress alterations Hounslow',
@@ -90,7 +90,7 @@ export const marketingSeo: Record<string, PageSeo> = {
   '/services/custom-bridal': {
     title: 'Bespoke bridal couture, Hounslow',
     description:
-      'Custom bridal dresses made from scratch in Hounslow. Lehengas, Western gowns, and fusion pieces — designed with Steffi from first sketch to final fitting.',
+      'Custom bridal dresses made from scratch in Hounslow. Lehengas, Western gowns, and fusion pieces — designed with you from first sketch to final fitting.',
     keywords: [
       'bespoke bridal couture Hounslow',
       'custom lehenga London',
@@ -183,7 +183,7 @@ export const marketingSeo: Record<string, PageSeo> = {
   '/checkout': {
     title: 'Checkout',
     description:
-      'Complete your order from Steffny Couture. Enter your contact, delivery, and payment details. No payment is taken until Steffi confirms your order.',
+      'Complete your order from Steffny Couture. Enter your contact, delivery, and payment details. No payment is taken until your order is confirmed.',
   },
 
   // Confirmation: full title = "Order received — Steffny Couture" = 32 chars ✓
@@ -191,14 +191,14 @@ export const marketingSeo: Record<string, PageSeo> = {
   '/checkout/confirmation': {
     title: 'Order received',
     description:
-      'Your order has been received by Steffny Couture. Steffi will be in touch within one working day to confirm sizing, finishing, and final pricing.',
+      'Your order has been received by Steffny Couture. We will be in touch within one working day to confirm sizing, finishing, and final pricing.',
   },
 
   // Book a fitting: full title = "Book a fitting — Steffny Couture" = 32 chars ✓
   '/book': {
     title: 'Book a fitting',
     description:
-      'Book a fitting, alteration, or bridal consultation at Steffny Couture in Hounslow. Steffi confirms every appointment personally. Available 7 days a week.',
+      'Book a fitting, alteration, or bridal consultation at Steffny Couture in Hounslow. Every appointment is confirmed personally. Available 7 days a week.',
     keywords: [
       'book bridal fitting Hounslow',
       'book alteration appointment London',
@@ -213,6 +213,6 @@ export const marketingSeo: Record<string, PageSeo> = {
   '/book/confirmation': {
     title: 'Booking received',
     description:
-      'Your booking request has been received by Steffny Couture. Steffi will be in touch within one working day to confirm your appointment.',
+      'Your booking request has been received by Steffny Couture. We will be in touch within one working day to confirm your appointment.',
   },
 };

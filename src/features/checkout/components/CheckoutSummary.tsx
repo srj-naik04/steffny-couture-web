@@ -95,7 +95,7 @@ export function CheckoutSummary() {
       )}
 
       <p className="text-small text-ink-muted leading-relaxed pt-1 border-t border-border">
-        No payment is taken today. Steffi will contact you to confirm your order
+        No payment is taken today. We will contact you to confirm your order
         before any charges apply.
       </p>
     </div>

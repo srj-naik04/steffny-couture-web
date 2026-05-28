@@ -19,7 +19,7 @@ import { LastBookingSummary } from './LastBookingSummary';
 export const metadata: Metadata = {
   title: 'Booking received',
   description:
-    'Your booking request has been received by Steffny Couture. Steffi will be in touch within one working day.',
+    'Your booking request has been received by Steffny Couture. We will be in touch within one working day.',
   robots: { index: false, follow: false },
 };
 
@@ -57,7 +57,7 @@ export default async function BookConfirmationPage({ searchParams }: Props) {
 
           <div className="space-y-4 text-body text-ink-muted mx-auto max-w-md mb-10">
             <p>
-              Steffi will WhatsApp you within one working day to confirm your
+              We will be in touch within one working day to confirm your
               appointment, walk through what to bring, and answer any questions.
             </p>
             <p className="text-small text-ink-muted">
@@ -67,7 +67,7 @@ export default async function BookConfirmationPage({ searchParams }: Props) {
               ) : (
                 'check your email for details'
               )}
-              . Steffi may ask for it when she contacts you.
+              . We may ask for it when we contact you.
             </p>
           </div>
         </div>
@@ -83,12 +83,12 @@ export default async function BookConfirmationPage({ searchParams }: Props) {
           <ol className="space-y-3 text-small text-ink">
             <li className="flex gap-3">
               <span className="font-display text-rose tabular-nums shrink-0">1.</span>
-              <span>Steffi has received your request in the studio app.</span>
+              <span>Your request has been received in the studio.</span>
             </li>
             <li className="flex gap-3">
               <span className="font-display text-rose tabular-nums shrink-0">2.</span>
               <span>
-                She will reply on WhatsApp or email within one working day to confirm
+                We will reply on WhatsApp or email within one working day to confirm
                 your slot and let you know what to bring.
               </span>
             </li>
@@ -104,7 +104,7 @@ export default async function BookConfirmationPage({ searchParams }: Props) {
         {/* WhatsApp shortcut */}
         <div className="mb-10 rounded-xl border border-border bg-surface p-5 text-center">
           <p className="text-small text-ink-muted mb-3">
-            Need to ask something urgently? Message Steffi directly.
+            Need to ask something urgently? Message the studio directly.
           </p>
           <a
             href={STUDIO.whatsapp}

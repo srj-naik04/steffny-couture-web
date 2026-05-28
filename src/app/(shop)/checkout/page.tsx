@@ -31,7 +31,7 @@ export default function CheckoutPage() {
             Complete your order
           </h1>
           <p className="mt-3 text-body text-ink-muted max-w-xl">
-            Fill in your details below. Steffi will be in touch to confirm everything before your order is finalised.
+            Fill in your details below. We will be in touch to confirm everything before your order is finalised.
           </p>
         </header>
 

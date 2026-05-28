@@ -15,7 +15,7 @@ import { LastOrderSummary } from './LastOrderSummary';
 
 export const metadata: Metadata = {
   title: 'Order received',
-  description: 'Your order has been received by Steffny Couture. Steffi will be in touch shortly.',
+  description: 'Your order has been received by Steffny Couture. We will be in touch shortly.',
   robots: { index: false, follow: false },
 };
 
@@ -53,7 +53,7 @@ export default async function ConfirmationPage({ searchParams }: Props) {
 
           <div className="space-y-4 text-body text-ink-muted mx-auto max-w-md mb-10">
             <p>
-              Steffi will WhatsApp you within one working day to confirm sizing,
+              We will be in touch within one working day to confirm sizing,
               finishing, and final pricing.
             </p>
             <p className="font-medium text-ink">
@@ -76,7 +76,7 @@ export default async function ConfirmationPage({ searchParams }: Props) {
             ) : (
               'check your email for details'
             )}
-            . Steffi may ask for it when she contacts you.
+            . We may ask for it when we contact you.
           </p>
         </div>
 

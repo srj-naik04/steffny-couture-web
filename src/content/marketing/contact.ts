@@ -39,7 +39,7 @@ export const contactHero: ContactHero = {
 };
 
 export const contactIntro: string =
-  "The studio is in Hounslow, on the High Street. We work by appointment only — there is no walk-in waiting area. If you would like to visit, book a slot through the form below or call us directly. For a quick question, WhatsApp is usually the fastest way to reach Steffi. We aim to reply to all enquiries within one working day.";
+  "The studio is in Hounslow, on the High Street. We work by appointment only — there is no walk-in waiting area. If you would like to visit, book a slot through the form below or call us directly. For a quick question, WhatsApp is usually the fastest way to reach the studio. We aim to reply to all enquiries within one working day.";
 
 export const contactDetails: ContactDetails = {
   studioName: 'Steffny Couture',

@@ -283,7 +283,7 @@ export function CartContents() {
           </Link>
 
           <p className="text-small text-ink-muted text-center leading-relaxed">
-            All orders are confirmed by Steffi over WhatsApp before any payment is taken.
+            All orders are confirmed by the studio before any payment is taken.
           </p>
         </div>
       </div>

@@ -115,7 +115,7 @@ export default function ContactPage() {
                     target="_blank"
                     rel="noreferrer noopener"
                     className="flex items-center gap-3 group"
-                    aria-label="Contact Steffi on WhatsApp"
+                    aria-label="Message the studio on WhatsApp"
                   >
                     <span
                       className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-alt group-hover:bg-rose-soft transition-colors"
@@ -126,7 +126,7 @@ export default function ContactPage() {
                       </svg>
                     </span>
                     <span className="text-body text-ink group-hover:text-rose transition-colors">
-                      WhatsApp Steffi
+                      Message on WhatsApp
                     </span>
                   </a>
 

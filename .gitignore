@@ -52,3 +52,5 @@ final-regression/
 
 # Lighthouse reports (generated during Phase 8 audits — not committed)
 lighthouse-*.json
+
+# deploy pipeline: production=live, main=preview, development=localhost (verified 2026-05-28)

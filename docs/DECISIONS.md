@@ -838,6 +838,20 @@ A running log of architectural and product decisions. Each entry: what we chose,
 
 **Trade-off:** Keywords without a dedicated landing page carry less SEO weight than a full page + copy. A future phase should add an occasion-wear service page if demand data supports it.
 
+## D-062 — Copy voice: operational promises use studio voice, not the founder's name
+
+**Date:** 2026-05-24
+
+**Chosen:** All customer-facing operational and service promises use studio voice ("we will…", "the studio…", or passive constructions). The name "Steffi" is reserved for founder-identity contexts only: the about-page bio, the contact founder card, the home about-teaser, Person JSON-LD, and journal author bylines.
+
+**Considered:**
+- Keeping personalised "Steffi will…" phrasing throughout — creates a warm, one-to-one tone
+- Replacing all instances of "Steffi" including about-page and founder card — would strip founder identity from the brand entirely
+
+**Why:** A customer-facing service promise ("Steffi will confirm your booking", "Steffi will be in touch") conflates the owner's personal availability with a business commitment. In a production brand, promises should be made by the business, not personalised to a named individual who may be unavailable, on leave, or whose role may change. The founder identity is still honoured in the appropriate editorial and biographical contexts.
+
+**Trade-off:** Very slightly less personal tone in transactional flows. The about page and founder card preserve the human connection that makes the brand feel boutique.
+
 ---
 
 Add entries as you make decisions. Don't delete old ones — they explain "why" to future you (or future me).

@@ -59,6 +59,10 @@ Notable to date:
 
 ## Activity log
 
+### 2026-05-24 — Copy de-personalisation — studio voice pass
+
+Copy de-personalisation — generalized all operational "Steffi will…" service promises to studio voice ("we will…", "the studio…") across 21 files; kept founder identity on about page, founder card, home teaser, JSON-LD, journal bylines. Playwright verified 0 operational promises in visible text; build clean.
+
 ### 2026-05-24 — Post-ship UX polish — card heights + image dedupe
 
 User feedback: "sizes inconsistent. handle across all view ports."

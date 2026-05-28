@@ -19,6 +19,7 @@ import { useCartUiStore } from '../ui-store';
 import { useHydrated } from '../hooks';
 import { describeCartItem } from '../utils';
 import { formatGBP } from '@/lib/currency';
+import { Button } from '@/components/ui/Button';
 import { backdropFade, drawerRight } from '@/lib/motion/presets';
 import { cn } from '@/lib/cn';
 
@@ -367,30 +368,22 @@ export function CartDrawer() {
 
                   {/* CTAs */}
                   <div className="flex flex-col gap-2">
-                    <Link
+                    <Button
                       href="/checkout"
                       onClick={handleClose}
-                      className={cn(
-                        'flex h-12 items-center justify-center rounded-full',
-                        'bg-rose text-ivory text-small font-medium',
-                        'transition-colors hover:bg-rose-dark',
-                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
-                      )}
+                      variant="primary"
+                      fullWidth
                     >
                       Proceed to checkout
-                    </Link>
-                    <Link
+                    </Button>
+                    <Button
                       href="/cart"
                       onClick={handleClose}
-                      className={cn(
-                        'flex h-11 items-center justify-center rounded-full',
-                        'border border-border-strong bg-surface text-ink text-small font-medium',
-                        'transition-colors hover:bg-surface-alt',
-                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
-                      )}
+                      variant="secondary"
+                      fullWidth
                     >
                       View cart
-                    </Link>
+                    </Button>
                   </div>
                 </div>
               </>

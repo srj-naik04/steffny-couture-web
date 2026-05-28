@@ -75,7 +75,7 @@ User feedback: "sizes inconsistent. handle across all view ports."
 ## Blockers
 
 - `SUPABASE_SERVICE_ROLE_KEY` blank in `.env.local` — owner must provide before `scripts/seed-products.ts` can run and before live Supabase tables are populated. Code is ready; no further engineering needed.
-- No `origin` remote configured for this repo. Phase 2 commits landed locally (44fad0d, 33f452b, b49b180). To push: `git remote add origin <github-url> && git push -u origin main`.
+- ~~No `origin` remote configured~~ RESOLVED 2026-05-28: `origin` set to `github.com/srj-naik04/steffny-couture-web` (public); all commits pushed to `origin/main`.
 - Contact form will silently fail in live mode until the `inquiries` table is provisioned on the live Supabase project (depends on the service-role key blocker above).
 
 ## Build summary

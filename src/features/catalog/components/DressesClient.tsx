@@ -19,7 +19,6 @@ import { useSearchParams } from 'next/navigation';
 import { Filters } from '@/features/catalog/components/Filters';
 import { ProductCard } from '@/features/catalog/components/ProductCard';
 import Link from 'next/link';
-import { RevealOnScroll } from '@/components/marketing/RevealOnScroll';
 import { parseFilters, applyFilters } from '@/features/catalog/components/filters-helpers';
 import type { ProductCard as ProductCardType } from '@/features/products/api';
 
@@ -110,15 +109,13 @@ export function DressesClient({ allProducts }: DressesClientProps) {
             )}
           </div>
         ) : (
-          <RevealOnScroll>
-            <ul className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
-              {filteredProducts.map((product) => (
-                <li key={product.id}>
-                  <ProductCard product={product} />
-                </li>
-              ))}
-            </ul>
-          </RevealOnScroll>
+          <ul className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
+            {filteredProducts.map((product) => (
+              <li key={product.id}>
+                <ProductCard product={product} />
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>

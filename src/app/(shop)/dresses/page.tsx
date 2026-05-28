@@ -11,7 +11,6 @@
 
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { Hero } from '@/components/marketing/Hero';
 import { Section } from '@/components/ui/Section';
 import { Container } from '@/components/ui/Container';
 import { getActiveProductsFromSource } from '@/features/products/source';
@@ -61,12 +60,23 @@ export default async function DressesPage() {
 
   return (
     <>
-      <Hero
-        kicker="The collection"
-        headline="Couture and ready-to-wear"
-        subhead="Hand-finished gowns for weddings, evenings, and the moments that deserve to be remembered. Each piece is made or curated at the Hounslow studio."
-        variant="service"
-      />
+      {/* Compact page header — catalogue is not a landing page; keep it brief
+          so filters + first product row land close to the top of the viewport */}
+      <div className="bg-ivory border-b border-border">
+        <Container>
+          <div className="py-8 md:py-10 space-y-2">
+            <span className="text-label text-rose tracking-widest uppercase">
+              The collection
+            </span>
+            <h1 className="font-display text-display-sm text-ink text-balance">
+              Couture and ready-to-wear
+            </h1>
+            <p className="text-body text-ink-muted max-w-xl text-pretty">
+              Hand-finished gowns for weddings, evenings, and the moments that deserve to be remembered.
+            </p>
+          </div>
+        </Container>
+      </div>
 
       <Section tone="ivory" spacing="md">
         <Container>
@@ -81,7 +91,7 @@ export default async function DressesPage() {
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className="aspect-[3/4] animate-pulse rounded-xl bg-surface-alt"
+                    className="aspect-3/4 animate-pulse rounded-xl bg-surface-alt"
                     aria-hidden="true"
                   />
                 ))}

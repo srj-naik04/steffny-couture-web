@@ -1,0 +1,591 @@
+[
+  {
+    "source": "products/aqua-sequinned-gown/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/APD37uzz8+zi3IVxX+He1u70+Pb29gDv8ez6+/vSyMAeAADBtKv////z8/MA8O7w9vPwl42ETEA1pJSK8+zn9vb2APPx9unn34CCeUFGQJuWj+HY0vf4+ADr6+/x8eZmeG0xU1OUoqL18+/z8/MA8Ozw3+beSFxWPFhbco2M8e7w8/PzAPfw8s/d2i8/PFFfXVR2cPHw8vj4+AD28/O4ysUgNC9TaWZAb2bi6Oj29vYA6urqlaijFycjIjMwMmBWwMfK7u3tAOrq6q67tmlvblVbXXqbldfW2e3t7MNPk4KcZHQxAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/champagne-satin-gown/01.jpg",
+    "originalWidth": 374,
+    "originalHeight": 540,
+    "aspectRatio": 0.6926,
+    "variants": [
+      {
+        "filename": "01-374.avif",
+        "format": "avif",
+        "width": 374
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/APzz8O30+fb586KTgNzU0Pn9//j49wD29vD19vv05eB/YE3i08X7/f34+PgA6vDs//3/j3BpVCgUhm5c/P33+Pj4APD08/r3+npcUiwAAHFYQ/j48vn5+gDx8O/y8/SvnY1wUDK/qZb9+/v3+PgA9uzw7u/pj39teVNBvaia+/349/b3APbw+Ozs4WJKO3ZJQcq3rvb/9/r5+gD4+f/Y0MJYOyNmPCzHu7Tw+/v08/MA5dzXmYJsVjERVi8XsaGU6ezr6ejoAKGThW5WRHBQOGlRPKqek+bj4evr63mHmLxo/TfiAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/champagne-tulle-ballgown/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AKu0urrE0dbW4mJaXZ+fpcfQ27a6xQCyu8TN1uLX1NgWAwCIgn/h5uzAxdAAr7jCwsrVs62t9d/Rw7SqzMzOzdLdAK+2wrS7xLqzrfThzcrAssrLzc3S3QCprLybn6nBvbT26NTLx721u8DN0dwAlZ+ujZKX5NzR//rp2NTOtrvCyM7ZAJeptqesqu/k0vzu2uXd0sTFx8/Y3wB4gIuppqLz5dH669Do3cezsau2u8QAU1Zft7Ku8ebR//DX6t/Iop+ZhoqRAHt7g6Cbm7Stob61preto6GfnoqPlAG4mOGJpW1sAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/cobalt-blue-tulle-gown/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AO/v9PDw8fHr28u9vvb17+zw9/Hy9ADw9N319vPf2d65spTf19ry8Pbx8vQA8fL34+DvaGWOQEJtaV6M8ef38fP0AO/v+evr6JejwAAAYKGjyvfw8/Hy9QDt7uz4+PJTaZ4AAFpWap3//vvs7vMA8u3t7u35Az2aAABlADSN7O/78e/zAPv09MvY6wAghAAAdwAOeL3R5vv79QD9/ft+p9cADoEACnkAAGh2n8z7//8A5ObyADeRAAGBAABqAABcACV/y9ryANLX4EZhpwA/nRE6kkxhn0ldo7jD4AaDihz8BnKJAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/coral-tulle-bustier/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/APPt4+/u+u7p6qGTfuvX2vLv/Orw7gDu7+f78/vZurdKJA67q5X4+vfw6+0A7+jo//v2waKNXycIlG9I/vji7OzsAPvl7Pbz4KF6W65RPMFrUuW9p//79AD48fLStaNqAAB5AAB5AACZPT7gsrAA7vTx1banYgAAYQAAhQAcqnNmu4mDAO/h3sR0gHIAAIUAAJAAF8GShfLj0gDlwL1SAACAAACFAAB8AAC7TmD4++0A68O6XwAAbgAAcwAAegAAigAf8u7oAKNATm0AAHoAAIQAAHUAAGwAAOe7unPfdFQbfgRoAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/maroon-rosette-gown/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/APTx8Ozv8/Tx8aqbk9jSzfT29vDw8AD08PDx9Pb05uOKal/Oua/49/Tw8PAA9PHx7e/t1LmzXR8ZqH9z/fXv7/DwAPTw7+jp5OS7tk4AAG84NP738e7u7wDw6ub2+/OKW1Y7AAB2OkD29PXt7e4A7fbz3srHSgAAUwAAXiIq8+np7PHqAPn//p1pbE4AAIUkLTMAANG2uv/79wDfvsFLAAhVAABqDhQ8AABqOT328PAAhD1IPgAASQAAVgEFNgAAMgAAfkZLAKt5f3Y4PmIkJ5RjYXpLTWQpMotWWjSKedcwMOkCAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/mauve-off-shoulder-gown/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AM7W29TZ5eTa5YZ3fNrY3tzk79nb6QDU3OLg5fDPxM0YAAC7s7Tz9/zi5u8AzdTc5unzdmluVj07hHRx6ujt5+vxAMTL0djb6H9weIRraqSUk9LR1u/y+QC9vsS+wMx1aXKDbXGpn6Py9fvi5vAAtLzEsbG9XU9aloKKjoWO6er04ubwAKy0wKynskMyOol1fIN1euTi5+js9QCtrLZ+cXtKNj2Sd319aXDUztbm6/QAmpKdTD5HNyQqalNabFhgn5WhzdHeAJ+XpXFpcVBDTH5veY6CjJuWpLa5xy7FiMI0NpdZAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/pink-mauve-mermaid/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AObj3ujo5MnCuVBDNOje2OXl5ujo6ADd3t79+fSHdWUcAADu5d/f4uTq6ekA4Ojp1c7GMRkCRicTsKGd6+7z6OjnAN3l4sK7s35hU08vH4Z2cenp7eLi4gDa3NDW1dRuXVxSNzJjUErk3tzl5eUA293Z1NLNXUxKTjQxaVdU5ODd5eXlAOTl6NDIwEgwJkwpJXFeXNjW1uzs7ADl5eOdk4klDABaMy9kSEfEvbzn6OgA3NfTZ1xVHQAAJwAATjQylIyK29vbAMjEw4R/eUQzLjceHWdWU5ubltXV1YBAf4dHt2ftAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/plum-one-shoulder-gown/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AO3t7eXt7fbv6Y12a9jQyu719PHx8QDt7ent8e346OBrRz+SfHb//f3v7+8A7/Dp4uHcsJaPUCIcRyMj7+Xo8/PzAOru5+bl4raWkkUPEVEnKL2usvv8+wDi6+bq7u60lpU1AgFKJirSyMv29vYA5efo7/HynXt+PgkOj2pt+PL07+/vAObq6fPz9IZkZlQdIJl9efb6+O/v7wDo6eb56fBtO0ZJBRZ/YWL29vbn5+cA0MzKyaq1LQAAMwAAVTk98u704uPiAKOUmHdWYkUZJXtTU3dcY+zg6uXl5VbajII6hrBtAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "products/sage-satin-gown/01.jpg",
+    "originalWidth": 414,
+    "originalHeight": 597,
+    "aspectRatio": 0.6935,
+    "variants": [
+      {
+        "filename": "01-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "01-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/APTw9fD37+LYzYdxbvDn6e3z8/Pz8wDv7u78+/HJxLQhAADSzcP9+ffx8fEA9vHu7u7jfnFkU009rZmP+fbu8fHyAPTz7eTe2G1tZElQQ5+elPbu7fLz8wDs7ej38O5zgX8YMC2Uqqn69/zw7+8A7O7q6O7uUGZoADo3VG1w7vb58vHxAPTv7uLo6TRSUgk8OjBMTOTt7ff39wDz7e3W2donQUEJPDsdPj3M2dn6+fkA7PPurLa2IkNBLmNeFUVAkaKf9/X2AOn07Zmjo0JcXEdwb0doZpShoe7t7Q81j7DGexsCAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/beaded-bodice-detail.jpg",
+    "originalWidth": 800,
+    "originalHeight": 1200,
+    "aspectRatio": 0.6667,
+    "variants": [
+      {
+        "filename": "beaded-bodice-detail-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "beaded-bodice-detail-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "beaded-bodice-detail-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AB8RHhgYDhsbDiEPGiMWIB4bGiEbGwATEBULEiAPFRw3MysgHyIPERsWFBYAFBIEDxAqBwQXoZdyXE8/AgAOEBQYABEQAw8PGgkABZt9W8qkgBwQCgoQFwAKGidUZGOcmZPQrKf/9c6ol38DBxIADB4xU3J1fYyOYEtXVkZHkoRtPSwjABAYISE+RBQqNV5RYVhJVYBuW0AtHgAPFRYbLjgQJzlNSVexk5FxVksRCwsADxkaDBYhDRosNz5KqpGSQigsDw8XAAwpMhgcKRYTIDA6QmFcazwrQRkVH4wyL1w9zAG3AAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-bangles-portrait.jpg",
+    "originalWidth": 1920,
+    "originalHeight": 2876,
+    "aspectRatio": 0.6676,
+    "variants": [
+      {
+        "filename": "bride-bangles-portrait-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-bangles-portrait-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-bangles-portrait-1600.webp",
+        "format": "webp",
+        "width": 1600
+      },
+      {
+        "filename": "bride-bangles-portrait-1600.avif",
+        "format": "avif",
+        "width": 1600
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AJt6W5x+ZZ+Dc5iAbJ2AYYhqTWhMNQCehnG2n5JjUkk4JR2qlIKbfmiCYkwAn4Nxy6+hHwAAMxkQspSGrYt2kGpVAKCBZeG6onlSPqd9aNOnkJ53XpRvVwCynIHhwam9lX+vh3HdtZ2zkXiRcVgA38ywy7afyrOfxaubuZyOr5F5lHRUAPfiz72unsq9sc29sqyUiO/bzLeqmwDv5+LIwr718e///Pe2qp7S0M34//8A5eTp6erw8vX7+/v/1tDNt7a36e32ANDR0tfb3d7j7Obo8u7s8tTQ197d5xCciFay3+EUAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-bouquet-detail.jpg",
+    "originalWidth": 1920,
+    "originalHeight": 2876,
+    "aspectRatio": 0.6676,
+    "variants": [
+      {
+        "filename": "bride-bouquet-detail-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-bouquet-detail-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-bouquet-detail-1600.webp",
+        "format": "webp",
+        "width": 1600
+      },
+      {
+        "filename": "bride-bouquet-detail-1600.avif",
+        "format": "avif",
+        "width": 1600
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AMnKxf337YF3cQcEAJ+dkvLv4+Xn2wDU4czW5d+Ign01IAaPjHPn8+Dd380A2+DG0uDisZybk1s6x62My9DF5uXfAPbv6O7d2dawo7aCZ8qZf9rHveno6gD1+//RtpjFp3/Kxr3HmIjQp47u694A8fH0yamZ0Lmb0+LF0rmfwp2B6uC8APHz69e/vd7Lu+LrwtnIo8Oqn+Xi4gDg7+/k3NfEu6i6waC7rIvJvKni6uAAzd3dytLMs7KkgIBnp5+Fx8Cpzs26AK20sqqwqq2tn6efj6ejkaelm6ajpD0LmMSXwgiKAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-burgundy-outdoor.jpg",
+    "originalWidth": 799,
+    "originalHeight": 1139,
+    "aspectRatio": 0.7015,
+    "variants": [
+      {
+        "filename": "bride-burgundy-outdoor-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-burgundy-outdoor-400.avif",
+        "format": "avif",
+        "width": 400
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AOb//7jR4Y27zojN2leIlB9BTQAgKQDa+/201uCq1uhimKhJeIQqUlsvUloA4fru2vv2q8HLrbLEkaWqfZSYm5+sAKK1oo6voc3Kzdqnu6ORjp26qFx+eAB7nZtLgHyCgI9MACOUd3iJrZNPfmUANWJjK2JmakRqYQA8qmCDi5qYjKqjAF2eh6vHxJIiVX0rVXkFO7CEps30/wCx1cLNqrJ0ACJKKTRDBBxkETzk1/oAwrnIdy1RKgAAKBAiIwAWJgAZlmmbAIx1n3xDclNQaG1sg3d3kXaOo5abuumqa/35VCPeAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-fuchsia-pampas.jpg",
+    "originalWidth": 800,
+    "originalHeight": 1248,
+    "aspectRatio": 0.641,
+    "variants": [
+      {
+        "filename": "bride-fuchsia-pampas-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-fuchsia-pampas-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-fuchsia-pampas-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AM/Nzvj4+ODi4NrO0vLs8vv//vn99gC1q7vu3e7L297a0Nrz3u3x+vj+//8A0eLg7dvorrq81MXK29XQ4/jn+urlAMKtraGoolZxaUpOSLynotvCss6kkgCNkIlkd3VrBUN8MVOrsKr88/X9//8Ah5+nnoqmtABnuQCWqCuvv7LFycOxAJ+lwpBtlKsAbLsAvNAA0oFIiS9iQQCMjJR6SVm5AJG9AMXHAKWrAIpTS2sATFBihwBNygCmvACkmwBxlgBsYgBIAAkjJUwASnMAXWwATkcAPikAJyIAKBRYeno4fQqPAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-maroon-arch.jpg",
+    "originalWidth": 800,
+    "originalHeight": 600,
+    "aspectRatio": 1.3333,
+    "variants": [
+      {
+        "filename": "bride-maroon-arch-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-maroon-arch-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-maroon-arch-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAIAAABPmPnhAAAACXBIWXMAAAsTAAALEwEAmpwYAAABA0lEQVR4nAH4AAf/ABgRABcHACgXDiETCSAYCCQfD11QQZuGc5aFYezatAAdFQAgEgA2JRoQAAAZDwA0LhsmGwVzYE2yoYDz5L8AJBYAJBQAKxsLFwAAKxwOPzAhRjgkeWxUyr2c/fPQACoYACsaATUkERkAACUPADckFxcAAIiAZdbNrv/52QA4JAcvIARCNR80Hg9mRzyMal8bAACZj3fY0LL//uAAPikSPzMaMykTMxsNjWNgvoyLMBEEf3Fe5dvC//3hAEs4H0A4HjYyHC0WDVgnKXg8QTEIBIlyZurcwv/w1ABNPCRGQCg8OCUQAAA9DBKMR1I3BAaNcmry3sTn1LgVpEuWnda7VwAAAABJRU5ErkJggg=="
+  },
+  {
+    "source": "hero/bride-maroon-chandelier.jpg",
+    "originalWidth": 800,
+    "originalHeight": 1200,
+    "aspectRatio": 0.6667,
+    "variants": [
+      {
+        "filename": "bride-maroon-chandelier-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-maroon-chandelier-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-maroon-chandelier-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AEQ2R7ihcbeNUZVgXX1YPJZyONiodgBHPl54Y2iadlyOZD95WCOjglOng2EAKikrSDVOc1VSwJ5nkm49bFNVNyxDAD05FicZEa+Shv/tvv/axlZHSAkTAwBgTTFKNRhtUTDevp+xknNZRShEORwArZF0bVUwYkIe0aiPh21XgW5NuJ13AGVXQjIpEycTAIJgVWZUUTo0K2hfTAARAwAlIRo7KidTMTRrUlEvKy0aHSUAaFJBb15PTjYsHAAAfFZNtaOZnpeLAKWIa8WylrKdiZBrYsqqnP/45enexzRJUzzdF1maAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-maroon-interior.jpg",
+    "originalWidth": 800,
+    "originalHeight": 800,
+    "aspectRatio": 1,
+    "variants": [
+      {
+        "filename": "bride-maroon-interior-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-maroon-interior-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-maroon-interior-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVR4nAE2Acn+AFZEPUA5F5BdNferY//GeN6gZs2RT3xlLiYbBjYsGAArFxUrIguVZz/tqmdpPB1nNBvrr21iRh9EMhpBLRoAOx4aGAcAm3ZP+MJ6hV83fk8z+sF+WzkaSi4bRygaAD8jEyAOA5R0TOW5cEgtF1gyGv/JgVYwGE0zH1I3IgBCJhEeDgCBYznhtmuKblQpCAD/zoNnRCRINh5PPCQALxkIGg4Aflo0/9WX2rKePhcN9cWEWD4dLh8LRjcdAEUuFEpAGnZIL/+/of/v4YJPS8iYb4JwSHBcQH9pUAA+LhRlVyxFGBGwYl+aXVs0AAZxRDJMPB99Y0yylH8ABgIARTAlPBUVkkBMdiw4VQ4ZSCAcTTssY0w8oYh4AAAAACILAT4bG2cbKIQ3RZA+SiYAAEw5LUIuIk87L37HYPHa4/z9AAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-maroon-radio.jpg",
+    "originalWidth": 800,
+    "originalHeight": 1200,
+    "aspectRatio": 0.6667,
+    "variants": [
+      {
+        "filename": "bride-maroon-radio-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-maroon-radio-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-maroon-radio-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AJRQGopYG2c5EHU4FJ1jK0AkCAkAAACtZii9gTC3fS2vbCe5g1NXNxUqDgAAr3089sJq/9Vn9bNI89KucVZCMwcAALucU9WweLZ8TbN+Pv/v2HZzaRoRDQDMpWnLoHB4TxebaiS/mn2RgYkaEQ4Av39k///E/deDpXcpmGtixqOyIzAhAIJNJ6u2jbuMhJN1aIVTVb92iXN1cABJLQw2HxVTJkI4NDpGAQq3TGy9rroAOCINSCobUDUhHRkAUgUXpjBflnCAADAWCEYtHUk1GD4ZBX8iPnsaQlYbKsw9UhvP5J5JAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-red-roses.jpg",
+    "originalWidth": 800,
+    "originalHeight": 800,
+    "aspectRatio": 1,
+    "variants": [
+      {
+        "filename": "bride-red-roses-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-red-roses-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-red-roses-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVR4nAE2Acn+AHFbXL+uxqOkxyQzPgwFAP+5q8Cbk1VSVVI6LS4oGQAjQSpudn6Wg6Q7MT44Ggn/yLWEZlMAAgA2LCAUFAcAICkTXHZqln6SxYOU/5iZ/8W9/5iVxkxbXi0oCgkAABkAADVBK25CTJEyPf9hW/9wWf9+fP+Lm+yUiyUPAACOnWqmm36jX15fGxjYQyn/d1P/dW7XcVr/686bhl0Ajqpompts/cu0h1RBlCUZ/4Fy/5GO/8Op8bSJhYRHAIOTUIWGT+SskuOAd/+Qk/96ff+LmP+AfuV0XJyEUABzjkilfFPqdm7oUlf/x87/fYf/lJ3/hoT/g3rFcVUAcGxBxGlh/6+0uz9A/2Nh/3dh/4qJ/5+g/3Js/31vAGVTMmwSEP6Ums9gX+1NR/9kQf99d/+0u/+Fcv+HikPPmVbXnGY1AAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-white-ballgown-train.jpg",
+    "originalWidth": 1146,
+    "originalHeight": 1704,
+    "aspectRatio": 0.6725,
+    "variants": [
+      {
+        "filename": "bride-white-ballgown-train-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-white-ballgown-train-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-white-ballgown-train-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AJqUm7SrtGFaZUdGVMjQ3O/+/8bY7gBuY2tXSlSOgIrVztnR0t6+xtStuM0ARDI2hnN5uKStr6GtpqOtoKKuen6OAKGNjIl2dnJfYkc7PygjKCgpLykpMwCQgHhFMy1jUE9vZWMAAAAaGxwlJyoAJh8bAAAAiYKC5uDkODc8BgcJCgsOAAAAAEM/P8zL0O/u9tfW34WFjD8/QgBNR0mupqvLxs3Ny9Tb2OXU0dy/vcIAamJjk4uNxb3DvrrCxcLPvrrClY6QADswLTgvLVNNTH53fYqFjIuEhjwyMAzVZruk9NReAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-white-tulle-moody.jpg",
+    "originalWidth": 800,
+    "originalHeight": 1404,
+    "aspectRatio": 0.5698,
+    "variants": [
+      {
+        "filename": "bride-white-tulle-moody-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-white-tulle-moody-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-white-tulle-moody-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAKCAIAAAAYbLhkAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAxklEQVR4nGNQ0bezdAnzCs6wcw01MLbR1TFiEAQBYVFBUWE+XmFBXiFBCQYReUVpOQVRYTFRCVFBcTFxcQkGXmkFXj5BV0cHeXlFQXEJMTExBglxcRkhoQAHa1VpMWZGRnFxEQZxEUkJGTU/N7e1ixeEhsXx8wsy8IopF9f1LZw7/9LRI7///M8pbmRQ1Heesmjn+nU7c1Mz9xy8uOXAVQY7j3jPiNL2rpm1tZ2Z5X35Fd0Mpg7+tp7RfiFpQVG5th5xGnrWAMG4MgIswhhkAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "hero/bride-white-umbrella-interior.jpg",
+    "originalWidth": 800,
+    "originalHeight": 800,
+    "aspectRatio": 1,
+    "variants": [
+      {
+        "filename": "bride-white-umbrella-interior-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "bride-white-umbrella-interior-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "bride-white-umbrella-interior-800.avif",
+        "format": "avif",
+        "width": 800
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVR4nAE2Acn+AFZPT2NYV3xpaZN6ep+Kiqubm6ykpq2qraimrJuZngBbVFRtYGBtW1p6ZGKGcXGLfHyspae4tLizr7aloqcAW1NTZlhYIhEOKhkXWEVFSDs6o5udx8PHvr3CsK60ADwxMWVaVw0AAD8xLnNkYldLS7WusMS+xMC+xLSyuQBOREZiVlUOAQAhFQ64qqlPRkSYkJPIwse6uL6xr7UAUkdITkJBRTk2WlFL0cjE08zKpp+gubK5r62zpqOqAD0yMisjIUg+O42Gf87Hwv/8+L+7vaKcoqmnrZ+dowAcDxEgFxN3bmqXkYvCvrns5+Pl4OGblJqFgod4dn0AQDk3d3Ftn5uXm5WTtrOw4N/f7Ors1NHSs7GyamhpAIiCf6CalpiUj6qmpaqmpc7MzNXS1NnX2NTQ0aajppTVn5566m1zAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "about/placeholder-boutique-interior.jpg",
+    "originalWidth": 1920,
+    "originalHeight": 1280,
+    "aspectRatio": 1.5,
+    "variants": [
+      {
+        "filename": "placeholder-boutique-interior-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "placeholder-boutique-interior-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "placeholder-boutique-interior-1600.webp",
+        "format": "webp",
+        "width": 1600
+      },
+      {
+        "filename": "placeholder-boutique-interior-1600.avif",
+        "format": "avif",
+        "width": 1600
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAHCAIAAAC+zks0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA5ElEQVR4nAHZACb/ALrBzNTSzratlb+0kc7Em+rbssSnfsKfdraqjL63oADk7vT6/Pnm4M/PyK/g2r/g17vgyafRtJHYzbL9+OUA2eLe7/Hq5ePax8S8qKmirKmev66a+ODC/OfI9OjSAMjIsqulk7auo3FqbU1MUzQvMH1rXW1WPVpTSkJMUwC0n3axmXi5oZJdTUyEe4JYTE1zWkkpCgAfHiARKz4AoHZCl21Cv5x9sJmJzsC7u6WhpINtcUknRykUMB8YAF0rAINSJK2FX7efhndoXpSCdnlYQT0TACwEACEAAB6bdcZ2vrvPAAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "about/placeholder-designer-fitting.jpg",
+    "originalWidth": 1920,
+    "originalHeight": 1280,
+    "aspectRatio": 1.5,
+    "variants": [
+      {
+        "filename": "placeholder-designer-fitting-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "placeholder-designer-fitting-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "placeholder-designer-fitting-1600.webp",
+        "format": "webp",
+        "width": 1600
+      },
+      {
+        "filename": "placeholder-designer-fitting-1600.avif",
+        "format": "avif",
+        "width": 1600
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAHCAIAAAC+zks0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA5ElEQVR4nAHZACb/ALivnMCvmMqylJ6FaVlHMLGhjKeRd9i/o/jo2v/77ACyqpeyoopKNBeagWORfGeMe2VyVzvgwqT/9OX3698AraSStKOLpIpw3MGjSTQjh25Xr4tq0KmHcGBUh35yALKql6+fhqyVeLWafrmfg+DCp39UM61+WBgJAEE7LwCXj3ucjHWTfF9lSzKtknimhWmfbEq0f1oSAwBlYFYAgXdhlYRs0Lecd19HZEw4g2RMkmA+n21HDgIAPjw1AHtsV4Z1XNvGqqeTfVZBMpBzYYBTN6p3WFhORHl5cl+9ahRrZ3H1AAAAAElFTkSuQmCC"
+  },
+  {
+    "source": "about/placeholder-hands-sewing.jpg",
+    "originalWidth": 1920,
+    "originalHeight": 2880,
+    "aspectRatio": 0.6667,
+    "variants": [
+      {
+        "filename": "placeholder-hands-sewing-400.webp",
+        "format": "webp",
+        "width": 400
+      },
+      {
+        "filename": "placeholder-hands-sewing-800.webp",
+        "format": "webp",
+        "width": 800
+      },
+      {
+        "filename": "placeholder-hands-sewing-1600.webp",
+        "format": "webp",
+        "width": 1600
+      },
+      {
+        "filename": "placeholder-hands-sewing-1600.avif",
+        "format": "avif",
+        "width": 1600
+      }
+    ],
+    "blurDataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAKCAIAAAD3rtNaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nAHcACP/AEsuIWpPP4JpViwdERcUCyUbFTciHgBHQDBNRDOPgnFFPCsNCQIAAAABBAEATV5PfINzhoVyhn9uMCgeMi8kPDsxAJyuopSfjz89J2hdSaebibCbh56AbQDa4tX49+jCtZ6nk3fHrZGXhGxLOiYAjJCFtLOko5uItK6Z0NG7v8e2rrauAIeQgaeomc7KuO3u3fD/7+j779zn4ABnbF1/gHCfm4e2tKHz/+zx/+/IzcIASk48XVxLdm5chIJt4O3XwtC+r7atAEJFNGZjUGJaQnNxXMfRu73Nu7vHvmL4as5knpMKAAAAAElFTkSuQmCC"
+  }
+]

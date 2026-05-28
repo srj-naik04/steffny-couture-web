@@ -27,7 +27,8 @@ public/assets/raw/
 public/assets/optimised/
 data/scraped-images.json
 data/scraped-products.json
-data/optimised-images.json
+# data/optimised-images.json is imported by src/features/products/source.ts
+# at build time (demo-mode image fallback), so it must be committed.
 
 next-env.d.ts
 .tsbuildinfo

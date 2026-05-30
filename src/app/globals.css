@@ -1,29 +1,40 @@
 @import 'tailwindcss';
 
-/* Brand tokens — mirror of src/constants/brand.ts. Update both together. */
+/* Brand tokens — mirror of src/constants/brand.ts. Update both together.
+ *
+ * MIDNIGHT COUTURE variant (feat/midnight-theme).
+ * Original ivory values kept in comments alongside each token for easy revert.
+ * Token NAMES are unchanged (the rest of the app keeps consuming bg-ivory,
+ * text-ink, etc.); only the VALUES invert to a warm-onyx palette.
+ */
 @theme {
-  --color-ivory: #faf7f2;
-  --color-surface: #ffffff;
-  --color-surface-alt: #f4efe8;
+  /* Page bg + surfaces — were ivory/white/beige */
+  --color-ivory: #1a1714;        /* was #faf7f2 — warm deep charcoal */
+  --color-surface: #22201d;      /* was #ffffff — lifted card surface */
+  --color-surface-alt: #2b2825;  /* was #f4efe8 — input/textarea bg */
 
+  /* Brand accents — UNCHANGED, still readable on dark */
   --color-rose: #7c2d3e;
   --color-rose-dark: #5a1f2c;
-  --color-rose-soft: #f2d9de;
+  --color-rose-soft: #3a1c25;    /* was #f2d9de — dark rose tint */
 
   --color-gold: #c9a961;
-  --color-gold-soft: #f5ebd2;
+  --color-gold-soft: #3d311a;    /* was #f5ebd2 — dark gold tint */
 
-  --color-ink: #1f1b1a;
-  --color-ink-muted: #5c5551;
-  --color-ink-subtle: #9a9089;
+  /* Text — inverted to warm cream family */
+  --color-ink: #f4ecdc;          /* was #1f1b1a — champagne cream primary */
+  --color-ink-muted: #c9bfae;    /* was #5c5551 — warm muted cream body */
+  --color-ink-subtle: #8c8478;   /* was #9a9089 — mid-tone caption */
 
+  /* Status — UNCHANGED, semantic */
   --color-success: #3f6e4a;
   --color-warning: #b8741a;
   --color-danger: #9b2c2c;
   --color-info: #3a5878;
 
-  --color-border: #e8e0d7;
-  --color-border-strong: #d4c8ba;
+  /* Borders — lightened for visibility on dark */
+  --color-border: #3a3531;       /* was #e8e0d7 — subtle hairline */
+  --color-border-strong: #4f4843;/* was #d4c8ba — stronger divider */
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
@@ -83,7 +94,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   body {

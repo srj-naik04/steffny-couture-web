@@ -42,7 +42,7 @@ export default function CheckoutError({
             <button
               type="button"
               onClick={reset}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-rose px-7 text-small font-medium text-ivory transition-colors hover:bg-rose-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-rose px-7 text-small font-medium text-ink transition-colors hover:bg-rose-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2"
             >
               Try again
             </button>

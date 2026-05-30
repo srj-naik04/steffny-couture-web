@@ -100,9 +100,9 @@ export function InstagramGallery() {
               className="object-cover transition-transform duration-700 group-hover:scale-105"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
             />
-            {/* Subtle hover overlay */}
+            {/* Subtle hover overlay — light wash on dark theme */}
             <div
-              className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-300"
+              className="absolute inset-0 bg-ivory/0 group-hover:bg-ivory/15 transition-colors duration-300"
               aria-hidden="true"
             />
           </a>

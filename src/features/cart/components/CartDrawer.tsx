@@ -179,7 +179,7 @@ function EmptyCartState({ onClose }: { onClose: () => void }) {
         onClick={onClose}
         className={cn(
           'mt-2 inline-flex h-11 items-center justify-center rounded-full',
-          'bg-rose px-6 text-small font-medium text-ivory',
+          'bg-rose px-6 text-small font-medium text-ink',
           'transition-colors hover:bg-rose-dark',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2',
         )}
@@ -292,7 +292,7 @@ export function CartDrawer() {
             animate="visible"
             exit="exit"
             onClick={handleClose}
-            className="bg-ink/40 fixed inset-0 z-40 backdrop-blur-sm"
+            className="bg-ivory/60 fixed inset-0 z-40 backdrop-blur-sm"
             aria-hidden="true"
           />
 

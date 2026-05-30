@@ -12,11 +12,11 @@ const base =
   'disabled:cursor-not-allowed disabled:opacity-50';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-rose text-ivory hover:bg-rose-dark active:scale-[0.98]',
+  primary: 'bg-rose text-ink hover:bg-rose-dark active:scale-[0.98]',
   secondary:
     'bg-surface text-ink border border-border-strong hover:bg-surface-alt active:scale-[0.98]',
   ghost:
-    'bg-transparent text-ivory border border-ivory/40 hover:bg-ivory/10 active:scale-[0.98]',
+    'bg-transparent text-ink border border-ink/40 hover:bg-ink/10 active:scale-[0.98]',
 };
 
 const sizes: Record<Size, string> = {

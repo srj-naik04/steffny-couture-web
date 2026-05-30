@@ -51,7 +51,7 @@ export function MobileDrawer({ open, onClose }: Props) {
             animate="visible"
             exit="exit"
             onClick={onClose}
-            className="bg-ink/40 fixed inset-0 z-40 backdrop-blur-sm md:hidden"
+            className="bg-ivory/60 fixed inset-0 z-40 backdrop-blur-sm md:hidden"
             aria-hidden="true"
           />
           <motion.aside

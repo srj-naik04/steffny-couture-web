@@ -108,7 +108,7 @@ export default function CustomBridalPage() {
                     className="rounded-xl border border-border bg-surface p-6 space-y-3"
                   >
                     <span
-                      className="flex h-8 w-8 items-center justify-center rounded-full bg-rose text-ivory text-label font-medium"
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-rose text-ink text-label font-medium"
                       aria-label={`Step ${index + 1}`}
                     >
                       {index + 1}

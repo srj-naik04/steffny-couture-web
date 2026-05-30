@@ -202,7 +202,7 @@ export default async function JournalPostPage({
           className="object-cover object-center"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-ink/30" aria-hidden="true" />
+        <div className="absolute inset-0 bg-ivory/40" aria-hidden="true" />
       </div>
 
       {/* Article header */}

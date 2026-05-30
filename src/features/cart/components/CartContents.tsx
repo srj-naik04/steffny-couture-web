@@ -99,7 +99,7 @@ function EmptyCart() {
           href="/dresses"
           className={cn(
             'inline-flex h-12 items-center justify-center rounded-full',
-            'bg-rose px-7 text-small font-medium text-ivory',
+            'bg-rose px-7 text-small font-medium text-ink',
             'transition-colors hover:bg-rose-dark',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2',
           )}
@@ -274,7 +274,7 @@ export function CartContents() {
             href="/checkout"
             className={cn(
               'flex h-12 w-full items-center justify-center rounded-full',
-              'bg-rose text-ivory text-small font-medium',
+              'bg-rose text-ink text-small font-medium',
               'transition-colors hover:bg-rose-dark',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2',
             )}

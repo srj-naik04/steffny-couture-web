@@ -76,10 +76,10 @@ export function AddToCartButton({
         'transition-colors duration-200 select-none',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
         added
-          ? 'bg-success text-ivory'
+          ? 'bg-success text-ink'
           : disabled
             ? 'cursor-not-allowed bg-surface-alt text-ink-muted'
-            : 'bg-rose text-ivory hover:bg-rose-dark active:scale-[0.98]',
+            : 'bg-rose text-ink hover:bg-rose-dark active:scale-[0.98]',
       )}
     >
       {added && (

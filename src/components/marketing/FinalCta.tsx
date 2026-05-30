@@ -22,14 +22,14 @@ export function FinalCta({
   secondaryCta,
 }: FinalCtaProps) {
   return (
-    <section className="bg-rose py-20 md:py-28 text-ivory">
+    <section className="bg-rose py-20 md:py-28 text-ink">
       <Container>
         <div className="mx-auto max-w-2xl text-center space-y-6">
           <h2 className="font-display text-display-sm md:text-display text-balance">
             {headline}
           </h2>
           <div className="bg-ivory/30 mx-auto h-px w-16" aria-hidden="true" />
-          <p className="text-body-lg text-ivory/80 text-pretty">{body}</p>
+          <p className="text-body-lg text-ink/80 text-pretty">{body}</p>
           <div className="flex flex-wrap justify-center gap-4 pt-2">
             <Button href={primaryCta.href} variant="ghost" size="lg">
               {primaryCta.label}

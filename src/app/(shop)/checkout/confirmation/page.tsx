@@ -84,7 +84,7 @@ export default async function ConfirmationPage({ searchParams }: Props) {
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-rose px-7 text-small font-medium text-ivory transition-colors hover:bg-rose-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2"
+            className="inline-flex h-12 items-center justify-center rounded-full bg-rose px-7 text-small font-medium text-ink transition-colors hover:bg-rose-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2"
           >
             Back to home
           </Link>

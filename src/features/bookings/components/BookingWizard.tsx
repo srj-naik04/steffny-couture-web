@@ -251,9 +251,9 @@ function ProgressIndicator({
                   className={cn(
                     'flex h-8 w-8 items-center justify-center rounded-full text-small font-medium transition-colors duration-200',
                     isDone
-                      ? 'bg-success text-ivory'
+                      ? 'bg-success text-ink'
                       : isCurrent
-                        ? 'bg-rose text-ivory'
+                        ? 'bg-rose text-ink'
                         : 'bg-surface-alt text-ink-muted',
                   )}
                 >
@@ -346,7 +346,7 @@ function ServiceTypeStep({
               <div
                 className={cn(
                   'mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-full',
-                  isSelected ? 'bg-rose text-ivory' : 'bg-surface-alt text-ink-muted',
+                  isSelected ? 'bg-rose text-ink' : 'bg-surface-alt text-ink-muted',
                 )}
               >
                 <Icon className="size-5" aria-hidden="true" />
@@ -1138,7 +1138,7 @@ export function BookingWizard() {
                 onClick={handleNext}
                 className={cn(
                   'inline-flex h-12 items-center gap-1.5 rounded-full px-7',
-                  'bg-rose text-small font-medium text-ivory',
+                  'bg-rose text-small font-medium text-ink',
                   'transition-colors hover:bg-rose-dark',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2',
                 )}
@@ -1155,7 +1155,7 @@ export function BookingWizard() {
                 aria-busy={isSubmitting}
                 className={cn(
                   'inline-flex h-12 items-center justify-center gap-2 rounded-full px-8',
-                  'bg-rose text-small font-medium text-ivory',
+                  'bg-rose text-small font-medium text-ink',
                   'transition-all hover:bg-rose-dark',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2',
                   'disabled:cursor-not-allowed disabled:opacity-60',

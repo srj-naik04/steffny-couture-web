@@ -47,7 +47,7 @@ function Chip({
         'min-h-11 rounded-full border px-3 py-1.5 text-small font-medium transition-colors',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
         active
-          ? 'border-rose bg-rose text-ivory'
+          ? 'border-rose bg-rose text-ink'
           : 'border-border bg-surface text-ink hover:border-border-strong',
       )}
     >
@@ -238,7 +238,7 @@ export function Filters({
           </svg>
           Filters
           {hasActiveFilters && (
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-rose text-[10px] text-ivory">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-rose text-[10px] text-ink">
               {currentFilters.categories.length +
                 currentFilters.colours.length +
                 currentFilters.occasions.length +

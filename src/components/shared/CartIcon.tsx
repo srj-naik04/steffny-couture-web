@@ -57,7 +57,7 @@ export function CartIcon() {
           aria-hidden="true"
           className={cn(
             'absolute -top-0.5 -right-0.5 flex h-5 w-5 items-center justify-center',
-            'rounded-full bg-rose text-ivory text-[10px] font-medium leading-none',
+            'rounded-full bg-rose text-ink text-[10px] font-medium leading-none',
           )}
         >
           {count > 9 ? '9+' : count}

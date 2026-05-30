@@ -243,7 +243,7 @@ export function ImageCarousel({ images, productName }: ImageCarouselProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-ink/90 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-ivory/90 p-4"
             onClick={() => setFullscreen(false)}
             onKeyDown={(e) => {
               if (e.key === 'Escape') setFullscreen(false);
@@ -255,7 +255,7 @@ export function ImageCarousel({ images, productName }: ImageCarouselProps) {
               type="button"
               onClick={() => setFullscreen(false)}
               aria-label="Close full-size image"
-              className="absolute top-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-surface/20 text-ivory transition-colors hover:bg-surface/30"
+              className="absolute top-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-surface/40 text-ink transition-colors hover:bg-surface/60"
             >
               <svg
                 width="20"
@@ -294,7 +294,7 @@ export function ImageCarousel({ images, productName }: ImageCarouselProps) {
                     goPrev();
                   }}
                   aria-label="Previous image"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-surface/20 text-ivory hover:bg-surface/30"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-surface/40 text-ink hover:bg-surface/60"
                 >
                   <svg
                     width="20"
@@ -315,7 +315,7 @@ export function ImageCarousel({ images, productName }: ImageCarouselProps) {
                     goNext();
                   }}
                   aria-label="Next image"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-surface/20 text-ivory hover:bg-surface/30"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-surface/40 text-ink hover:bg-surface/60"
                 >
                   <svg
                     width="20"

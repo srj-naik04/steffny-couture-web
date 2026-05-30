@@ -143,7 +143,7 @@ export function Hero({
 
       {/* Subtle grain texture overlay — decorative */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.015]"
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
         aria-hidden="true"
         style={{
           backgroundImage:

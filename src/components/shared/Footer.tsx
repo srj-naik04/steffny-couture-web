@@ -8,18 +8,18 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-ink text-ivory">
+    <footer className="bg-surface text-ink border-t border-border">
       <Container>
         <div className="grid gap-12 py-16 md:grid-cols-4 md:gap-8 md:py-20">
           <div className="space-y-4">
-            <Logo tone="ivory" />
-            <p className="text-small text-ivory/70 max-w-xs">{BRAND.description}</p>
+            <Logo tone="ink" />
+            <p className="text-small text-ink/70 max-w-xs">{BRAND.description}</p>
             <a
               href={STUDIO.instagram}
               target="_blank"
               rel="noreferrer noopener"
               aria-label="Steffny Couture on Instagram"
-              className="hover:bg-ivory/10 inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors"
+              className="hover:bg-ink/10 inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -40,7 +40,7 @@ export function Footer() {
 
           {FOOTER_NAV.map((group) => (
             <div key={group.heading} className="space-y-4">
-              <h3 className="text-label text-ivory/60 tracking-widest uppercase">
+              <h3 className="text-label text-ink/60 tracking-widest uppercase">
                 {group.heading}
               </h3>
               <ul className="space-y-3">
@@ -48,7 +48,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-small text-ivory/85 hover:text-ivory transition-colors"
+                      className="text-small text-ink/85 hover:text-ink transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -59,14 +59,14 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="border-ivory/15 grid gap-4 border-t py-6 md:grid-cols-2">
-          <p className="text-small text-ivory/70">
+        <div className="border-border grid gap-4 border-t py-6 md:grid-cols-2">
+          <p className="text-small text-ink/70">
             {STUDIO.address} ·{' '}
-            <a href={STUDIO.phoneTel} className="hover:text-ivory transition-colors">
+            <a href={STUDIO.phoneTel} className="hover:text-ink transition-colors">
               {STUDIO.phone}
             </a>
           </p>
-          <p className="text-small text-ivory/60 md:text-right">
+          <p className="text-small text-ink/60 md:text-right">
             © {year} {BRAND.name}. Crafted in London.
           </p>
         </div>

@@ -28,24 +28,26 @@ export const STUDIO = {
 } as const;
 
 // Reference copy of design tokens, mirrored in globals.css `@theme`.
+// MIDNIGHT COUTURE variant (feat/midnight-theme) — warm-onyx palette.
+// Original ivory values shown in comments. Token KEYS unchanged; only VALUES inverted.
 export const COLORS = {
-  ivory: '#FAF7F2',
-  surface: '#FFFFFF',
-  surfaceAlt: '#F4EFE8',
-  rose: '#7C2D3E',
-  roseDark: '#5A1F2C',
-  roseSoft: '#F2D9DE',
-  gold: '#C9A961',
-  goldSoft: '#F5EBD2',
-  ink: '#1F1B1A',
-  inkMuted: '#5C5551',
-  inkSubtle: '#9A9089',
-  success: '#3F6E4A',
-  warning: '#B8741A',
-  danger: '#9B2C2C',
-  info: '#3A5878',
-  border: '#E8E0D7',
-  borderStrong: '#D4C8BA',
+  ivory: '#1A1714',         // was #FAF7F2 — warm deep charcoal (page bg)
+  surface: '#22201D',       // was #FFFFFF — lifted card surface
+  surfaceAlt: '#2B2825',    // was #F4EFE8 — input/textarea bg
+  rose: '#7C2D3E',          // unchanged — primary accent
+  roseDark: '#5A1F2C',      // unchanged — hover state
+  roseSoft: '#3A1C25',      // was #F2D9DE — dark rose tint
+  gold: '#C9A961',          // unchanged — divider accent
+  goldSoft: '#3D311A',      // was #F5EBD2 — dark gold tint
+  ink: '#F4ECDC',           // was #1F1B1A — champagne cream primary text
+  inkMuted: '#C9BFAE',      // was #5C5551 — warm muted cream body
+  inkSubtle: '#8C8478',     // was #9A9089 — mid-tone caption
+  success: '#3F6E4A',       // unchanged — semantic
+  warning: '#B8741A',       // unchanged
+  danger: '#9B2C2C',        // unchanged
+  info: '#3A5878',          // unchanged
+  border: '#3A3531',        // was #E8E0D7 — subtle hairline on dark
+  borderStrong: '#4F4843',  // was #D4C8BA — stronger divider
 } as const;
 
 export const EASING = {

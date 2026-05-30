@@ -140,9 +140,9 @@ function ProgressIndicator({
                 className={cn(
                   'flex h-7 w-7 items-center justify-center rounded-full text-small font-medium',
                   currentStep > step.id
-                    ? 'bg-success text-ivory'
+                    ? 'bg-success text-ink'
                     : currentStep === step.id
-                      ? 'bg-rose text-ivory'
+                      ? 'bg-rose text-ink'
                       : 'bg-surface-alt text-ink-muted',
                 )}
               >
@@ -672,7 +672,7 @@ export function CheckoutForm() {
           href="/dresses"
           className={cn(
             'inline-flex h-12 items-center justify-center rounded-full',
-            'bg-rose px-7 text-small font-medium text-ivory',
+            'bg-rose px-7 text-small font-medium text-ink',
             'transition-colors hover:bg-rose-dark',
           )}
         >
@@ -761,7 +761,7 @@ export function CheckoutForm() {
             onClick={handleNext}
             className={cn(
               'inline-flex h-12 items-center gap-1.5 rounded-full px-7',
-              'bg-rose text-small font-medium text-ivory',
+              'bg-rose text-small font-medium text-ink',
               'transition-colors hover:bg-rose-dark',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2',
             )}
@@ -778,7 +778,7 @@ export function CheckoutForm() {
             aria-busy={isSubmitting}
             className={cn(
               'inline-flex h-12 items-center justify-center gap-2 rounded-full px-8',
-              'bg-rose text-small font-medium text-ivory',
+              'bg-rose text-small font-medium text-ink',
               'transition-all hover:bg-rose-dark',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2',
               'disabled:cursor-not-allowed disabled:opacity-60',

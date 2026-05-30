@@ -13,10 +13,10 @@
   --color-surface: #22201d;      /* was #ffffff — lifted card surface */
   --color-surface-alt: #2b2825;  /* was #f4efe8 — input/textarea bg */
 
-  /* Brand accents — UNCHANGED, still readable on dark */
-  --color-rose: #7c2d3e;
-  --color-rose-dark: #5a1f2c;
-  --color-rose-soft: #3a1c25;    /* was #f2d9de — dark rose tint */
+  /* Brand accents — lifted for dark-bg legibility (rose was tuned for ivory) */
+  --color-rose: #bc4d66;         /* was #7c2d3e — mid-rose, ~5:1 on dark bg for kicker text */
+  --color-rose-dark: #9a3a52;    /* was #5a1f2c — hover state, still richer than base */
+  --color-rose-soft: #3a1c25;    /* was #f2d9de — dark rose tint (selection bg) */
 
   --color-gold: #c9a961;
   --color-gold-soft: #3d311a;    /* was #f5ebd2 — dark gold tint */

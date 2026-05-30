@@ -35,7 +35,7 @@ function Chip({
         'min-h-11 min-w-11 rounded-full border px-4 py-2 text-small font-medium transition-colors',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose focus-visible:ring-offset-2 focus-visible:ring-offset-ivory',
         selected
-          ? 'border-rose bg-rose-soft text-rose-dark'
+          ? 'border-rose bg-rose text-ink'
           : 'border-border bg-surface text-ink hover:border-border-strong',
       )}
     >

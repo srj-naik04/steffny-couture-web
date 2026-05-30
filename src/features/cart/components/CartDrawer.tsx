@@ -308,7 +308,7 @@ export function CartDrawer() {
             aria-modal="true"
             aria-labelledby={headingId}
             className={cn(
-              'bg-ivory fixed top-0 right-0 bottom-0 z-50',
+              'bg-surface fixed top-0 right-0 bottom-0 z-50',
               'flex w-[90vw] max-w-md flex-col shadow-2xl',
             )}
           >
@@ -353,7 +353,7 @@ export function CartDrawer() {
                 </ul>
 
                 {/* Footer */}
-                <div className="shrink-0 border-t border-border bg-ivory px-5 py-5 space-y-4">
+                <div className="shrink-0 border-t border-border bg-surface px-5 py-5 space-y-4">
                   {/* Subtotal */}
                   <div className="flex items-baseline justify-between">
                     <span className="text-body text-ink-muted">Subtotal</span>

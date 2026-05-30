@@ -34,9 +34,9 @@ export const COLORS = {
   ivory: '#1A1714',         // was #FAF7F2 — warm deep charcoal (page bg)
   surface: '#22201D',       // was #FFFFFF — lifted card surface
   surfaceAlt: '#2B2825',    // was #F4EFE8 — input/textarea bg
-  rose: '#7C2D3E',          // unchanged — primary accent
-  roseDark: '#5A1F2C',      // unchanged — hover state
-  roseSoft: '#3A1C25',      // was #F2D9DE — dark rose tint
+  rose: '#BC4D66',          // was #7C2D3E — lifted mid-rose for dark-bg legibility
+  roseDark: '#9A3A52',      // was #5A1F2C — hover state, richer than base
+  roseSoft: '#3A1C25',      // was #F2D9DE — dark rose tint (selection bg)
   gold: '#C9A961',          // unchanged — divider accent
   goldSoft: '#3D311A',      // was #F5EBD2 — dark gold tint
   ink: '#F4ECDC',           // was #1F1B1A — champagne cream primary text

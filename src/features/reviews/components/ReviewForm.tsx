@@ -52,7 +52,7 @@ function StarPicker({
             aria-label={`${star} star${star > 1 ? 's' : ''}`}
             className={cn(
               'size-11 rounded-md flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose',
-              effective >= star ? 'text-gold' : 'text-border-strong',
+              effective >= star ? 'text-gold' : 'text-ink-muted',
             )}
             onClick={() => onChange(star)}
             onMouseEnter={() => setHovered(star)}

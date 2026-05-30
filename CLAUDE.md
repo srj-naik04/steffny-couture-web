@@ -158,6 +158,24 @@ steffny-couture-web/
 - **Different**: products, reviews, inquiries tables (web-specific)
 - **Different**: shopping cart state (web-only feature)
 
+### Branch + deploy pipeline (D-065, D-067)
+
+Three GitHub branches map 1-to-1 to Vercel environments:
+
+| Branch | Vercel environment | Use |
+|---|---|---|
+| `development` | Development (CLI / localhost) | day-to-day work; no auto-deploy needed |
+| `main` | Preview | shareable dummy URL for stakeholder review |
+| `production` | Production | live site (`steffny-couture-web.vercel.app`, eventually `steffnycouture.co.uk`) |
+
+Promotion flow: `development → main → production` via `git merge --ff-only`. Vercel auto-deploys every push.
+
+All three environments share **one Supabase project**. The boundary between safe-test and real-writes is enforced by `NEXT_PUBLIC_DEMO_MODE`:
+- Set to `true` (or unset) on Preview + Development → all server actions short-circuit, no writes to Supabase.
+- Set to `false` on Production only → real writes flow through, bookings reach the mobile app.
+
+Build-time gotcha: any file imported from `src/` (e.g. `data/optimised-images.json`) must be committed to git, not gitignored — Vercel clones the repo on every build (D-066).
+
 ---
 
 ## 3. Design System
@@ -383,6 +401,9 @@ Mobile-first always. Defaults are mobile; `md:` and up scale.
 - Demo runs end-to-end without issues
 
 ### Phase 9 — Domain Migration & Production
+
+**Vercel project import: DONE (2026-05-28).** Repo `srj-naik04/steffny-couture-web` imported; branch pipeline live (D-065); env vars wired per environment (D-067). Remaining work:
+
 - Move `steffnycouture.co.uk` DNS from Webador to Vercel
 - Set up email forwarding if needed (existing email addresses preserved)
 - Configure Vercel Analytics

@@ -238,3 +238,52 @@ Deploy. Redirects are server-side, instant.
    git revert HEAD
    git push
    ```
+
+## Vercel build failed: "Module not found" or "Cannot resolve …"
+
+This usually means a file that is `import`-ed from `src/` is gitignored or untracked, so Vercel's fresh clone does not have it. Local builds pass because the file exists on disk.
+
+1. Read the Vercel build log — the trace shows the missing module path.
+2. Verify in the local repo:
+   ```bash
+   git ls-files <path>            # empty = not tracked
+   git check-ignore <path>         # output = is gitignored
+   ```
+3. If gitignored: edit `.gitignore` to remove or refine the rule, then `git add <path>` and commit. Add a comment in `.gitignore` explaining the exception (see `data/optimised-images.json` and D-066 for the pattern).
+4. Push to `development` → merge `--ff-only` into `main` → push `main` (preview rebuild) → merge into `production` → push `production` (live rebuild).
+
+To catch this class of bug before pushing, do a clean-clone build:
+```bash
+git clone . /tmp/clean-build && cd /tmp/clean-build && npm ci && npm run build
+```
+
+## Dev server errors: `SegmentViewNode`, `Cannot read properties of undefined (reading 'call')`, `Cannot find module './vendor-chunks/*.js'`
+
+These are `.next` cache corruption symptoms — usually from running `npm run build` (production) and `npm run dev` against the same `.next` directory. Not code bugs.
+
+Fix:
+```powershell
+Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force
+Remove-Item -Recurse -Force .next
+npm run dev
+```
+
+## Deploying a change
+
+1. Work and commit on `development`.
+2. Test on localhost (`npm run dev`).
+3. Merge fast-forward into `main` to publish a preview deploy:
+   ```bash
+   git checkout main && git merge --ff-only development && git push origin main
+   ```
+4. Review the preview URL (`steffny-couture-web-git-main-…vercel.app`).
+5. When happy, merge fast-forward into `production` for the live deploy:
+   ```bash
+   git checkout production && git merge --ff-only main && git push origin production
+   ```
+6. Return to your working branch:
+   ```bash
+   git checkout development
+   ```
+
+See D-065 for the branch / environment mapping and D-067 for the `NEXT_PUBLIC_DEMO_MODE` per-environment rule.

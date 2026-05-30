@@ -4,15 +4,15 @@ Live state of the build. Update after every phase or significant change.
 
 ## Build outcome
 
-Phases 0-8 shipped. Phase 9 (domain migration) deferred pending owner sign-off.
+Phases 0-8 shipped. Phase 9 (Vercel deploy) is live; domain migration to `steffnycouture.co.uk` pending.
 
 All 13 routes pass Lighthouse local (Perf ≥96, A11y ≥96, BP=100, SEO=100). Final regression: 54 screenshots across 17 pages × 6 viewports — 0 bugs remaining, 0 console errors, 0 network failures. Security sweep: 0 critical/high findings; 0 high/critical npm audit findings. Build is demo-ready.
 
-**Owner actions required before domain cut-over:** provide `SUPABASE_SERVICE_ROLE_KEY`, confirm real contact details, supply studio/product photos, voice-review about copy, then run Phase 9.
+**Owner actions required before domain cut-over:** confirm real contact details, supply studio/product photos, voice-review about copy, decide press features, then run the DNS cut-over to `steffnycouture.co.uk`.
 
 ## Current phase
 
-**Build complete (Phases 2-8 shipped; Phase 9 deferred)** — ready for owner sign-off + Vercel deploy
+**Phase 9 — Vercel deploy live; DNS migration pending.** Repo on GitHub at `srj-naik04/steffny-couture-web`. Vercel project `steffny-couture-web` imported and auto-deploying. Branch pipeline live: `development` → localhost, `main` → preview, `production` → live.
 
 ## Phase status
 
@@ -27,7 +27,7 @@ All 13 routes pass Lighthouse local (Perf ≥96, A11y ≥96, BP=100, SEO=100). F
 | 6 — Fitting Booking | ✅ Done | 6-step booking wizard with draft persistence across navigation (SSR-safe lazy init + post-hydration restore + ref guard, 5 playwright cycles to close state-restore race); photo upload to `booking-photos/web-drafts/<draftId>/` prefix; RLS-compliant anon INSERT on shared `bookings` table; `?ref` validated against `/^SC-[A-Z0-9]{6}$/`; `journal_views.increment_view` anon EXECUTE revoked; anon DELETE on `booking-photos` removed; `src/features/booking/` renamed to `bookings/` |
 | 7 — Reviews, Journal, Polish | ✅ Done | Reviews page (14 reviews + submission form), 3 SSG MDX journal posts, BlogPosting + Person JSON-LD, InstagramGallery, draft post filtering, comprehensive UI spacing tighten (Hero items-start + asymmetric padding + Section halved + product/book grids items-start) after 3 Playwright cycles closed all user-reported voids; all 12 pages × 6 viewports clean |
 | 8 — Demo Prep & Deploy | ✅ Done | All 13 routes pass Lighthouse local: Perf ≥96, A11y ≥96, BP=100, SEO=100. Security headers added (HSTS preload, X-Frame DENY, Referrer-Policy, Permissions-Policy). Robots gate tightened to canonical-domain check. WCAG AA contrast sweep across 17 files (46 text-ink-subtle → text-ink-muted). ARIA 1.2 fixes on swatches + star ratings. Demo script written. End-to-end happy path verified at all viewports. |
-| 9 — Domain Migration | ⏳ Not started | Out of scope for this build run. Run separately when ready to migrate steffnycouture.co.uk DNS from Webador to Vercel. |
+| 9 — Domain Migration | 🔨 In progress | Vercel project imported (`srj-naik04/steffny-couture-web` → `steffny-couture-web.vercel.app`); branch pipeline live (`production` = live, `main` = preview, `development` = localhost); per-environment env vars wired with `NEXT_PUBLIC_DEMO_MODE` gating; build-time JSON dependency (`data/optimised-images.json`) un-ignored. DNS cut-over from Webador to Vercel pending owner sign-off. |
 
 Legend: ⏳ Not started • 🔨 In progress • ✅ Done
 
@@ -74,9 +74,10 @@ User feedback: "sizes inconsistent. handle across all view ports."
 
 ## Blockers
 
-- `SUPABASE_SERVICE_ROLE_KEY` blank in `.env.local` — owner must provide before `scripts/seed-products.ts` can run and before live Supabase tables are populated. Code is ready; no further engineering needed.
-- ~~No `origin` remote configured~~ RESOLVED 2026-05-28: `origin` set to `github.com/srj-naik04/steffny-couture-web` (public); all commits pushed to `origin/main`.
-- Contact form will silently fail in live mode until the `inquiries` table is provisioned on the live Supabase project (depends on the service-role key blocker above).
+- ~~`SUPABASE_SERVICE_ROLE_KEY` blank in `.env.local`~~ RESOLVED 2026-05-28: key provided locally; also needs to be added to Vercel env vars (Production scope, server-only — no `NEXT_PUBLIC_` prefix) before live seed.
+- ~~No `origin` remote configured~~ RESOLVED 2026-05-28: `origin` set to `github.com/srj-naik04/steffny-couture-web` (public); all commits pushed.
+- Live Supabase tables not yet seeded — run `npm run seed` after Vercel env vars are set + `NEXT_PUBLIC_DEMO_MODE=false` on Production. Until then, the production deploy reads from the bundled JSON fallback.
+- Domain `steffnycouture.co.uk` still points at Webador. DNS cut-over to Vercel pending owner sign-off (Phase 9 closing step).
 
 ## Build summary
 
@@ -252,6 +253,17 @@ Phases 0–8 complete. Phase 9 (domain migration) is deferred and must be run se
 - security-reviewer: 0 critical/high; 1 medium fixed (sitemap draft leak via `draft?: boolean` frontmatter filter); `npm audit --omit=dev --audit-level=high`: 0
 - `npm run typecheck`, `lint`, `build` all clean; 34 routes; 3 journal posts SSG-prerendered (●)
 - **Phase 7 complete**
+
+### 2026-05-28 (Phase 9 — Vercel deploy live)
+- `origin` remote added: `github.com/srj-naik04/steffny-couture-web` (public). All 59 local commits pushed; subsequent commits flow through `development → main → production`.
+- Three-branch pipeline live: `development` (localhost only), `main` (Vercel Preview, auto-deploys), `production` (Vercel Production, auto-deploys). Vercel Production Branch set to `production` via Settings → Environments → Production → Branch Tracking.
+- Vercel project `steffny-couture-web` imported from GitHub. Framework auto-detected as Next.js. Env vars wired with per-environment scope (Production / Preview / Development).
+- Build-time fix: `data/optimised-images.json` un-ignored and committed (commit `25e3bc6`). It is imported by `src/features/products/source.ts` for the demo-mode image fallback, so it must be in the repo or Vercel build fails with "Module not found".
+- `SUPABASE_SERVICE_ROLE_KEY` provided locally in `.env.local` (gitignored). Still needs to be added to Vercel env vars (Production scope, server-only) before live seed.
+- `Hero` component gained an `objectPosition` prop so the founder photo crop can be controlled per page (`object-top` on `/about`).
+- `CartDrawer` CTAs migrated from hand-rolled `<Link>` to the shared `Button` component so the primary button text renders consistently in ivory across all CTAs site-wide.
+- Deployment Protection note: Vercel's default "Vercel Authentication" gates Preview URLs behind login; turned off in Settings → Deployment Protection so the `main` preview link is shareable.
+- Decisions logged: D-065 (3-branch pipeline), D-066 (`optimised-images.json` is a tracked build dependency), D-067 (`NEXT_PUBLIC_DEMO_MODE` per-environment gating), D-068 (Hero `objectPosition` + cart CTA Button consistency).
 
 ### 2026-05-23 (Phase 8)
 - Security headers added to `next.config.ts` headers() block: HSTS, X-Content-Type-Options, X-Frame-Options: DENY, Referrer-Policy, Permissions-Policy (camera/microphone/geolocation off)
